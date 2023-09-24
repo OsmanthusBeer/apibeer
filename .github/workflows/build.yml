@@ -46,4 +46,4 @@ jobs:
             docker pull ${{ env.IMAGE_TAG }}
             docker stop ${{ env.IMAGE_NAME}}
             docker rm ${{ env.IMAGE_NAME}}
-            docker run -d -p 40000:3000 --name ${{ env.IMAGE_NAME}} -it ${{ env.IMAGE_TAG }
+            docker run -d -p 40000:3000 --name ${{ env.IMAGE_NAME}} -it ${{ env.IMAGE_TAG }}
