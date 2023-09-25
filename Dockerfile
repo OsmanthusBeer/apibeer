@@ -26,7 +26,6 @@ WORKDIR /app
 COPY --from=installer /app /app
 # Build the project
 RUN npm run build
-RUN npm prune --prod
 
 # Stage: runner
 FROM node:${NODE_VERSION}-alpine${ALPINE_VERSION} AS runner
