@@ -18,6 +18,7 @@
     "prisma:studio": "prisma studio"
   },
   "dependencies": {
+    "@nuxt/ui": "^2.8.1",
     "@prisma/client": "^5.3.1",
     "nuxt": "^3.7.3"
   },

@@ -10,7 +10,7 @@
 
 - [nuxt3](https://nuxt.com/)
 - [prisma](https://prisma.io/)
-- [unocss](https://unocss.dev/)
+- [NuxtUI](https://ui.nuxt.com/)
 - [trpc](https://trpc.io/)
 
 ## Development Setup

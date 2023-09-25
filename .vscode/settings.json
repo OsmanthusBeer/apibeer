@@ -8,8 +8,8 @@
 
   // Auto fix
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "always",
-    "source.organizeImports": "never"
+    "source.fixAll.eslint": true,
+    "source.organizeImports": true
   },
 
   // Silent the stylistic rules in you IDE, but still auto fix them
@@ -41,5 +41,23 @@
     "json",
     "jsonc",
     "yaml"
+  ],
+
+  // refs: https://ui.nuxt.com/getting-started/installation#intellisense
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "tailwindCSS.experimental.configFile": "tailwind.config.ts",
+  "tailwindCSS.experimental.classRegex": [
+    ["ui:\\s*{([^)]*)\\s*}", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["/\\*ui\\*/\\s*{([^;]*)}", ":\\s*[\"'`]([^\"'`]*).*?[\"'`]"]
+  ],
+  "tailwindCSS.classAttributes": [
+    "class",
+    "className",
+    "ui"
   ]
 }
