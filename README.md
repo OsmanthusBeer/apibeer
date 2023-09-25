@@ -9,6 +9,7 @@
 ## Tech Stack
 
 - [nuxt3](https://nuxt.com/)
+- [prisma](https://prisma.io/)
 - [unocss](https://unocss.dev/)
 - [trpc](https://trpc.io/)
 
@@ -20,6 +21,14 @@ corepack enable # Use `package.json#packageManager` for same package manager, re
 pnpm i
 cp .env.example .env # config `.env`
 pnpm dev
+```
+
+### Datebase
+
+- We use MySQL, you can use docker to start a mysql server
+
+```bash
+docker run --name mysql -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql:8
 ```
 
 ## Related
