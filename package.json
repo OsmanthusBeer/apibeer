@@ -5,6 +5,7 @@
   "private": true,
   "packageManager": "pnpm@8.7.6",
   "scripts": {
+    "prepare": "husky install",
     "dev": "nuxt dev",
     "build": "nuxt build",
     "generate": "nuxt generate",
@@ -34,10 +35,16 @@
     "@commitlint/config-conventional": "^17.7.0",
     "@nuxt/devtools": "latest",
     "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
     "prisma": "^5.3.1",
     "tsx": "^3.13.0"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
+  },
+  "lint-staged": {
+    "**/*.{json,js,ts,tsx,vue,md}": [
+      "eslint --fix"
+    ]
   }
 }
