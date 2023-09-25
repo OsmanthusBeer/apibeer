@@ -1,4 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true }
+  // Maping `.env` variables
+  // refs: https://nuxt.com/docs/guide/going-further/runtime-config#environment-variables
+  runtimeConfig: {
+    databaseUrl: '',
+    public: {
+      greeting: '',
+    },
+  },
+  devtools: { enabled: true },
 })
