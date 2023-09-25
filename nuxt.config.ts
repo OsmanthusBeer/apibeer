@@ -10,6 +10,10 @@ export default defineNuxtConfig({
   },
   modules: [
     '@nuxt/ui',
+    '@vueuse/nuxt',
   ],
+  build: {
+    transpile: ['trpc-nuxt'],
+  },
   devtools: { enabled: true },
 })

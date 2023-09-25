@@ -13,9 +13,10 @@
 ## Tech Stack
 
 - [nuxt3](https://nuxt.com/)
-- [prisma](https://prisma.io/)
 - [NuxtUI](https://ui.nuxt.com/)
-- [trpc](https://trpc.io/)
+- [trpc](https://trpc.io/), [trpc-nuxt](https://trpc-nuxt.vercel.app/)
+- [zod](https://zod.dev/)
+- [prisma](https://prisma.io/)
 
 ## Development Setup
 
@@ -40,3 +41,4 @@ docker run --name mysql -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql:8
 - [apifox](https://apifox.com/)
 - [apipost](https://www.apipost.cn/)
 - [yapi](https://github.com/YMFE/yapi)
+- [sidebase](https://github.com/sidebase/sidebase)
