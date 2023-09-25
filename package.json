@@ -23,7 +23,10 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "1.0.0-beta.8",
+    "@commitlint/cli": "^17.7.1",
+    "@commitlint/config-conventional": "^17.7.0",
     "@nuxt/devtools": "latest",
+    "husky": "^8.0.3",
     "prisma": "^5.3.1",
     "tsx": "^3.13.0"
   },
