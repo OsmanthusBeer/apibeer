@@ -32,4 +32,4 @@ FROM node:${NODE_VERSION}-alpine${ALPINE_VERSION} AS runner
 WORKDIR /app
 COPY --from=builder /app /app
 EXPOSE 40000
-CMD pnpm preview
+CMD npm run preview
