@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - test/build
 env:
   CONTAINER_NAME: api_beer
   IMAGE_NAME: enyajump/api-beer
