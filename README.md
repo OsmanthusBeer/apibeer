@@ -6,6 +6,10 @@
 [![PNPM Badge](https://img.shields.io/badge/package_manager-pnpm-black)](https://pnpm.io/)
 [![Code Style](https://antfu.me/badge-code-style.svg)](https://github.com/antfu/eslint-config)
 
+## Demo online
+
+> <http://8.140.31.132:40000/>
+
 ## Tech Stack
 
 - [nuxt3](https://nuxt.com/)
