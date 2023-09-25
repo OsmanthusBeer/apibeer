@@ -10,7 +10,6 @@ export default defineNuxtConfig({
   },
   modules: [
     '@nuxt/ui',
-    '@unocss/nuxt',
   ],
   devtools: { enabled: true },
 })
