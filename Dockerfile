@@ -12,7 +12,7 @@ WORKDIR /app
 # COPY ./pnpm-lock.yaml /app/pnpm-lock.yaml
 # COPY ./package.json /app/package.json
 COPY . /app
-RUN pnpm install
+RUN npm install --registry=https://registry.npmmirror.com
     
 
 # Stage: builder
@@ -25,12 +25,12 @@ RUN corepack enable
 WORKDIR /app
 COPY --from=installer /app /app
 # Build the project
-RUN pnpm build
-RUN pnpm prune --prod
+RUN npm run build
+RUN npm prune --prod
 
 # Stage: runner
 FROM node:${NODE_VERSION}-alpine${ALPINE_VERSION} AS runner
 WORKDIR /app
 COPY --from=builder /app /app
 EXPOSE 40000
-CMD pnpm preview
+CMD npm run preview
