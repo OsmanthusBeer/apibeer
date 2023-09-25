@@ -8,6 +8,9 @@ export default defineNuxtConfig({
       greeting: '',
     },
   },
-  modules: ['@nuxt/ui'],
+  modules: [
+    '@nuxt/ui',
+    '@unocss/nuxt',
+  ],
   devtools: { enabled: true },
 })
