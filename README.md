@@ -12,11 +12,12 @@
 
 ## Tech Stack
 
-- [nuxt3](https://nuxt.com/)
+- [Nuxt](https://nuxt.com/)
 - [NuxtUI](https://ui.nuxt.com/)
+- [VueUse](https://vueuse.org/)
 - [trpc](https://trpc.io/), [trpc-nuxt](https://trpc-nuxt.vercel.app/)
-- [zod](https://zod.dev/)
 - [prisma](https://prisma.io/)
+- [zod](https://zod.dev/)
 
 ## Development Setup
 
