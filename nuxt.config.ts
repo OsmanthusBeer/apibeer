@@ -22,5 +22,14 @@ export default defineNuxtConfig({
   build: {
     transpile: ['trpc-nuxt'],
   },
+  app: {
+    head: {
+      link: [{
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: 'logo_64x64.png',
+      }],
+    },
+  },
   devtools: { enabled: true },
 })

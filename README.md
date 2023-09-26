@@ -1,10 +1,23 @@
-# Api Beer
+<p align="center">
+  <a href="http://8.140.31.132:40000/">
+    <picture>
+      <img src="./public/logo_180x180.png" height="128">
+    </picture>
+    <h1 align="center">Api Beer</h1>
+  </a>
+</p>
 
-> Cheers to 🍺
-
-[![Node.js Badge](https://img.shields.io/badge/Node.js-v18-black)](https://nodejs.org/)
-[![PNPM Badge](https://img.shields.io/badge/package_manager-pnpm-black)](https://pnpm.io/)
-[![Code Style](https://antfu.me/badge-code-style.svg)](https://github.com/antfu/eslint-config)
+<p align="center">
+  <a aria-label="Node.js Badge" href="https://nodejs.org">
+    <img src="https://img.shields.io/badge/Node.js-v18-black">
+  </a>
+  <a aria-label="PNPM Badge" href="https://pnpm.io">
+    <img alt="" src="https://img.shields.io/badge/package_manager-pnpm-black">
+  </a>
+  <a aria-label="Code Style" href="https://github.com/antfu/eslint-config">
+    <img alt="" src="https://antfu.me/badge-code-style.svg">
+  </a>
+</p>
 
 ## Demo online
 
