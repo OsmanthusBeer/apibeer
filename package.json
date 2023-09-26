@@ -5,12 +5,12 @@
   "private": true,
   "packageManager": "pnpm@8.7.6",
   "scripts": {
-    "prepare": "husky install",
     "dev": "nuxt dev",
     "build": "nuxt build",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
+    "prepare": "husky install",
     "clean": "nuxt cleanup",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -37,6 +37,7 @@
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
     "prisma": "^5.3.1",
+    "superjson": "^1.13.1",
     "tsx": "^3.13.0"
   },
   "prisma": {

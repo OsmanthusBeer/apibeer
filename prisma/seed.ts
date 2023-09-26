@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import process from 'node:process'
 import type { Prisma } from '@prisma/client'
-import { prisma } from '~/server/db'
+import { prisma } from '~/server/utils/prisma'
 
 async function seed() {
   console.log('🌱 Seeding...')

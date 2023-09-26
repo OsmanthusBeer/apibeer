@@ -1,8 +1,10 @@
 <script lang="ts" setup>
-import type { FormSubmitEvent } from '@nuxt/ui/dist/runtime/types';
-import { z } from 'zod';
+import type { Form, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
+import { z } from 'zod'
 
 const { $client } = useNuxtApp()
+const toast = useToast()
+const router = useRouter()
 
 const schema = z.object({
   email: z.string(),
@@ -15,22 +17,44 @@ const state = ref({
   password: undefined,
 })
 
+const form = ref<Form<Schema>>()
+const submiting = ref(false)
 async function onSubmit(event: FormSubmitEvent<Schema>) {
+  const { email, password } = event.data
+  submiting.value = true
   try {
-    const data = await $client.login.mutate(event.data)
+    // TODO: Use `cookie` auth strategy
+    const _user = await $client.auth.login.mutate({
+      email,
+      password,
+    })
+    router.replace({ path: '/dashboard' })
   }
   catch (error) {
-    console.log(error)
+    const zodError = getZodError<Schema>(error)
+    if (zodError) {
+      const errors = Object.entries(zodError.fieldErrors).map(([path, messages]) => ({ path, message: messages.join('\n') }))
+      form.value?.setErrors(errors)
+      return
+    }
+    if (error instanceof Error) {
+      toast.add({ title: error.message, color: 'red' })
+      return
+    }
+    console.error(error)
+  }
+  finally {
+    submiting.value = false
   }
 }
 </script>
 
 <template>
-  <div class="w-screen h-screen flex flex-col items-center justify-center">
+  <div class="h-screen flex flex-col items-center justify-center">
     <p>Login</p>
     <div class="mt-8 w-96 px-8 py-4 border rounded">
       <UForm
-        class="space-y-4"
+        ref="form" class="space-y-4"
         :schema="schema" :state="state"
         @submit="onSubmit"
       >
@@ -41,7 +65,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           <UInput v-model="state.password" placeholder="123456" icon="i-heroicons-lock-closed" />
         </UFormGroup>
         <div class="flex justify-end">
-          <UButton type="submit">
+          <UButton type="submit" :loading="submiting">
             Submit
           </UButton>
         </div>
