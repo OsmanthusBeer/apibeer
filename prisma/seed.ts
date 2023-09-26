@@ -1,20 +1,30 @@
 /* eslint-disable no-console */
 import process from 'node:process'
-import type { Prisma } from '@prisma/client'
+import bcrypt from 'bcryptjs'
 import { prisma } from '~/server/utils/prisma'
 
 async function seed() {
   console.log('🌱 Seeding...')
   console.time('🌱 Database has been seeded')
 
-  console.time('🔑 Created users...')
-  const users: Prisma.UserCreateInput [] = [
-    { username: 'is.yuler', email: 'is.yuler@gmail.com' },
-  ]
-  await prisma.user.createMany({ data: users })
-  console.timeEnd('🔑 Created users...')
+  await seedUsers()
 
   console.timeEnd('🌱 Database has been seeded')
+}
+
+async function seedUsers() {
+  console.time('🔑 Created users...')
+  // TODO: skip exist
+  await prisma.user.create({
+    data: {
+      username: 'apibeer',
+      email: 'hi@apibeer.com',
+      password: {
+        create: { hash: await bcrypt.hash('123456', 10) },
+      },
+    },
+  })
+  console.timeEnd('🔑 Created users...')
 }
 
 seed()
