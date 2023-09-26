@@ -11,7 +11,14 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/ui',
     '@vueuse/nuxt',
+    '@nuxtjs/i18n',
   ],
+  i18n: {
+    vueI18n: './i18n.config.ts',
+    // compilation: {
+    //   jit: false,
+    // },
+  },
   build: {
     transpile: ['trpc-nuxt'],
   },
