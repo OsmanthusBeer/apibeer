@@ -20,9 +20,20 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/ui',
     '@nuxtjs/i18n',
+    '@nuxtjs/color-mode',
     '@vueuse/nuxt',
     '@sidebase/nuxt-session',
   ],
+  colorMode: {
+    preference: 'dark', // default value of $colorMode.preference
+    fallback: 'dark', // fallback value if not system preference found
+    hid: 'nuxt-color-mode-script',
+    globalName: '__NUXT_COLOR_MODE__',
+    componentName: 'ColorScheme',
+    classPrefix: '',
+    classSuffix: '-mode',
+    storageKey: 'nuxt-color-mode',
+  },
   i18n: {
     vueI18n: './i18n.config.ts',
     // compilation: {
