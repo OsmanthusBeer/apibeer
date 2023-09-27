@@ -9,16 +9,21 @@ export const authRouter = router({
         password: z.string().min(6),
       }),
     )
-    .mutation(async ({ input, ctx }) => {
+    .mutation(async (event) => {
+      const { input, ctx } = event
       // TODO: implement login
       const user = await ctx.prisma.user.findUnique({
         where: {
           email: input.email,
         },
       })
+
       // TODO: Wrap trpc error
       if (!user)
         throw new Error('invalid credentials')
+
+      // Storge session
+      ctx.session.user = user
 
       return user
     }),

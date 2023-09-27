@@ -13,8 +13,8 @@ const schema = z.object({
 type Schema = z.output<typeof schema>
 
 const state = ref({
-  email: undefined,
-  password: undefined,
+  email: 'hi@apibeer.com',
+  password: 'apibeer',
 })
 
 const form = ref<Form<Schema>>()
@@ -23,8 +23,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   const { email, password } = event.data
   submiting.value = true
   try {
-    // TODO: Use `cookie` auth strategy
-    const _user = await $client.auth.login.mutate({
+    await $client.auth.login.mutate({
       email,
       password,
     })
@@ -62,7 +61,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           <UInput v-model="state.email" placeholder="you@example.com" icon="i-heroicons-envelope" />
         </UFormGroup>
         <UFormGroup label="Password" name="password">
-          <UInput v-model="state.password" placeholder="123456" icon="i-heroicons-lock-closed" />
+          <UInput v-model="state.password" placeholder="Your Password" icon="i-heroicons-lock-closed" />
         </UFormGroup>
         <div class="flex justify-end">
           <UButton type="submit" :loading="submiting">

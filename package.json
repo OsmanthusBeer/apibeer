@@ -36,6 +36,7 @@
     "@commitlint/config-conventional": "^17.7.0",
     "@nuxt/devtools": "latest",
     "@nuxtjs/i18n": "8.0.0-rc.4",
+    "@sidebase/nuxt-session": "^0.2.7",
     "@types/bcryptjs": "^2.4.4",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",

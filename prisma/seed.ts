@@ -17,8 +17,8 @@ async function seedUsers() {
   // TODO: skip exist
   await prisma.user.create({
     data: {
-      username: 'apibeer',
       email: 'hi@apibeer.com',
+      username: 'apibeer',
       password: {
         create: { hash: await bcrypt.hash('123456', 10) },
       },
