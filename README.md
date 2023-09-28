@@ -12,14 +12,14 @@
     <img src="https://img.shields.io/badge/Node.js-v18-black">
   </a>
   <a aria-label="PNPM Badge" href="https://pnpm.io">
-    <img alt="" src="https://img.shields.io/badge/package_manager-pnpm-black">
+    <img src="https://img.shields.io/badge/package_manager-pnpm-black">
   </a>
   <a aria-label="Code Style" href="https://github.com/antfu/eslint-config">
-    <img alt="" src="https://antfu.me/badge-code-style.svg">
+    <img src="https://antfu.me/badge-code-style.svg">
   </a>
 </p>
 
-## Demo online
+## Demo Online
 
 > <http://8.140.31.132:40000/>
 
@@ -28,13 +28,11 @@
 - [Nuxt](https://nuxt.com/)
 - [NuxtUI](https://ui.nuxt.com/)
 - [VueUse](https://vueuse.org/)
-- [trpc](https://trpc.io/), [trpc-nuxt](https://trpc-nuxt.vercel.app/)
-- [prisma](https://prisma.io/)
-- [zod](https://zod.dev/)
+- [tRPC](https://trpc.io/), [tRPC Nuxt](https://trpc-nuxt.vercel.app/)
+- [Prisma](https://prisma.io/)
+- [Zod](https://zod.dev/)
 
-Ref to [sidebase](https://github.com/sidebase/sidebase)
-
-## Development Setup
+## Quick Start
 
 ```bash
 nvm use # Load `.nvmrc` file, use same node version
@@ -57,4 +55,3 @@ docker run --name mysql -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql:8
 - [apifox](https://apifox.com/)
 - [apipost](https://www.apipost.cn/)
 - [yapi](https://github.com/YMFE/yapi)
-- 
