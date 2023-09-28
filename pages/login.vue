@@ -2,9 +2,14 @@
 import type { Form, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
 import { z } from 'zod'
 
+definePageMeta({
+  title: 'Home',
+  requiredAuth: false,
+})
+
 const { $client } = useNuxtApp()
+const route = useRoute()
 const toast = useToast()
-const router = useRouter()
 
 const schema = z.object({
   email: z.string(),
@@ -23,11 +28,12 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   const { email, password } = event.data
   submiting.value = true
   try {
-    await $client.auth.login.mutate({
+    await $client.public.login.mutate({
       email,
       password,
     })
-    router.replace({ path: '/dashboard' })
+    const r = route.query.r as string
+    navigateTo({ path: decodeURIComponent(r || '/dashboard') })
   }
   catch (error) {
     const zodError = getZodError<Schema>(error)

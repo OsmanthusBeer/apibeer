@@ -19,10 +19,9 @@ export default defineNuxtConfig({
   },
   modules: [
     '@nuxt/ui',
-    '@nuxtjs/i18n',
     '@nuxtjs/color-mode',
+    '@nuxtjs/i18n',
     '@vueuse/nuxt',
-    '@sidebase/nuxt-session',
   ],
   colorMode: {
     preference: 'dark', // default value of $colorMode.preference
@@ -39,12 +38,6 @@ export default defineNuxtConfig({
     // compilation: {
     //   jit: false,
     // },
-  },
-  // refs: https://github.com/sidebase/nuxt-session/blob/main/README.md#configuration
-  session: {
-    session: {
-      expiryInSeconds: 60 * 60 * 24 * 7, // 7 days
-    },
   },
   build: {
     transpile: ['trpc-nuxt'],

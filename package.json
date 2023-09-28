@@ -37,7 +37,6 @@
     "@nuxt/devtools": "latest",
     "@nuxtjs/color-mode": "^3.3.0",
     "@nuxtjs/i18n": "8.0.0-rc.4",
-    "@sidebase/nuxt-session": "^0.2.7",
     "@types/bcryptjs": "^2.4.4",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",

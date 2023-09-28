@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { publicProcedure, router } from '../trpc'
 
-export const authRouter = router({
+export const publicRouter = router({
   login: publicProcedure
     .input(
       z.object({
@@ -23,7 +23,7 @@ export const authRouter = router({
         throw new Error('invalid credentials')
 
       // Storge session
-      ctx.session.user = user
+      await ctx.session.update(user)
 
       return user
     }),

@@ -1,5 +1,3 @@
-import type { User } from '@prisma/client'
-import type { Session } from '@sidebase/nuxt-session'
 import type { inferAsyncReturnType } from '@trpc/server'
 import type { H3Event } from 'h3'
 
@@ -16,7 +14,7 @@ export function createContext(event: H3Event) {
    */
   return {
     prisma: event.context.prisma,
-    session: event.context.session as Session & { user?: User },
+    session: event.context.session,
   }
 }
 
