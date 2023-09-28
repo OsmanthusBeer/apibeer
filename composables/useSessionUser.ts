@@ -23,8 +23,15 @@ export function useSessionUser() {
     return user
   }
 
+  async function logout(path = '/') {
+    await $client.protected.logout.mutate()
+    user.value = null
+    await navigateTo(path)
+  }
+
   return {
     init,
     user,
+    logout,
   }
 }

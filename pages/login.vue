@@ -11,17 +11,26 @@ const { $client } = useNuxtApp()
 const route = useRoute()
 const toast = useToast()
 
+// Check if user is logged in
+onMounted(() => {
+  const { user } = useSessionUser()
+  if (user.value) {
+    // TODO: Wrap a utils function
+    const r = route.query.r as string
+    navigateTo(decodeURIComponent(r || '/dashboard'))
+  }
+})
+
+// Form
 const schema = z.object({
   email: z.string(),
   password: z.string(),
 })
 type Schema = z.output<typeof schema>
-
 const state = ref({
   email: 'hi@apibeer.com',
   password: 'apibeer',
 })
-
 const form = ref<Form<Schema>>()
 const submiting = ref(false)
 async function onSubmit(event: FormSubmitEvent<Schema>) {
