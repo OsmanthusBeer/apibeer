@@ -1,9 +1,9 @@
-import type { User } from '@prisma/client'
 import type { SessionConfig } from 'h3'
+import type { Session } from '~/types'
 
 declare module 'h3' {
   interface H3EventContext {
-    session: Awaited<ReturnType<typeof useSession<User>>>
+    session: Awaited<ReturnType<typeof useSession<Session>>>
   }
 }
 
@@ -18,6 +18,6 @@ const config: SessionConfig = {
  * refs: https://github.com/unjs/h3#session
  */
 export default eventHandler(async (event) => {
-  const session = await useSession<User>(event, config)
+  const session = await useSession<Session>(event, config)
   event.context.session = session as any
 })

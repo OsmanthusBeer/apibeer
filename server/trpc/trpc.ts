@@ -6,7 +6,7 @@
  * Learn how to create protected base procedures and other things below:
  * @see https://trpc.io/docs/v10
  */
-import { initTRPC } from '@trpc/server'
+import { TRPCError, initTRPC } from '@trpc/server'
 import superjson from 'superjson'
 import { ZodError } from 'zod'
 import type { Context } from '~/server/trpc/context'
@@ -51,3 +51,18 @@ export const middleware = t.middleware
  * @see https://trpc.io/docs/v10/merging-routers
  */
 export const mergeRouters = t.mergeRouters
+
+// Middlewares
+const isAuthed = middleware(async (event) => {
+  const { ctx } = event
+  if (!ctx.session.data.user)
+    throw new TRPCError({ code: 'UNAUTHORIZED' })
+
+  return event.next({
+    ctx: {
+      user: ctx.session.data.user,
+    },
+  })
+})
+
+export const protectedProcedure = publicProcedure.use(isAuthed)

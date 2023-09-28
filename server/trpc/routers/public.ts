@@ -16,14 +16,19 @@ export const publicRouter = router({
         where: {
           email: input.email,
         },
+        select: {
+          id: true,
+          email: true,
+          username: true,
+        },
       })
 
-      // TODO: Wrap trpc error
+      // TODO: Wrap unified error
       if (!user)
         throw new Error('invalid credentials')
 
       // Storge session
-      await ctx.session.update(user)
+      await ctx.session.update({ user })
 
       return user
     }),

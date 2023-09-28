@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+definePageMeta({
+  title: 'Home',
+  requiredAuth: false,
+})
 </script>
 
 <template>
@@ -15,6 +19,5 @@
 
     <h2>NuxtUI</h2>
     <UButton>Button</UButton>
-
   </div>
 </template>

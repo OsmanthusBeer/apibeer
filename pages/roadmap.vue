@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+definePageMeta({
+  title: 'Home',
+  requiredAuth: false,
+})
 </script>
 
 <template>

@@ -1,3 +1,3 @@
 <template>
-  {{ $route.params.id }}
+  <p>Project Id: {{ $route.params.id }}</p>
 </template>
