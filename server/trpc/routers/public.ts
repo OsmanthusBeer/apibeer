@@ -34,7 +34,8 @@ export const publicRouter = router({
         throw new Error('invalid credentials')
 
       // Storge session
-      await ctx.session.update({ user })
+      const { password: _, ...withoutPasswordUser } = user
+      await ctx.session.update({ user: withoutPasswordUser })
 
       return user
     }),
