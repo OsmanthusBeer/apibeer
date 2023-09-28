@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { publicProcedure, router } from '../trpc'
+import { verify } from '~/server/utils/password'
 
 export const publicRouter = router({
   login: publicProcedure
@@ -20,11 +21,16 @@ export const publicRouter = router({
           id: true,
           email: true,
           username: true,
+          password: { select: { hash: true } },
         },
       })
 
       // TODO: Wrap unified error
       if (!user)
+        throw new Error('invalid credentials')
+
+      // TODO: Skip some env like: (DEMO, Development)
+      if (!await verify(input.password, user.password!.hash))
         throw new Error('invalid credentials')
 
       // Storge session

@@ -1,5 +1,5 @@
 <script setup>
-const { user } = useSessionUser()
+const { user, logout } = useSessionUser()
 </script>
 
 <template>
@@ -10,4 +10,8 @@ const { user } = useSessionUser()
       {{ n }}
     </NuxtLink>
   </div>
+
+  <UButton color="red" @click="logout()">
+    退出
+  </UButton>
 </template>

@@ -15,14 +15,16 @@ jobs:
       - name: Use Node.js from `.nvmrc`
         uses: actions/setup-node@v3
         with:
-          node-version-file: '.nvmrc'
+          node-version-file: .nvmrc
           # cache: 'pnpm'
 
       - name: Install dependencies & Build
         run: |
           corepack enable
           pnpm install
-          pnpm run --if-present build
+
+      - name: Run ESLint
+        run: pnpm run lint
 
       - name: Run tests
         run: pnpm run --if-present test

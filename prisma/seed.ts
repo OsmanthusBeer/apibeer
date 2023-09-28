@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import process from 'node:process'
-import bcrypt from 'bcryptjs'
+import { hash } from '~/server/utils/password'
 import { prisma } from '~/server/utils/prisma'
 
 async function seed() {
@@ -20,7 +20,7 @@ async function seedUsers() {
       email: 'hi@apibeer.com',
       username: 'apibeer',
       password: {
-        create: { hash: await bcrypt.hash('123456', 10) },
+        create: { hash: await hash('123456') },
       },
     },
   })
