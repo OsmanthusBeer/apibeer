@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.link-layout {
+    @apply mr-10 w-40 h-24 flex flex-col items-center justify-center;
+}
+.link-text {
+    @apply mt-2 text-slate-400 text-sm;
+}
