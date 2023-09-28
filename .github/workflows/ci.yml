@@ -24,7 +24,7 @@ jobs:
           pnpm install
 
       - name: Run ESLint
-        run: pnpm run eslint
+        run: pnpm run lint
 
       - name: Run tests
         run: pnpm run --if-present test
