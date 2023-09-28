@@ -26,5 +26,8 @@ jobs:
       - name: Run ESLint
         run: pnpm run lint
 
-      - name: Run tests
+      - name: Run Tests
         run: pnpm run --if-present test
+
+      - name: Run Build
+        run: pnpm run build
