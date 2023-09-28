@@ -19,6 +19,7 @@
     "prisma:studio": "prisma studio"
   },
   "dependencies": {
+    "@lukeed/ms": "^2.0.1",
     "@nuxt/ui": "^2.8.1",
     "@prisma/client": "^5.3.1",
     "@trpc/client": "^10.38.4",
