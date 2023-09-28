@@ -21,7 +21,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: enyajump/api-beer
+          images: ${{ env.IMAGE_NAME }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -56,4 +56,4 @@ jobs:
             docker pull ${{ steps.meta.outputs.tags }}
             docker stop ${{ env.CONTAINER_NAME }} || echo "stop [${{ env.CONTAINER_NAME}}] error"
             docker rm ${{ env.CONTAINER_NAME }} || echo "rm [${{ env.CONTAINER_NAME}}] error"
-            docker run -d -p ${{ env.PORT }}:3000 --name ${{ env.CONTAINER_NAME }} -it ${{ steps.meta.outputs.tags }}
+            docker run -e DATABASE_URL="${{ secrets.DATABASE_URL }}" -d -p ${{ env.PORT }}:3000 --name ${{ env.CONTAINER_NAME }} -it ${{ steps.meta.outputs.tags }}
