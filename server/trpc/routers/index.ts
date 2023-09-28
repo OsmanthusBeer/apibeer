@@ -1,10 +1,10 @@
 import { router } from '../trpc'
-import { authRouter } from './auth'
 import { hiRouter } from './hi'
+import { publicRouter } from './public'
 
 export const appRouter = router({
   hi: hiRouter,
-  auth: authRouter,
+  public: publicRouter,
 })
 
 export type AppRouter = typeof appRouter
