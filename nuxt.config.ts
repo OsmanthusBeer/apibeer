@@ -13,6 +13,7 @@ export default defineNuxtConfig({
   // refs: https://nuxt.com/docs/guide/going-further/runtime-config#environment-variables
   runtimeConfig: {
     databaseUrl: '',
+    emailSmtp: '',
     public: {
       greeting: '',
     },
@@ -22,6 +23,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@nuxtjs/i18n',
     '@vueuse/nuxt',
+    'vue-email/nuxt',
   ],
   colorMode: {
     preference: 'dark', // default value of $colorMode.preference
@@ -38,6 +40,20 @@ export default defineNuxtConfig({
     // compilation: {
     //   jit: false,
     // },
+  },
+  vueEmail: {
+    baseUrl: 'https://example.com',
+    i18n: {
+      defaultLocale: 'en',
+      translations: {
+        en: {
+          greetings: 'Welcome {user}',
+        },
+        es: {
+          greetings: 'Bienvenido {user}',
+        },
+      },
+    },
   },
   build: {
     transpile: ['trpc-nuxt'],
