@@ -5,9 +5,12 @@ export default defineNuxtConfig({
       link: [{
         rel: 'icon',
         type: 'image/x-icon',
-        href: 'logo_64x64.png',
+        href: 'logo_148x148.png',
       }],
     },
+  },
+  ui: {
+    icons: ['mdi', 'simple-icons'],
   },
   // Maping `.env` variables
   // refs: https://nuxt.com/docs/guide/going-further/runtime-config#environment-variables

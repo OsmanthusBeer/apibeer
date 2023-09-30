@@ -19,6 +19,8 @@
     "prisma:studio": "prisma studio"
   },
   "dependencies": {
+    "@iconify-json/mdi": "^1.1.54",
+    "@iconify-json/simple-icons": "^1.1.72",
     "@lukeed/ms": "^2.0.1",
     "@nuxt/ui": "^2.8.1",
     "@prisma/client": "^5.3.1",

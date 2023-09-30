@@ -1,8 +1,11 @@
 <template>
-  <UContainer>
-    <NuxtPage />
-  </UContainer>
-  <UNotifications />
+  <div>
+    <Header />
+    <UContainer>
+      <NuxtPage />
+    </UContainer>
+    <UNotifications />
+  </div>
 </template>
 
 <style scoped>
