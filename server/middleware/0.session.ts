@@ -11,6 +11,9 @@ const config: SessionConfig = {
   // TODO: load from .env, or `app.config.ts`
   password: 'ABCDEFGHIGKLMNOPQRSTUVWXYZ0123456789',
   maxAge: 60 * 60 * 24 * 7, // 7 days
+  cookie: {
+    secure: false,
+  },
 }
 
 /**
