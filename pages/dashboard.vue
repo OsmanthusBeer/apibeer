@@ -11,6 +11,14 @@ const { user, logout } = useSessionUser()
     </NuxtLink>
   </div>
 
+  <NuxtLink to="p/create">
+    <UButton color="black">
+      Create
+    </UButton>
+  </NuxtLink>
+
+  <br><br><br>
+
   <UButton color="red" @click="logout()">
     退出
   </UButton>

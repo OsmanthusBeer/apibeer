@@ -51,7 +51,10 @@ const links = computed(() => {
     />
 
     <div class="flex ml-6 pl-6 border-l">
-      <UAvatar v-if="user" src="https://avatars.githubusercontent.com/u/739984?v=4" size="xs" />
+      <NuxtLink v-if="user" to="/dashboard" class="flex items-center gap-2 cursor-pointer">
+        <!-- TODO: Use `gavatar` -->
+        <UAvatar src="https://avatars.githubusercontent.com/u/739984?v=4" />
+      </NuxtLink>
       <UButton v-else color="black" to="/login">
         Login
       </UButton>

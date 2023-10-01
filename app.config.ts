@@ -1,18 +1,15 @@
-const container = {
-  base: 'mx-auto',
-  padding: 'px-4 py-6 pt-20',
-  constrained: 'max-w-7xl',
-}
-
-const header = {
-}
-
 export default defineAppConfig({
   // TODO: Change to black theme
+  // refs: https://ui.nuxt.com/getting-started/theming
   ui: {
-    primary: 'white',
+    primary: 'black',
     gray: 'cool',
-    container,
-    header,
+    container: {
+      base: 'mx-auto',
+      padding: 'px-4 py-6 pt-20',
+      constrained: 'max-w-7xl',
+    },
+    header: {
+    },
   },
 })

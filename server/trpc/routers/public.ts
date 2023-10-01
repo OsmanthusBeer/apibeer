@@ -12,7 +12,6 @@ export const publicRouter = router({
     )
     .mutation(async (event) => {
       const { input, ctx } = event
-      // TODO: implement login
       const user = await ctx.prisma.user.findUnique({
         where: {
           email: input.email,

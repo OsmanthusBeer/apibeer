@@ -45,6 +45,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     navigateTo({ path: decodeURIComponent(r || '/dashboard') })
   }
   catch (error) {
+    // TODO: Wrap a utils function for handle zod error
     const zodError = getZodError<Schema>(error)
     if (zodError) {
       const errors = Object.entries(zodError.fieldErrors).map(([path, messages]) => ({ path, message: messages.join('\n') }))
@@ -56,6 +57,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       return
     }
     console.error(error)
+    toast.add({ title: 'Unknown error', color: 'red' })
   }
   finally {
     submiting.value = false
