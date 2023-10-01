@@ -51,8 +51,7 @@ jobs:
           username: ${{ secrets.REMOTE_USERNAME }}
           key: ${{ secrets.REMOTE_PRIVATE_KEY }}
           script: |
-            # echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-            # docker rmi $(docker images | grep "${{ env.IMAGE_NAME }}" | awk '{print $3}')
+            docker images --filter "dangling=true" --filter "reference=*$IMAGE_NAME*" -q | xargs docker rmi
             docker pull ${{ steps.meta.outputs.tags }}
             docker stop ${{ env.CONTAINER_NAME }} || echo "stop [${{ env.CONTAINER_NAME}}] error"
             docker rm ${{ env.CONTAINER_NAME }} || echo "rm [${{ env.CONTAINER_NAME}}] error"
