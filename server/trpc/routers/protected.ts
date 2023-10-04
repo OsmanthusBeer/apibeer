@@ -12,6 +12,31 @@ export const protectedRouter = router({
     .mutation(async (event) => {
       await event.ctx.session.clear()
     }),
+  // TODO: pagination
+  projectList: protectedProcedure
+    .input(
+      z.object({
+        name: z.string(),
+        visibility: z.enum(['PUBLIC', 'PRIVATE']),
+      })
+        .optional(),
+    )
+    .query(async (event) => {
+      const { input, ctx } = event
+      const projects = await ctx.prisma.project.findMany({
+        where: {
+          name: {
+            contains: input?.name,
+          },
+          visibility: input?.visibility,
+          OR: [
+            { creatorId: ctx.session.data.user.id },
+            { members: { some: { id: ctx.session.data.user.id } } },
+          ],
+        },
+      })
+      return projects
+    }),
   projectCreate: protectedProcedure
     .input(
       z.object({
