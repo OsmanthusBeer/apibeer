@@ -26,7 +26,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     const project = await $client.protected.projectCreate.mutate({
       name,
       description,
-      visibility: visibility.toUpperCase(),
+      // TODO: type
+      visibility: visibility.toUpperCase() as any,
     })
     navigateTo(`/p/${project.id}`)
   }

@@ -43,8 +43,10 @@ const { pending, error, data: projects } = $client.protected.projectList.useQuer
       </UCard>
     </NuxtLink>
   </div>
-<!--
-  <div class="mt-8 w-full flex gap-2">
 
-  </div> -->
+  <div class="mt-8">
+    <UButton color="black" @click="navigateTo('/p/create')">
+      Create Project
+    </UButton>
+  </div>
 </template>
