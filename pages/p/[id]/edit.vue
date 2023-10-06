@@ -86,7 +86,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         <URadio v-model="project.visibility" label="Public" value="public" help="Anyone on the internet can see this project" />
       </UFormGroup>
       <div class="flex justify-end">
-        <UButton color="black" type="submit" :loading="submiting">
+        <UButton type="submit" :loading="submiting">
           Submit
         </UButton>
       </div>

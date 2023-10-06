@@ -81,7 +81,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           <UInput v-model="state.password" placeholder="Your Password" icon="i-heroicons-lock-closed" />
         </UFormGroup>
         <div class="flex justify-end">
-          <UButton color="black" type="submit" :loading="submiting">
+          <UButton type="submit" :loading="submiting">
             Submit
           </UButton>
         </div>

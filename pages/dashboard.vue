@@ -45,7 +45,7 @@ const { pending, error, data: projects } = $client.protected.projectList.useQuer
   </div>
 
   <div class="mt-8">
-    <UButton color="black" @click="navigateTo('/p/create')">
+    <UButton @click="navigateTo('/p/create')">
       Create Project
     </UButton>
   </div>

@@ -64,7 +64,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     <p>Project Visibility: {{ project.visibility }}</p>
 
     <div class="mt-8 flex gap-4">
-      <UButton color="black" @click="navigateTo(`/p/${id}/edit`)">
+      <UButton @click="navigateTo(`/p/${id}/edit`)">
         Edit
       </UButton>
       <UButton color="red" @click="isOpenModelDelete = true">
@@ -106,7 +106,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             <UButton color="gray" variant="solid">
               Cancel
             </UButton>
-            <UButton color="black" type="submit" :loading="submiting">
+            <UButton type="submit" :loading="submiting">
               Confrim
             </UButton>
           </div>

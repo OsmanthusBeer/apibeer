@@ -55,7 +55,7 @@ const links = computed(() => {
         <!-- TODO: Use `gavatar` -->
         <UAvatar src="https://avatars.githubusercontent.com/u/739984?v=4" />
       </NuxtLink>
-      <UButton v-else color="black" to="/login">
+      <UButton v-else to="/login">
         Login
       </UButton>
     </div>
