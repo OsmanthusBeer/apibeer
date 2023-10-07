@@ -1,5 +1,9 @@
 /* eslint-disable node/prefer-global/process */
 export default defineNuxtRouteMiddleware(async (to, _from) => {
+  // skip middleware on client
+  if (process.client)
+    return
+
   const { init, user } = useSessionUser()
   await init()
 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-const { user } = useSessionUser()
+const { user, logout } = useSessionUser()
+
 const links = computed(() => {
   return [
     {
@@ -19,23 +20,39 @@ const links = computed(() => {
     },
   ]
 })
+
+const dropdownItems = computed(() => ([
+  [
+    {
+      label: user.value!.email,
+      slot: 'account',
+      disabled: true,
+    },
+  ],
+  [{
+    label: 'Settings',
+    icon: 'i-heroicons-cog-8-tooth',
+    click: () => {
+      useToast().add({ title: 'TODO:' })
+    },
+  }],
+  [{
+    label: 'Sign out',
+    icon: 'i-heroicons-arrow-left-on-rectangle',
+    click: () => logout(),
+  }],
+]))
 </script>
 
 <template>
   <div class="w-full h-16 px-20 flex items-center justify-between border-b border-gray-200 dark:border-gray-800">
-    <NuxtLink
-      to="/"
-      class="flex items-end font-bold text-xl"
-      aria-label="Nuxt UI"
-    >
+    <NuxtLink to="/" class="flex items-end font-bold text-xl" aria-label="Nuxt UI">
       <Logo />
     </NuxtLink>
 
     <ul class="flex justify-end flex-1">
       <NuxtLink
-        v-for="(link, index) in links"
-        :key="index" icon="i-heroicons-lock-closed"
-        :to="link.to"
+        v-for="(link, index) in links" :key="index" icon="i-heroicons-lock-closed" :to="link.to"
         class="flex items-end gap-1.5 font-bold"
       >
         <li class="text-sm font-semibold mr-6">
@@ -46,18 +63,33 @@ const links = computed(() => {
 
     <ColorModeButton />
 
-    <UButton
-      to="https://github.com/OsmanthusBeer/api-beer"
-      icon="i-mdi-github"
-      variant="ghost"
-      aria-label="Github"
-    />
+    <UButton to="https://github.com/OsmanthusBeer/api-beer" icon="i-mdi-github" variant="ghost" aria-label="Github" />
 
     <div class="flex ml-6 pl-6 border-l">
-      <NuxtLink v-if="user" to="/dashboard" class="flex items-center gap-2 cursor-pointer">
-        <!-- TODO: Use `gavatar` -->
+      <!-- <NuxtLink v-if="user" to="/dashboard" class="flex items-center gap-2 cursor-pointer"> -->
+      <!-- TODO: Use `gavatar` -->
+      <UDropdown
+        v-if="user" :items="dropdownItems"
+        :ui="{ item: { disabled: 'cursor-text select-text' } }"
+        :popper="{ placement: 'bottom-start' }"
+      >
         <UAvatar src="https://avatars.githubusercontent.com/u/739984?v=4" />
-      </NuxtLink>
+        <template #account="{ item }">
+          <div class="text-left">
+            <p>
+              Signed in as
+            </p>
+            <p class="truncate font-medium text-gray-900 dark:text-white">
+              {{ item.label }}
+            </p>
+          </div>
+        </template>
+        <template #item="{ item }">
+          <span class="truncate">{{ item.label }}</span>
+          <UIcon :name="item.icon" class="flex-shrink-0 h-5 w-5 ms-auto" />
+        </template>
+      </UDropdown>
+      <!-- </NuxtLink> -->
       <UButton v-else to="/login">
         Login
       </UButton>
