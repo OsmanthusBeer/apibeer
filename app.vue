@@ -1,10 +1,11 @@
 <template>
-  <div>
+  <div class="h-screen">
     <Header />
     <UContainer>
       <NuxtPage />
     </UContainer>
     <UNotifications />
+    <Footer />
   </div>
 </template>
 

@@ -3,14 +3,17 @@ const { user } = useSessionUser()
 const links = computed(() => {
   return [
     {
+      label: 'Get Started',
+      to: '/get-started',
+      target: '_blank',
+    },
+    {
       label: 'Roadmap',
-      icon: 'i-heroicons-map',
       to: '/roadmap',
       target: '_blank',
     },
     {
       label: 'Tech Stack',
-      icon: 'i-heroicons-map',
       to: '/use',
       target: '_blank',
     },
@@ -19,7 +22,7 @@ const links = computed(() => {
 </script>
 
 <template>
-  <div class="w-full h-16 fixed px-20 flex items-center justify-between border-b border-gray-200 dark:border-gray-800">
+  <div class="w-full h-16 px-20 flex items-center justify-between border-b border-gray-200 dark:border-gray-800">
     <NuxtLink
       to="/"
       class="flex items-end font-bold text-xl text-gray-900 dark:text-white"

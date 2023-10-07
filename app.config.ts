@@ -1,12 +1,11 @@
 export default defineAppConfig({
   // refs: https://ui.nuxt.com/getting-started/theming
   ui: {
-    primary: 'black',
+    primary: 'orange',
     gray: 'slate',
     container: {
       base: 'mx-auto',
-      padding: 'px-4 py-6 pt-20',
-      constrained: 'max-w-7xl',
+      constrained: 'max-w-full',
     },
     header: {
     },
