@@ -25,7 +25,7 @@ const links = computed(() => {
   <div class="w-full h-16 px-20 flex items-center justify-between border-b border-gray-200 dark:border-gray-800">
     <NuxtLink
       to="/"
-      class="flex items-end font-bold text-xl text-gray-900 dark:text-white"
+      class="flex items-end font-bold text-xl"
       aria-label="Nuxt UI"
     >
       <Logo />
@@ -36,9 +36,9 @@ const links = computed(() => {
         v-for="(link, index) in links"
         :key="index" icon="i-heroicons-lock-closed"
         :to="link.to"
-        class="flex items-end gap-1.5 font-bold text-gray-900 dark:text-white"
+        class="flex items-end gap-1.5 font-bold"
       >
-        <li class="text-primary-400 text-sm font-semibold mr-6">
+        <li class="text-sm font-semibold mr-6">
           {{ link.label }}
         </li>
       </NuxtLink>

@@ -1,8 +1,8 @@
 export default defineAppConfig({
   // refs: https://ui.nuxt.com/getting-started/theming
   ui: {
-    primary: 'orange',
-    gray: 'slate',
+    primary: 'custom',
+    gray: 'zinc',
     container: {
       base: 'mx-auto',
       constrained: 'max-w-full',
@@ -10,7 +10,7 @@ export default defineAppConfig({
     header: {
     },
     // Default `black` theme
-    safelistColors: ['black'],
+    safelistColors: ['custom', 'zinc'],
     button: {
       default: {
         color: 'black',
