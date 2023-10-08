@@ -7,7 +7,7 @@ on:
 env:
   CONTAINER_NAME: api_beer
   IMAGE_NAME: enyajump/api-beer
-  PORT: 40000
+  PORT: 3000
 
 jobs:
   push_to_registry:
