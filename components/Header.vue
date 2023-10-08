@@ -29,18 +29,31 @@ const dropdownItems = computed(() => ([
       disabled: true,
     },
   ],
-  [{
-    label: 'Settings',
-    icon: 'i-heroicons-cog-8-tooth',
-    click: () => {
-      useToast().add({ title: 'TODO:' })
+  [
+    {
+      label: 'Dashboard',
+      icon: 'i-mdi-desktop-mac-dashboard',
+      shortcuts: ['D'],
+      click: () => {
+        navigateTo('/dashboard')
+      },
     },
-  }],
-  [{
-    label: 'Sign out',
-    icon: 'i-heroicons-arrow-left-on-rectangle',
-    click: () => logout(),
-  }],
+    {
+      label: 'Settings',
+      icon: 'i-mdi-cog',
+      shortcuts: ['S'],
+      click: () => {
+        useToast().add({ title: 'TODO:' })
+      },
+    },
+  ],
+  [
+    {
+      label: 'Sign out',
+      icon: 'i-mdi-logout',
+      click: () => logout(),
+    },
+  ],
 ]))
 </script>
 
@@ -83,10 +96,6 @@ const dropdownItems = computed(() => ([
               {{ item.label }}
             </p>
           </div>
-        </template>
-        <template #item="{ item }">
-          <span class="truncate">{{ item.label }}</span>
-          <UIcon :name="item.icon" class="flex-shrink-0 h-5 w-5 ms-auto" />
         </template>
       </UDropdown>
       <!-- </NuxtLink> -->
