@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="http://8.140.31.132:40000/">
+  <a href="https://demo.apibeer.com/">
     <picture>
       <img src="./public/logo_180x180.png" height="128">
     </picture>
@@ -21,7 +21,7 @@
 
 ## Demo Online
 
-> <http://8.140.31.132:40000/>
+> <https://demo.apibeer.com/>
 
 ## Tech Stack
 
