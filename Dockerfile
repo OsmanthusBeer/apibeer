@@ -8,28 +8,14 @@ RUN apk add --no-cache libc6-compat
 RUN apk update
 RUN corepack enable
 
-## Stage: deps
-FROM base AS deps
-WORKDIR /app
-ADD package.json pnpm-lock.yaml .npmrc ./
-RUN pnpm install
-
-## Stage: proudction-deps
-FROM base AS production-deps
-WORKDIR /app
-COPY --from=deps /app/node_modules /app/node_modules
-ADD package.json pnpm-lock.yaml .npmrc ./
-# skip husky
-RUN npm pkg delete scripts.prepare
-RUN pnpm install --prod
-
 # Stage: build
 FROM base as build
 WORKDIR /app
-COPY --from=deps /app/node_modules /app/node_modules
-ADD prisma .
-RUN npx prisma generate
+ADD package.json pnpm-lock.yaml .npmrc ./
+RUN pnpm install
+# COPY --from=deps /app/node_modules /app/node_modules
 ADD . .
+RUN npx prisma generate
 RUN npm run build
 
 # Stage: finally
@@ -37,6 +23,10 @@ FROM base
 ENV NODE_ENV="production"
 ENV PORT="3000"
 WORKDIR /app
-COPY --from=production-deps /app/node_modules /app/node_modules
 COPY --from=build /app/.output /app/.output
+COPY --from=build /app/prisma /app/prisma
+COPY --from=build /app/package.json /app/package.json
+COPY --from=build /app/pnpm-lock.yaml /app/pnpm-lock.yaml
+COPY --from=build /app/.npmrc /app/.npmrc
+COPY --from=build /app/start.sh /app/start.sh
 ENTRYPOINT [ "./start.sh" ]

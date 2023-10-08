@@ -50,6 +50,13 @@ pnpm dev
 docker run --name mysql -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql:8
 ```
 
+## Docker Deploy
+
+```bash
+docker build . -t apibeer
+docker run -d --name apibeer --env-file .env -p 3000:3000 -it apibeer
+```
+
 ## Related
 
 - [apifox](https://apifox.com/)
