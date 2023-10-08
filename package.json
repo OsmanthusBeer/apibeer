@@ -34,7 +34,7 @@
     "nuxt": "^3.7.4",
     "trpc-nuxt": "^0.10.12",
     "vue-email": "^0.7.2",
-    "zod": "^3.22.2"
+    "zod": "^3.22.3"
   },
   "devDependencies": {
     "@antfu/eslint-config": "1.0.0-beta.10",
