@@ -15,15 +15,15 @@
           Your teams
         </div>
         <ul class="h-3/5 overflow-auto mt-2">
-          <li class="p-2 my-2 rounded text-gray-300 cursor-pointer hover:bg-gray-700 hover:text-white">
+          <li class="p-2 my-2 rounded cursor-pointer text-gray-700 hover:bg-gray-100 hover:text-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white">
             <UKbd>A</UKbd>
             <span class="ml-4 font-semibold align-middle">Team A</span>
           </li>
-          <li class="p-2 my-2 rounded text-gray-300 cursor-pointer hover:bg-gray-700 hover:text-white">
+          <li class="p-2 my-2 rounded cursor-pointer text-gray-700 hover:bg-gray-100 hover:text-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white">
             <UKbd>B</UKbd>
-            <span class="ml-4 font-semibold text-gray-300 align-middle">Team B</span>
+            <span class="ml-4 font-semibold align-middle">Team B</span>
           </li>
-          <li class="p-2 my-2 rounded text-gray-300 cursor-pointer hover:bg-gray-700 hover:text-white">
+          <li class="p-2 my-2 rounded cursor-pointer text-gray-700 hover:bg-gray-100 hover:text-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white">
             <UKbd>C</UKbd>
             <span class="ml-4 font-semibold align-middle">Team C</span>
           </li>
