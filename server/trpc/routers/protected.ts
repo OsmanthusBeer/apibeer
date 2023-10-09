@@ -1,4 +1,4 @@
-import { ProjectVisibility } from '@prisma/client'
+import { $Enums } from '@prisma/client'
 import { z } from 'zod'
 import { protectedProcedure, router } from '../trpc'
 
@@ -23,15 +23,13 @@ export const protectedRouter = router({
     )
     .query(async (event) => {
       const { input, ctx } = event
+      const user = ctx.session.data.user
       const projects = await ctx.prisma.project.findMany({
         where: {
-          name: {
-            contains: input?.name,
-          },
-          visibility: input?.visibility,
-          OR: [
-            { creatorId: ctx.session.data.user.id },
-            { members: { some: { id: ctx.session.data.user.id } } },
+          AND: [
+            { name: { contains: input?.name } },
+            { visibility: input?.visibility },
+            { members: { some: { userId: user.id } } },
           ],
         },
       })
@@ -42,7 +40,7 @@ export const protectedRouter = router({
       z.object({
         name: z.string().min(3).max(50),
         description: z.string().min(3).max(255),
-        visibility: z.enum([ProjectVisibility.PUBLIC, ProjectVisibility.PRIVATE]),
+        visibility: z.nativeEnum($Enums.ProjectVisibility),
       }),
     )
     .mutation(async (event) => {
@@ -53,9 +51,10 @@ export const protectedRouter = router({
           name: input.name,
           description: input.description,
           visibility: input.visibility,
-          creator: {
-            connect: {
-              id: user.id,
+          members: {
+            create: {
+              userId: user.id,
+              role: $Enums.ProjectRole.Owner,
             },
           },
         },
@@ -74,16 +73,41 @@ export const protectedRouter = router({
       const project = await ctx.prisma.project.findFirst({
         where: {
           id: input.id,
-          OR: [
-            { creatorId: user.id },
-            { members: { some: { id: user.id } } },
-          ],
+          members: { some: { userId: user.id } },
         },
       })
       if (!project)
         throw new Error('Project not found')
 
       return { ...project, visibility: project.visibility.toLowerCase() }
+    }),
+  projectUpdate: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        name: z.string().min(3).max(50),
+        description: z.string().min(3).max(255),
+        visibility: z.nativeEnum($Enums.ProjectVisibility),
+      }),
+    )
+    .mutation(async (event) => {
+      const { input, ctx } = event
+      const user = ctx.session.data.user
+      const existed = await ctx.prisma.project.update({
+        where: {
+          id: input.id,
+          members: { some: { userId: user.id, role: $Enums.ProjectRole.Owner } },
+        },
+        data: {
+          name: input.name,
+          description: input.description,
+          visibility: input.visibility,
+        },
+      })
+      if (!existed)
+        throw new Error('Project not found')
+
+      return true
     }),
   projectDelete: protectedProcedure
     .input(
@@ -96,7 +120,7 @@ export const protectedRouter = router({
       const existed = await ctx.prisma.project.delete({
         where: {
           id: input.id,
-          creatorId: user.id,
+          members: { some: { userId: user.id, role: $Enums.ProjectRole.Owner } },
         },
       })
       if (!existed)
@@ -104,32 +128,49 @@ export const protectedRouter = router({
 
       return true
     }),
-  projectUpdate: protectedProcedure
-    .input((
+  // API
+  apiCreate: protectedProcedure
+    .input(
       z.object({
-        id: z.string(),
         name: z.string().min(3).max(50),
         description: z.string().min(3).max(255),
-        visibility: z.enum([ProjectVisibility.PUBLIC, ProjectVisibility.PRIVATE]),
-      })
-    ))
-    .mutation(async (event) => {
+        endpoint: z.string(),
+        method: z.nativeEnum($Enums.ApiMethod),
+        params: z.object({}),
+        body: z.object({}),
+        headers: z.object({}),
+        authorization: z.object({}),
+        preRequestScript: z.string(),
+        postResponseScript: z.string(),
+        tags: z.object({}),
+        versions: z.object({}),
+        order: z.number(),
+        status: z.nativeEnum($Enums.ApiStatus),
+        projectId: z.string(),
+      }),
+    ).mutation(async (event) => {
       const { input, ctx } = event
-      const user = ctx.session.data.user
-      const existed = await ctx.prisma.project.update({
+      const { user } = ctx.session.data
+
+      // Validate permission
+      const projectMember = await ctx.prisma.projectMember.findFirst({
         where: {
-          id: input.id,
-          creatorId: user.id,
-        },
-        data: {
-          name: input.name,
-          description: input.description,
-          visibility: input.visibility,
+          userId: user.id,
         },
       })
-      if (!existed)
+      if (!projectMember)
         throw new Error('Project not found')
+      if (![
+        $Enums.ProjectRole.Owner,
+        $Enums.ProjectRole.Maintainer,
+      ].includes(projectMember.role))
+        throw new Error('Permission denied')
 
-      return true
+      const api = await ctx.prisma.api.create({
+        data: {
+          ...input,
+        },
+      })
+      return api
     }),
 })
