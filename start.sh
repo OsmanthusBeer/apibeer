@@ -1,5 +1,5 @@
 #!/bin/sh
 
 set -ex
-pnpm dlx prisma migrate deploy
+npx prisma migrate deploy
 node .output/server/index.mjs

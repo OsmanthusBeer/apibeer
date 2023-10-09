@@ -14,16 +14,21 @@ async function seed() {
 
 async function seedUsers() {
   console.time('🔑 Created users...')
-  // TODO: skip exist
-  await prisma.user.create({
-    data: {
-      email: 'hi@apibeer.com',
-      username: 'apibeer',
-      password: {
-        create: { hash: await hash('123456') },
+  try {
+    await prisma.user.create({
+      data: {
+        email: 'hi@apibeer.com',
+        username: 'apibeer',
+        password: {
+          create: { hash: await hash('123456') },
+        },
       },
-    },
-  })
+    })
+  }
+  catch (error) {
+    // Maybe exist
+    console.log(error)
+  }
   console.timeEnd('🔑 Created users...')
 }
 
