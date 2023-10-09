@@ -2,4 +2,4 @@
 
 set -ex
 pnpm dlx prisma migrate deploy
-pnpm start
+node .output/server/index.mjs

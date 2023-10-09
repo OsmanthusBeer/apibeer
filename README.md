@@ -54,7 +54,7 @@ docker run --name mysql -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql:8
 
 ```bash
 docker build . -t apibeer
-docker run -d --name apibeer --env-file .env -p 3000:3000 -it apibeer
+docker run -d --name apibeer --env-file .env --network=host -p 3000:3000 -it apibeer
 ```
 
 ## Related

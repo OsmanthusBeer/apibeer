@@ -16,7 +16,7 @@ RUN pnpm install
 # COPY --from=deps /app/node_modules /app/node_modules
 ADD . .
 RUN npx prisma generate
-RUN npm run build
+RUN pnpm run build
 
 # Stage: finally
 FROM base
@@ -25,8 +25,6 @@ ENV PORT="3000"
 WORKDIR /app
 COPY --from=build /app/.output /app/.output
 COPY --from=build /app/prisma /app/prisma
-COPY --from=build /app/package.json /app/package.json
-COPY --from=build /app/pnpm-lock.yaml /app/pnpm-lock.yaml
-COPY --from=build /app/.npmrc /app/.npmrc
 COPY --from=build /app/start.sh /app/start.sh
+RUN pnpm install prisma
 ENTRYPOINT [ "./start.sh" ]
