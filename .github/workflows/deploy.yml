@@ -6,7 +6,7 @@ on:
       - main
 env:
   CONTAINER_NAME: api_beer
-  IMAGE_NAME: enyajump/api-beer
+  IMAGE_NAME: enyajump/apibeer
   PORT: 3000
 
 jobs:

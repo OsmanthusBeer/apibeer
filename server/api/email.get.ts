@@ -6,7 +6,7 @@ export default defineEventHandler(async (_event) => {
   const config = useRuntimeConfig()
   const template = await useCompiler('hi.vue', {
     props: {
-      url: 'https://github.com/OsmanthusBeer/api-beer',
+      url: 'https://github.com/OsmanthusBeer/apibeer',
     },
   })
   const transporter = nodemailer.createTransport(config.emailSmtp)

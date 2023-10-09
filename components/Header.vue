@@ -76,7 +76,7 @@ const dropdownItems = computed(() => ([
 
     <ColorModeButton />
 
-    <UButton to="https://github.com/OsmanthusBeer/api-beer" icon="i-mdi-github" variant="ghost" aria-label="Github" />
+    <UButton to="https://github.com/OsmanthusBeer/apibeer" icon="i-mdi-github" variant="ghost" aria-label="Github" />
 
     <div class="flex ml-6 pl-6 border-l">
       <!-- <NuxtLink v-if="user" to="/dashboard" class="flex items-center gap-2 cursor-pointer"> -->
