@@ -1,11 +1,9 @@
 <template>
   <div class="h-screen">
-    <Header />
-    <UContainer>
+    <NuxtLayout>
       <NuxtPage />
-    </UContainer>
+    </NuxtLayout>
     <UNotifications />
-    <Footer />
   </div>
 </template>
 

@@ -1,6 +1,8 @@
 <script setup>
+definePageMeta({
+  layout: 'entry-sidebar',
+})
 const { $client } = useNuxtApp()
-
 const { pending, error, data: projects } = $client.protected.projectList.useQuery()
 </script>
 
