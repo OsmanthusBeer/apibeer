@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { Form, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types';
-import { z } from 'zod';
+import type { Form, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
+import { z } from 'zod'
 
 const route = useRoute()
 const id = route.params.id as string
