@@ -5,19 +5,22 @@ export function useTeam() {
 
   const teamList = useState<Team[]>('teamList', () => [])
 
+  async function fetchTeamInfo(id: string) {
+    currentTeam.value = teamList.value.find((team: Team) => team.id === id) || null
+  }
+
   async function fetchTeamList() {
     const data = [{
+      id: '1',
       name: 'Team A',
     }, {
+      id: '2',
       name: 'Team B',
     }, {
+      id: '3',
       name: 'Team C',
     }]
     teamList.value = data
-  }
-
-  async function selectTeam(team: Team) {
-    currentTeam.value = team
   }
 
   async function deleteTeam(team: Team) {
@@ -27,8 +30,8 @@ export function useTeam() {
   return {
     currentTeam,
     teamList,
+    fetchTeamInfo,
     fetchTeamList,
-    selectTeam,
     deleteTeam,
   }
 }

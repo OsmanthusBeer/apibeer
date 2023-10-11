@@ -13,5 +13,6 @@ export interface Session {
 }
 
 export interface Team {
+  id: string
   name: string
 }

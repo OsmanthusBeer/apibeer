@@ -1,21 +1,17 @@
 <script setup lang="ts">
 import type { Team } from '~/types'
 
-const { currentTeam, teamList, fetchTeamList, deleteTeam } = useTeam()
+const { teamList, fetchTeamList, deleteTeam } = useTeam()
 
 const createTeamModalRef = ref()
 const menus = ref([
-  { icon: 'i-heroicons-star', label: 'Favorites list' },
-  { icon: 'i-heroicons-clock', label: 'Recent visits' },
+  { icon: 'i-heroicons-star', label: 'Collection list', to: '/collection' },
+  { icon: 'i-heroicons-clock', label: 'Visted list', to: '/visited' },
 ])
 
 onMounted(() => {
   fetchTeamList()
 })
-
-function selectTeam(team: Team) {
-  currentTeam.value = team
-}
 
 function createTeam() {
   createTeamModalRef.value.show()
@@ -37,10 +33,16 @@ function submitCreateTeam(team: Team) {
       </div>
       <!-- menu list -->
       <ul class="mt-8">
-        <li v-for="(menu, index) in menus" :key="`menu__${index}`" class="py-2 my-2 rounded cursor-pointer text-gray-700  hover:text-gray-800 dark:text-gray-300 dark:hover:text-white">
-          <UIcon :name="menu.icon" />
-          <span class="ml-2 font-semibold">{{ menu.label }}</span>
-        </li>
+        <NuxtLink
+          v-for="(menu, index) in menus" :key="index" v-slot="{ navigate }"
+          :to="{ path: menu.to }"
+          custom
+        >
+          <li class="py-2 my-2 rounded cursor-pointer text-gray-700  hover:text-gray-800 dark:text-gray-300 dark:hover:text-white" @click="navigate">
+            <UIcon :name="menu.icon" />
+            <span class="ml-2 font-semibold">{{ menu.label }}</span>
+          </li>
+        </NuxtLink>
       </ul>
       <!-- team list -->
       <div class="mt-4">
@@ -49,11 +51,17 @@ function submitCreateTeam(team: Team) {
           <UButton icon="i-heroicons-folder-plus" size="sm" variant="ghost" @click="createTeam" />
         </div>
         <ul class="h-3/5 overflow-auto mt-2">
-          <li v-for="(team, index) in teamList" :key="`team__${index}`" class="group p-2 my-2 flex items-center rounded cursor-pointer text-gray-700 hover:bg-gray-100 hover:text-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white" @click="selectTeam(team)">
-            <UKbd>{{ team.name?.[0] }}</UKbd>
-            <span class="ml-4 font-semibold">{{ team.name }}</span>
-            <UButton class="hidden ml-auto group-hover:flex" icon="i-heroicons-x-circle" size="2xs" variant="ghost" @click.stop="deleteTeam(team)" />
-          </li>
+          <NuxtLink
+            v-for="team in teamList" :key="team.id" v-slot="{ navigate }"
+            :to="{ path: `/t/${team.id}` }"
+            custom
+          >
+            <li class="group p-2 my-2 flex items-center rounded cursor-pointer text-gray-700 hover:bg-gray-100 hover:text-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white" @click="navigate">
+              <UKbd>{{ team.name?.[0] }}</UKbd>
+              <span class="ml-4 font-semibold">{{ team.name }}</span>
+              <UButton class="hidden ml-auto group-hover:flex" icon="i-heroicons-x-circle" size="2xs" variant="ghost" @click.stop="deleteTeam(team)" />
+            </li>
+          </NuxtLink>
         </ul>
       </div>
       <!-- bottom menu -->
