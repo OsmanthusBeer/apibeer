@@ -5,6 +5,7 @@ const { teamList, fetchTeamList, deleteTeam } = useTeam()
 
 const createTeamModalRef = ref()
 const menus = ref([
+  { icon: 'i-heroicons-home', label: 'Dashboard', to: '/dashboard' },
   { icon: 'i-heroicons-star', label: 'Collection list', to: '/collection' },
   { icon: 'i-heroicons-clock', label: 'Visted list', to: '/visited' },
 ])
