@@ -2,7 +2,9 @@
 definePageMeta({
   layout: 'entry-sidebar',
 })
-const title = ref('Team A')
+
+const { currentTeam } = useTeam()
+
 const { $client } = useNuxtApp()
 
 const { pending, error, data: projects } = $client.protected.projectList.useQuery()
@@ -11,7 +13,7 @@ const { pending, error, data: projects } = $client.protected.projectList.useQuer
 <template>
   <div class="p-8">
     <h1 class="text-2xl pb-4 font-semibold border-b border-gray-200 dark:border-gray-800">
-      {{ title }}
+      {{ currentTeam?.name }}
     </h1>
 
     <div class="flex items-center my-8">

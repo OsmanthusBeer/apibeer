@@ -1,25 +1,28 @@
 <script setup lang="ts">
-const createTeamModalRef = ref()
+import type { Team } from '~/types'
 
+const { currentTeam, teamList, fetchTeamList, deleteTeam } = useTeam()
+
+const createTeamModalRef = ref()
 const menus = ref([
   { icon: 'i-heroicons-star', label: 'Favorites list' },
   { icon: 'i-heroicons-clock', label: 'Recent visits' },
 ])
 
-const teams = ref([{
-  name: 'Team A',
-}, {
-  name: 'Team B',
-}, {
-  name: 'Team C',
-}])
+onMounted(() => {
+  fetchTeamList()
+})
+
+function selectTeam(team: Team) {
+  currentTeam.value = team
+}
 
 function createTeam() {
   createTeamModalRef.value.show()
 }
 
-function submitCreateTeam(team: { name: string }) {
-  teams.value.push(team)
+function submitCreateTeam(team: Team) {
+  teamList.value.push(team)
 }
 </script>
 
@@ -43,12 +46,13 @@ function submitCreateTeam(team: { name: string }) {
       <div class="mt-4">
         <div class="flex items-center text-xs font-semibold">
           <span class="mr-2">Your teams</span>
-          <UButton icon="i-heroicons-folder-plus" size="2xs" variant="ghost" @click="createTeam" />
+          <UButton icon="i-heroicons-folder-plus" size="sm" variant="ghost" @click="createTeam" />
         </div>
         <ul class="h-3/5 overflow-auto mt-2">
-          <li v-for="(team, index) in teams" :key="`team__${index}`" class="p-2 my-2 rounded cursor-pointer text-gray-700 hover:bg-gray-100 hover:text-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white">
+          <li v-for="(team, index) in teamList" :key="`team__${index}`" class="group p-2 my-2 flex items-center rounded cursor-pointer text-gray-700 hover:bg-gray-100 hover:text-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white" @click="selectTeam(team)">
             <UKbd>{{ team.name?.[0] }}</UKbd>
-            <span class="ml-4 font-semibold align-middle">{{ team.name }}</span>
+            <span class="ml-4 font-semibold">{{ team.name }}</span>
+            <UButton class="hidden ml-auto group-hover:flex" icon="i-heroicons-x-circle" size="2xs" variant="ghost" @click.stop="deleteTeam(team)" />
           </li>
         </ul>
       </div>

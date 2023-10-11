@@ -11,3 +11,7 @@ export type SessionUser = Pick<User, 'id' | 'email' | 'username'>
 export interface Session {
   user: SessionUser
 }
+
+export interface Team {
+  name: string
+}
