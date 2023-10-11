@@ -1,16 +1,58 @@
 <script lang="ts" setup>
-import { ApiMethod } from '@prisma/client';
+import { ApiMethod } from '@prisma/client'
+
+const { $client } = useNuxtApp()
 
 const method = ref<ApiMethod>('GET')
 const options = Object.values(ApiMethod)
-const url = ref('https://httpie.io/hello')
+const url = ref('https://echo.hoppscotch.io')
+const response = ref()
 
+const sending = ref(false)
 async function onSend() {
-  const response = await $fetch('/proxy', {
-    method: method.value as any,
-    url: url.value,
-  })
-  console.log(response)
+  sending.value = true
+  try {
+    const data = await $fetch('/proxy', {
+      method: 'POST',
+      body: JSON.stringify({
+        method: method.value,
+        url: url.value,
+        params: {},
+        headers: {},
+        auth: {},
+        body: {},
+      }),
+    })
+    response.value = data
+  }
+  finally {
+    sending.value = false
+  }
+}
+
+const saving = ref(false)
+async function onSave() {
+  saving.value = true
+  try {
+    $client.protected.apiCreate.mutate({
+      endpoint: url.value,
+      method: method.value,
+      params: {},
+      body: {},
+      headers: {},
+      authorization: {},
+      preRequestScript: '',
+      postResponseScript: '',
+      tags: [],
+      versions: [],
+      order: 1,
+      // TODO:
+      projectId: 'clnli74i20000vf2ny8o9r7sk',
+    })
+  }
+  finally {
+    saving.value = false
+  }
 }
 </script>
 
@@ -23,11 +65,13 @@ async function onSend() {
     <div class="w-3/4 p-1 border flex flex-col gap-2">
       <div class="w-full flex gap-1">
         <USelectMenu v-model="method" :options="options" />
-        <UInput v-model="url" class="w-80" placeholder="https://httpie.io/hello" />
-        <UButton @click="onSend">
+        <UInput v-model="url" class="w-80" placeholder="https://echo.hoppscotch.io" />
+        <UButton :loading="sending" @click="onSend">
           Send
         </UButton>
-        <UButton>Save</UButton>
+        <UButton :loading="saving" @click="onSave">
+          Save
+        </UButton>
       </div>
       <div class="w-full h-full flex gap-2">
         <div class="flex-1 border">
@@ -55,6 +99,8 @@ async function onSend() {
               Response
             </div>
           </div>
+
+          <pre>{{ response }}</pre>
         </div>
       </div>
     </div>

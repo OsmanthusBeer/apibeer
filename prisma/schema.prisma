@@ -71,8 +71,8 @@ model Api {
   body               Json
   headers            Json
   authorization      Json
-  preRequestScript   String
-  postResponseScript String
+  preRequestScript   String    @default("")
+  postResponseScript String    @default("")
   tags               Json
   versions           Json
   order              Int
