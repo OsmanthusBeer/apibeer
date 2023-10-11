@@ -1,4 +1,7 @@
 <script setup>
+definePageMeta({
+  layout: 'entry-sidebar',
+})
 const title = ref('Team A')
 const { $client } = useNuxtApp()
 
