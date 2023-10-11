@@ -1,5 +1,5 @@
 import { $Enums } from '@prisma/client'
-import { z } from 'zod'
+import { string, z } from 'zod'
 import { protectedProcedure, router } from '../trpc'
 
 export const protectedRouter = router({
@@ -132,8 +132,8 @@ export const protectedRouter = router({
   apiCreate: protectedProcedure
     .input(
       z.object({
-        name: z.string().min(3).max(50),
-        description: z.string().min(3).max(255),
+        name: z.string().min(3).max(50).optional(),
+        description: z.string().min(3).max(255).optional(),
         endpoint: z.string(),
         method: z.nativeEnum($Enums.ApiMethod),
         params: z.object({}),
@@ -142,10 +142,10 @@ export const protectedRouter = router({
         authorization: z.object({}),
         preRequestScript: z.string(),
         postResponseScript: z.string(),
-        tags: z.object({}),
-        versions: z.object({}),
+        tags: z.array(string()),
+        versions: z.array(string()),
         order: z.number(),
-        status: z.nativeEnum($Enums.ApiStatus),
+        status: z.nativeEnum($Enums.ApiStatus).optional(),
         projectId: z.string(),
       }),
     ).mutation(async (event) => {
