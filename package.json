@@ -54,12 +54,6 @@
   "prisma": {
     "seed": "tsx prisma/seed.ts"
   },
-  "resolve": {
-    "_refs": "https://github.com/prisma/prisma/issues/12504",
-    "alias": {
-      ".prisma/client/index-browser": "./node_modules/.prisma/client/index-browser.js"
-    }
-  },
   "lint-staged": {
     "**/*.{json,js,ts,tsx,vue,md}": [
       "eslint --fix"

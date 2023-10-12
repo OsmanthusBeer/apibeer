@@ -1,10 +1,21 @@
 <script lang="ts" setup>
-import { ApiMethod } from '@prisma/client'
+import type { ApiMethod } from '@prisma/client'
 
 const { $client } = useNuxtApp()
 
 const method = ref<ApiMethod>('GET')
-const options = Object.values(ApiMethod)
+const options = [
+  'GET',
+  'HEAD',
+  'POST',
+  'PUT',
+  'DELETE',
+  'CONNECT',
+  'OPTIONS',
+  'TRACE',
+  'PATCH',
+  'CUSTOM',
+]
 const url = ref('https://echo.hoppscotch.io')
 const response = ref()
 

@@ -64,3 +64,4 @@ docker exec -it apibeer sh
 - [apipost](https://www.apipost.cn/)
 - [yapi](https://github.com/YMFE/yapi)
 - [hoppscotch](https://github.com/hoppscotch/hoppscotch)
+- [httpie](https://httpie.io/)
