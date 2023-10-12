@@ -20,6 +20,7 @@ export const publicRouter = router({
           id: true,
           email: true,
           username: true,
+          avatar: true,
           password: { select: { hash: true } },
         },
       })

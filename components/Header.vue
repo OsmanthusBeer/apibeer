@@ -79,14 +79,12 @@ const dropdownItems = computed(() => ([
     <UButton to="https://github.com/OsmanthusBeer/apibeer" icon="i-mdi-github" variant="ghost" aria-label="Github" />
 
     <div class="flex ml-6 pl-6 border-l">
-      <!-- <NuxtLink v-if="user" to="/dashboard" class="flex items-center gap-2 cursor-pointer"> -->
-      <!-- TODO: Use `gavatar` -->
       <UDropdown
         v-if="user" :items="dropdownItems"
         :ui="{ item: { disabled: 'cursor-text select-text' } }"
         :popper="{ placement: 'bottom-start' }"
       >
-        <UAvatar src="https://avatars.githubusercontent.com/u/739984?v=4" />
+        <UAvatar :src="user.avatar" />
         <template #account="{ item }">
           <div class="text-left">
             <p>
@@ -98,7 +96,6 @@ const dropdownItems = computed(() => ([
           </div>
         </template>
       </UDropdown>
-      <!-- </NuxtLink> -->
       <UButton v-else to="/login">
         Login
       </UButton>

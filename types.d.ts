@@ -7,7 +7,7 @@ declare module 'vue-router' {
   }
 }
 
-export type SessionUser = Pick<User, 'id' | 'email' | 'username'>
+export type SessionUser = Pick<User, 'id' | 'email' | 'username' | 'avatar'>
 export interface Session {
   user: SessionUser
 }
