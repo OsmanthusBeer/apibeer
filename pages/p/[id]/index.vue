@@ -23,6 +23,8 @@ const options = [
 const url = ref('https://echo.hoppscotch.io')
 const response = ref()
 
+const { error: apisError, pending: apisPending, data: apis, refresh: apisRefresh } = $client.protected.apiList.useQuery({ projectId })
+
 const sending = ref(false)
 async function onSend() {
   sending.value = true
@@ -63,6 +65,7 @@ async function onSave() {
       order: 1,
       projectId,
     })
+    apisRefresh()
     toast.add({ title: 'Saved', color: 'green' })
   }
   catch (error) {
@@ -80,8 +83,20 @@ async function onSave() {
 
 <template>
   <div class="w-screen h-screen flex gap-2">
-    <div class="w-1/4 border">
-      Left
+    <div class="w-1/4 border flex gap-2">
+      <div v-if="apisError">
+        {{ apisError }}
+      </div>
+      <div v-else-if="apisPending">
+        Loading...
+      </div>
+      <div v-else class="px-4 py-2">
+        <UCard v-for="api in apis" :key="api.id" class="w-full text-xs">
+          <p>Id: {{ api.id }}</p>
+          <p>Endpoint: {{ api.endpoint }}</p>
+          <p>Name: {{ api.name }}</p>
+        </UCard>
+      </div>
     </div>
 
     <div class="w-3/4 p-1 border flex flex-col gap-2">

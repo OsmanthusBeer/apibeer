@@ -128,7 +128,27 @@ export const protectedRouter = router({
 
       return true
     }),
-  // API
+  // API, TODO: permission
+  apiList: protectedProcedure
+    .input(
+      z.object({
+        name: z.string().optional(),
+        projectId: z.string().min(1),
+      }),
+    )
+    .query(async (event) => {
+      const { input, ctx } = event
+      // const user = ctx.session.data.user
+      const apis = await ctx.prisma.api.findMany({
+        where: {
+          AND: [
+            { name: { contains: input?.name } },
+            { projectId: input?.projectId },
+          ],
+        },
+      })
+      return apis
+    }),
   apiCreate: protectedProcedure
     .input(
       z.object({
