@@ -1,117 +1,130 @@
 <script lang="ts" setup>
-import type { Form, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
-import { z } from 'zod'
+import type { ApiMethod } from '@prisma/client'
 
 const route = useRoute()
-const id = route.params.id as string
+const projectId = route.params.id as string
 
+const { $client } = useNuxtApp()
 const toast = useToast()
 
-// Fetch project
-const { $client } = useNuxtApp()
-const { pending, error, data: project } = $client.protected.projectShow.useQuery({
-  id,
-})
+const method = ref<ApiMethod>('GET')
+const options = [
+  'GET',
+  'HEAD',
+  'POST',
+  'PUT',
+  'DELETE',
+  'CONNECT',
+  'OPTIONS',
+  'TRACE',
+  'PATCH',
+  'CUSTOM',
+]
+const url = ref('https://echo.hoppscotch.io')
+const response = ref()
 
-// Model: delete
-const isOpenModelDelete = ref(false)
-const form = ref<Form<Schema>>()
-const state = ref({
-  name: '',
-})
-const schema = z.object({
-  name: z.string(),
-})
-type Schema = z.output<typeof schema>
-
-const submiting = ref(false)
-async function onSubmit(event: FormSubmitEvent<Schema>) {
-  const { name } = event.data
-  if (name !== project.value?.name) {
-    return form.value?.setErrors([
-      { path: 'name', message: 'Project name is not match' },
-    ])
-  }
-
+const sending = ref(false)
+async function onSend() {
+  sending.value = true
   try {
-    await $client.protected.projectDelete.mutate({ id })
-    toast.add({ title: 'Project deleted', color: 'green' })
-    navigateTo('/dashboard')
+    const data = await $fetch('/proxy', {
+      method: 'POST',
+      body: JSON.stringify({
+        method: method.value,
+        url: url.value,
+        params: {},
+        headers: {},
+        auth: {},
+        body: {},
+      }),
+    })
+    response.value = data
   }
-  catch (error: any) {
-    toast.add({ title: error.message, color: 'red' })
+  finally {
+    sending.value = false
+  }
+}
+
+const saving = ref(false)
+async function onSave() {
+  saving.value = true
+  try {
+    await $client.protected.apiCreate.mutate({
+      endpoint: url.value,
+      method: method.value,
+      params: {},
+      body: {},
+      headers: {},
+      authorization: {},
+      preRequestScript: '',
+      postResponseScript: '',
+      tags: [],
+      versions: [],
+      order: 1,
+      projectId,
+    })
+    toast.add({ title: 'Saved', color: 'green' })
+  }
+  catch (error) {
+    if (error instanceof Error) {
+      toast.add({ title: error.message, color: 'red' })
+      return
+    }
+    toast.add({ title: 'Unknown error', color: 'red' })
+  }
+  finally {
+    saving.value = false
   }
 }
 </script>
 
 <template>
-  <div v-if="pending">
-    <USkeleton class="h-4 w-[250px]" />
-  </div>
-  <UAlert
-    v-else-if="error"
-    title="Fetch project error" icon="i-heroicons-x-circle-solid"
-    color="red" variant="outline"
-  >
-    <template #description>
-      {{ JSON.stringify(error) }}
-    </template>
-  </UAlert>
-  <template v-else-if="project">
-    <p>Project Id: {{ id }}</p>
-    <p>Project Name: {{ project.name }}</p>
-    <p>Project Description: {{ project.description }}</p>
-    <p>Project Visibility: {{ project.visibility }}</p>
-
-    <div class="mt-8 flex gap-4">
-      <UButton @click="navigateTo(`/p/${id}/edit`)">
-        Edit
-      </UButton>
-      <UButton color="red" @click="isOpenModelDelete = true">
-        Delete
-      </UButton>
+  <div class="w-screen h-screen flex gap-2">
+    <div class="w-1/4 border">
+      Left
     </div>
 
-    <!-- TODO: Abstract `BasicConfirmModal` component -->
-    <UModal v-model="isOpenModelDelete">
-      <UCard
-        :ui="{
-          base: 'h-full flex flex-col',
-          divide: 'divide-y divide-gray-100 dark:divide-gray-800',
-          body: {
-            base: 'grow',
-          },
-        }"
-      >
-        <template #header>
-          <div class="flex items-center justify-between">
-            <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
-              Delete Confirm
-            </h3>
-            <UButton
-              color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1"
-              @click="isOpenModelDelete = false"
-            />
+    <div class="w-3/4 p-1 border flex flex-col gap-2">
+      <div class="w-full flex gap-1">
+        <USelectMenu v-model="method" :options="options" />
+        <UInput v-model="url" class="w-80" placeholder="https://echo.hoppscotch.io" />
+        <UButton :loading="sending" @click="onSend">
+          Send
+        </UButton>
+        <UButton :loading="saving" @click="onSave">
+          Save
+        </UButton>
+      </div>
+      <div class="w-full h-full flex gap-2">
+        <div class="flex-1 border">
+          <div class="flex p-1">
+            <div class="w-32">
+              Params
+            </div>
+            <div class="w-32">
+              Headers
+            </div>
+            <div class="w-32">
+              Auth
+            </div>
+            <div class="w-32">
+              Body
+            </div>
           </div>
-        </template>
-        <UForm
-          ref="form" class="mt-4 space-y-4"
-          :state="state" :schema="schema"
-          @submit="onSubmit"
-        >
-          <UFormGroup label="Project Name" name="name">
-            <UInput v-model="state.name" placeholder="Input project name" />
-          </UFormGroup>
-          <div class="flex justify-end gap-4">
-            <UButton color="gray" variant="solid">
-              Cancel
-            </UButton>
-            <UButton type="submit" :loading="submiting">
-              Confrim
-            </UButton>
+        </div>
+        <div class="flex-1 border">
+          <div class="flex p-1">
+            <div class="w-32">
+              Request
+            </div>
+            <div class="w-32">
+              Response
+            </div>
           </div>
-        </UForm>
-      </UCard>
-    </UModal>
-  </template>
+
+          <pre>{{ response }}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
