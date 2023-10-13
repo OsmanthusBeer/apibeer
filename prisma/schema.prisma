@@ -29,6 +29,27 @@ model Password {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model Team {
+  id          String       @id @default(cuid())
+  name        String       @default("") @db.VarChar(100)
+  description String       @default("") @db.VarChar(255)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  members     TeamMember[]
+  projects    Project[]
+}
+
+model TeamMember {
+  id     String @id @default(cuid())
+  role   Role
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  teamId String
+  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, teamId])
+}
+
 model Project {
   id          String            @id @default(cuid())
   name        String            @db.VarChar(50)
@@ -38,9 +59,8 @@ model Project {
   updatedAt   DateTime          @updatedAt
   members     ProjectMember[]
   apis        Api[]
-
-  teamId String
-  Team   Team   @relation(fields: [teamId], references: [id])
+  teamId      String
+  Team        Team              @relation(fields: [teamId], references: [id], onDelete: Cascade)
 }
 
 enum ProjectVisibility {
@@ -106,26 +126,4 @@ enum ApiMethod {
 enum ApiStatus {
   DRAFT
   PUBLISHED
-}
-
-model Team {
-  id          String       @id @default(cuid())
-  name        String       @default("") @db.VarChar(100)
-  description String       @default("") @db.VarChar(255)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  members     TeamMember[]
-  projects    Project[]
-}
-
-model TeamMember {
-  id     String @id @default(cuid())
-  role   Role
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  teamId String
-  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, teamId])
 }
