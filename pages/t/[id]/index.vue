@@ -4,15 +4,18 @@ definePageMeta({
 })
 
 const route = useRoute()
-const id = route.params.id
+const id = ref(route.params.id)
 
 // Fetch team
 const { $client } = useNuxtApp()
 const team = await $client.protected.teamShow.query({
-  id,
+  id: id.value,
 })
 
-const { pending, error, data: projects } = $client.protected.projectList.useQuery()
+// fetch project list
+const { pending, error, data: projects } = $client.protected.projectList.useQuery({
+  teamId: id.value,
+})
 </script>
 
 <template>
@@ -23,7 +26,7 @@ const { pending, error, data: projects } = $client.protected.projectList.useQuer
 
     <div class="flex items-center my-8">
       <UInput class="w-44 mr-4" icon="i-heroicons-magnifying-glass-20-solid" size="sm" color="white" :trailing="false" />
-      <UButton @click="navigateTo('/p/create')">
+      <UButton @click="navigateTo(`/p/create?tid=${id}`)">
         Create Project
       </UButton>
     </div>

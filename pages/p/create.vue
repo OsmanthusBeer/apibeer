@@ -5,6 +5,9 @@ import { z } from 'zod'
 const { $client } = useNuxtApp()
 const toast = useToast()
 
+const route = useRoute()
+const teamId = route.query.tid as string
+
 const form = ref<Form<Schema>>()
 const state = ref({
   name: '',
@@ -23,13 +26,14 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   const { name, description, visibility } = event.data
   submiting.value = true
   try {
-    const project = await $client.protected.projectCreate.mutate({
+    await $client.protected.projectCreate.mutate({
       name,
       description,
+      teamId,
       // TODO: type
       visibility: visibility.toUpperCase() as any,
     })
-    navigateTo(`/p/${project.id}`)
+    navigateTo(`/t/${teamId}`)
   }
   catch (error) {
     const zodError = getZodError<Schema>(error)

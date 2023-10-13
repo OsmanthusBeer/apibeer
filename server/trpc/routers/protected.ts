@@ -16,10 +16,10 @@ export const protectedRouter = router({
   projectList: protectedProcedure
     .input(
       z.object({
-        name: z.string(),
-        visibility: z.enum(['PUBLIC', 'PRIVATE']),
-      })
-        .optional(),
+        name: z.string().optional(),
+        teamId: z.string(),
+        visibility: z.enum(['PUBLIC', 'PRIVATE']).optional(),
+      }),
     )
     .query(async (event) => {
       const { input, ctx } = event
@@ -28,6 +28,7 @@ export const protectedRouter = router({
         where: {
           AND: [
             { name: { contains: input?.name } },
+            { teamId: input?.teamId },
             { visibility: input?.visibility },
             { members: { some: { userId: user.id } } },
           ],
@@ -40,6 +41,7 @@ export const protectedRouter = router({
       z.object({
         name: z.string().min(3).max(50),
         description: z.string().min(3).max(255),
+        teamId: z.string(),
         visibility: z.nativeEnum($Enums.ProjectVisibility),
       }),
     )
@@ -50,6 +52,7 @@ export const protectedRouter = router({
         data: {
           name: input.name,
           description: input.description,
+          teamId: input.teamId,
           visibility: input.visibility,
           members: {
             create: {

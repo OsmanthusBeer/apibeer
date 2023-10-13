@@ -39,8 +39,8 @@ model Project {
   members     ProjectMember[]
   apis        Api[]
 
-  // teamId      String
-  // Team        Team              @relation(fields: [teamId], references: [id])
+  teamId String
+  Team   Team   @relation(fields: [teamId], references: [id])
 }
 
 enum ProjectVisibility {
@@ -115,7 +115,7 @@ model Team {
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   members     TeamMember[]
-  // projects    Project[]
+  projects    Project[]
 }
 
 model TeamMember {
