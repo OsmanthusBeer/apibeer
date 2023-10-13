@@ -54,7 +54,7 @@ export const protectedRouter = router({
           members: {
             create: {
               userId: user.id,
-              role: $Enums.ProjectRole.Owner,
+              role: $Enums.Role.Owner,
             },
           },
         },
@@ -96,7 +96,7 @@ export const protectedRouter = router({
       const existed = await ctx.prisma.project.update({
         where: {
           id: input.id,
-          members: { some: { userId: user.id, role: $Enums.ProjectRole.Owner } },
+          members: { some: { userId: user.id, role: $Enums.Role.Owner } },
         },
         data: {
           name: input.name,
@@ -120,7 +120,7 @@ export const protectedRouter = router({
       const existed = await ctx.prisma.project.delete({
         where: {
           id: input.id,
-          members: { some: { userId: user.id, role: $Enums.ProjectRole.Owner } },
+          members: { some: { userId: user.id, role: $Enums.Role.Owner } },
         },
       })
       if (!existed)
@@ -128,26 +128,62 @@ export const protectedRouter = router({
 
       return true
     }),
-  // API, TODO: permission
-  apiList: protectedProcedure
+  // Team, TODO: permission
+  teamList: protectedProcedure
+    .query(async (event) => {
+      const { ctx } = event
+      const user = ctx.session.data.user
+      const teams = await ctx.prisma.team.findMany({
+        where: {
+          AND: [
+            { members: { some: { userId: user.id } } },
+          ],
+        },
+      })
+      return teams
+    }),
+  teamCreate: protectedProcedure
     .input(
       z.object({
-        name: z.string().optional(),
-        projectId: z.string().min(1),
+        name: z.string().min(3).max(50),
+        description: z.string().optional(),
+      }),
+    )
+    .mutation(async (event) => {
+      const { input, ctx } = event
+      const user = ctx.session.data.user
+      const team = await ctx.prisma.team.create({
+        data: {
+          name: input.name,
+          description: input.description,
+          members: {
+            create: {
+              userId: user.id,
+              role: $Enums.Role.Owner,
+            },
+          },
+        },
+      })
+      return team
+    }),
+  teamShow: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
       }),
     )
     .query(async (event) => {
       const { input, ctx } = event
-      // const user = ctx.session.data.user
-      const apis = await ctx.prisma.api.findMany({
+      const user = ctx.session.data.user
+      const team = await ctx.prisma.team.findFirst({
         where: {
-          AND: [
-            { name: { contains: input?.name } },
-            { projectId: input?.projectId },
-          ],
+          id: input.id,
+          members: { some: { userId: user.id } },
         },
       })
-      return apis
+      if (!team)
+        throw new Error('Project not found')
+      return { ...team }
     }),
   apiCreate: protectedProcedure
     .input(
@@ -181,8 +217,8 @@ export const protectedRouter = router({
       if (!projectMember)
         throw new Error('Project not found')
       if (![
-        $Enums.ProjectRole.Owner,
-        $Enums.ProjectRole.Maintainer,
+        $Enums.Role.Owner,
+        $Enums.Role.Maintainer,
       ].includes(projectMember.role))
         throw new Error('Permission denied')
 

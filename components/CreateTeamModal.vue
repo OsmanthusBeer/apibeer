@@ -1,17 +1,26 @@
 <script lang="ts" setup>
-import type { FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
+import type { Form, FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
+import { z } from 'zod'
 
 const emits = defineEmits(['submit'])
+const { $client } = useNuxtApp()
+const toast = useToast()
+
 defineExpose({
   show,
 })
 const isOpen = ref(false)
 
-const form = ref<{ name: string | undefined }>({
-  name: undefined,
+const schema = z.object({
+  name: z.string(),
+  description: z.string().optional(),
 })
-
-const formRef = ref()
+type Schema = z.output<typeof schema>
+const form = ref<Form<Schema>>()
+const state = ref({
+  name: '',
+  description: '',
+})
 
 function show() {
   isOpen.value = true
@@ -21,17 +30,45 @@ function close() {
   isOpen.value = false
 }
 
-function validate(form: any): FormError[] {
+function validate(state: Schema): FormError[] {
   const errors = []
-  if (!form.name)
+  if (!state.name)
     errors.push({ path: 'name', message: 'Required' })
   return errors
 }
 
-function submit(event: FormSubmitEvent<any>) {
-  emits('submit', { ...event.data })
-  formRef.value.clear()
-  close()
+const submiting = ref(false)
+async function submit(event: FormSubmitEvent<any>) {
+  const { name, description } = event.data
+  submiting.value = true
+  try {
+    await $client.protected.teamCreate.mutate({
+      name,
+      description,
+    })
+    toast.add({ title: 'create team success.', color: 'green' })
+    emits('submit')
+    form.value?.clear()
+    close()
+  }
+  catch (error) {
+    const zodError = getZodError<Schema>(error)
+    if (zodError) {
+      const errors = Object.entries(zodError.fieldErrors).map(([path, messages]) => ({ path, message: messages.join('\n') }))
+      form.value?.setErrors(errors)
+      return
+    }
+    if (error instanceof Error) {
+      toast.add({ title: error.message, color: 'red' })
+      return
+    }
+
+    console.error(error)
+    toast.add({ title: 'Unknown error', color: 'red' })
+  }
+  finally {
+    submiting.value = false
+  }
 }
 </script>
 
@@ -48,13 +85,17 @@ function submit(event: FormSubmitEvent<any>) {
           </div>
         </template>
         <UForm
-          ref="formRef"
+          ref="form"
           :validate="validate"
-          :state="form"
+          :state="state"
           @submit="submit"
         >
           <UFormGroup label="Team name" name="name">
-            <UInput v-model="form.name" class="mt-4" />
+            <UInput v-model="state.name" class="mt-4" />
+          </UFormGroup>
+
+          <UFormGroup class="mt-4" label="Team description" name="description">
+            <UInput v-model="state.description" class="mt-4" />
           </UFormGroup>
 
           <div class="mt-4 text-right">

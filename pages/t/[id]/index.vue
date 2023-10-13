@@ -2,14 +2,14 @@
 definePageMeta({
   layout: 'entry-sidebar',
 })
-const { currentTeam, fetchTeamInfo } = useTeam()
 
+const route = useRoute()
+const id = route.params.id
+
+// Fetch team
 const { $client } = useNuxtApp()
-
-onBeforeMount(() => {
-  const route = useRoute()
-  const id = route.params.id
-  fetchTeamInfo(id)
+const team = await $client.protected.teamShow.query({
+  id,
 })
 
 const { pending, error, data: projects } = $client.protected.projectList.useQuery()
@@ -18,7 +18,7 @@ const { pending, error, data: projects } = $client.protected.projectList.useQuer
 <template>
   <div class="p-8">
     <h1 class="text-2xl pb-4 font-semibold border-b border-gray-200 dark:border-gray-800">
-      {{ currentTeam?.name }}
+      {{ team?.name }}
     </h1>
 
     <div class="flex items-center my-8">

@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import type { Team } from '~/types'
-
-const { teamList, fetchTeamList, deleteTeam } = useTeam()
+const toast = useToast()
+const { $client } = useNuxtApp()
 
 const createTeamModalRef = ref()
 const menus = ref([
@@ -9,6 +8,10 @@ const menus = ref([
   { icon: 'i-heroicons-star', label: 'Collection list', to: '/collection' },
   { icon: 'i-heroicons-clock', label: 'Visted list', to: '/visited' },
 ])
+
+const loading = ref(false)
+
+const teamList = ref([])
 
 onMounted(() => {
   fetchTeamList()
@@ -18,13 +21,28 @@ function createTeam() {
   createTeamModalRef.value.show()
 }
 
-function submitCreateTeam(team: Team) {
-  teamList.value.push(team)
+async function fetchTeamList() {
+  try {
+    loading.value = true
+    const data = await $client.protected.teamList.query()
+    teamList.value = data
+  }
+  catch (error) {
+    if (error instanceof Error) {
+      toast.add({ title: error.message, color: 'red' })
+      return
+    }
+    console.error(error)
+    toast.add({ title: 'Unknown error', color: 'red' })
+  }
+  finally {
+    loading.value = false
+  }
 }
 </script>
 
 <template>
-  <create-team-modal ref="createTeamModalRef" @submit="submitCreateTeam" />
+  <create-team-modal ref="createTeamModalRef" @submit="fetchTeamList" />
   <div class="flex w-screen h-screen overflow-hidden">
     <div class="relative w-[280px] h-screen px-4 py-8 border-r border-gray-200 dark:border-gray-800">
       <!-- logo -->
@@ -51,7 +69,10 @@ function submitCreateTeam(team: Team) {
           <span class="mr-2">Your teams</span>
           <UButton icon="i-heroicons-folder-plus" size="sm" variant="ghost" @click="createTeam" />
         </div>
-        <ul class="h-3/5 overflow-auto mt-2">
+        <div v-if="loading">
+          loading
+        </div>
+        <ul v-else-if="teamList?.length" class="h-3/5 overflow-auto mt-2">
           <NuxtLink
             v-for="team in teamList" :key="team.id" v-slot="{ navigate }"
             :to="{ path: `/t/${team.id}` }"

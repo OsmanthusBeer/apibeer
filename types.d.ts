@@ -11,8 +11,3 @@ export type SessionUser = Pick<User, 'id' | 'email' | 'username' | 'avatar'>
 export interface Session {
   user: SessionUser
 }
-
-export interface Team {
-  id: string
-  name: string
-}
