@@ -284,4 +284,25 @@ export const protectedRouter = router({
       })
       return api
     }),
+  // Collection
+  // TODO: permission
+  collectionCreate: protectedProcedure
+    .input(
+      z.object({
+        projectId: z.string().min(1),
+        title: z.string().min(1),
+        pid: z.string().optional(),
+      }),
+    )
+    .mutation(async (event) => {
+      const { input, ctx } = event
+      const collection = await ctx.prisma.collection.create({
+        data: {
+          title: input.title,
+          projectId: input.projectId,
+          order: 0,
+        },
+      })
+      return collection
+    }),
 })
