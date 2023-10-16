@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import type { Team } from '@prisma/client'
+
 const toast = useToast()
+
 const { $client } = useNuxtApp()
 
 const createTeamModalRef = ref()
@@ -11,7 +14,7 @@ const menus = ref([
 
 const loading = ref(false)
 
-const teamList = ref([])
+const teamList = ref<Team[]>([])
 
 onMounted(() => {
   fetchTeamList()
@@ -69,9 +72,12 @@ async function fetchTeamList() {
           <span class="mr-2">Your teams</span>
           <UButton icon="i-heroicons-folder-plus" size="sm" variant="ghost" @click="createTeam" />
         </div>
-        <div v-if="loading">
-          loading
-        </div>
+        <ul v-if="loading" class="h-3/5 overflow-auto mt-2">
+          <li v-for="(team, index) in 4" :key="index" class="group p-2 my-2 flex items-center rounded cursor-pointer text-gray-700 hover:bg-gray-100 hover:text-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white" @click="navigate">
+            <USkeleton class="h-[20px] w-[20px]" />
+            <USkeleton class="ml-4 h-4 w-[120px]" />
+          </li>
+        </ul>
         <ul v-else-if="teamList?.length" class="h-3/5 overflow-auto mt-2">
           <NuxtLink
             v-for="team in teamList" :key="team.id" v-slot="{ navigate }"
