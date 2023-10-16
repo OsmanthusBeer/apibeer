@@ -8,65 +8,56 @@ const id = ref(route.params.id)
 
 // Fetch team
 const { $client } = useNuxtApp()
-const team = await $client.protected.teamShow.query({
+const { pending: teamPending, error: teamError, data: team } = await $client.protected.teamShow.useQuery({
   id: id.value,
 })
 
-// fetch project list
-const { pending, error, data: projects } = $client.protected.projectList.useQuery({
-  teamId: id.value,
-})
+// team tabs
+const teamTabs = [{
+  label: 'Projects',
+  icon: 'i-heroicons-computer-desktop',
+  key: 'ProjectList',
+}, {
+  label: 'Members',
+  icon: 'i-heroicons-user',
+  key: 'TeamMembers',
+}]
 </script>
 
 <template>
   <div class="p-8">
-    <h1 class="text-2xl pb-4 font-semibold border-b border-gray-200 dark:border-gray-800">
-      {{ team?.name }}
+    <h1 v-if="teamPending" class="text-2xl pb-4 font-semibold border-b border-gray-200 dark:border-gray-800">
+      <USkeleton class="h-[48px]" />
     </h1>
-
-    <div class="flex items-center my-8">
-      <UInput class="w-44 mr-4" icon="i-heroicons-magnifying-glass-20-solid" size="sm" color="white" :trailing="false" />
-      <UButton @click="navigateTo(`/p/create?tid=${id}`)">
-        Create Project
-      </UButton>
-    </div>
-    <div v-if="pending" class="grid grid-cols-4 gap-4">
-      <UCard v-for="n in 4" :key="n">
-        <USkeleton class="h-12 w-12" :ui="{ rounded: 'rounded-full' }" />
-        <div class="mt-2 space-y-2">
-          <USkeleton class="h-4 w-[250px]" />
-          <USkeleton class="h-4 w-[100px]" />
-        </div>
-      </UCard>
-    </div>
     <UAlert
-      v-else-if="error"
-      title="Fetch project list error" icon="i-heroicons-x-circle-solid"
+      v-else-if="teamError"
+      title="Fetch team info error" icon="i-heroicons-x-circle-solid"
       color="red" variant="outline"
     >
       <template #description>
-        {{ JSON.stringify(error) }}
+        {{ JSON.stringify(teamError) }}
       </template>
     </UAlert>
-    <div
-      v-else
-      class="grid grid-cols-4 gap-4"
-    >
-      <NuxtLink
-        v-for="project in projects" :key="project.id"
-        v-slot="{ navigate }" :to="{ path: `/p/${project.id}` }"
-        custom
-      >
-        <UCard
-          class="space-y-2 cursor-pointer"
-          @click="navigate"
-        >
-          <p>{{ project.name }}</p>
-          <p class="text-xs text-slate-400">
-            {{ project.description }}
-          </p>
-        </UCard>
-      </NuxtLink>
-    </div>
+    <h1 v-else class="text-2xl pb-4 font-semibold border-b border-gray-200 dark:border-gray-800">
+      {{ team?.name }}
+    </h1>
+
+    <UTabs v-model="selectedTabIndex" :items="teamTabs" class="w-full mt-4">
+      <template #default="{ item }">
+        <div class="flex items-center relative truncate">
+          <UIcon :name="item.icon" class="w-4 h-4 flex-shrink-0" />
+          <span class="ml-2 truncate">{{ item.label }}</span>
+          <span v-if="selected" class="absolute -right-4 w-2 h-2 rounded-full bg-primary-500 dark:bg-primary-400" />
+        </div>
+      </template>
+      <template #item="{ item }">
+        <project-list v-if="item.key === 'ProjectList'" :team-id="id" />
+        <div v-else>
+          members
+        </div>
+      </template>
+    </UTabs>
+
+    {{ selectedTabIndex }}
   </div>
 </template>
