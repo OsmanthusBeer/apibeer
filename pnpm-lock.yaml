@@ -41,6 +41,9 @@ dependencies:
   nuxt:
     specifier: ^3.7.4
     version: 3.7.4(@types/node@20.5.1)(eslint@8.50.0)(typescript@5.2.2)
+  splitpanes:
+    specifier: ^3.1.5
+    version: 3.1.5
   trpc-nuxt:
     specifier: ^0.10.12
     version: 0.10.12(@trpc/client@10.40.0)(@trpc/server@10.40.0)
@@ -8646,6 +8649,10 @@ packages:
     dependencies:
       readable-stream: 3.6.2
     dev: true
+
+  /splitpanes@3.1.5:
+    resolution: {integrity: sha512-r3Mq2ITFQ5a2VXLOy4/Sb2Ptp7OfEO8YIbhVJqJXoFc9hc5nTXXkCvtVDjIGbvC0vdE7tse+xTM9BMjsszP6bw==}
+    dev: false
 
   /ssri@10.0.5:
     resolution: {integrity: sha512-bSf16tAFkGeRlUNDjXu8FzaMQt6g2HZJrun7mtMbIPOddxt3GLMSz5VWUWcqTJUPfLEaDIepGxv+bYQW49596A==}

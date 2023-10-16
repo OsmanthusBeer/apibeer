@@ -1,6 +1,12 @@
 <script lang="ts" setup>
 import type { ApiMethod } from '@prisma/client'
 
+// TODO: Wrap `splitpanes` component
+// eslint-disable-next-line ts/ban-ts-comment
+// @ts-expect-error TODO: `@types/splitpanes` dep vue2.7.x, but we use vue3
+import { Pane, Splitpanes } from 'splitpanes'
+import 'splitpanes/dist/splitpanes.css'
+
 const route = useRoute()
 const projectId = route.params.id as string
 
@@ -110,8 +116,8 @@ async function onSave() {
           Save
         </UButton>
       </div>
-      <div class="w-full h-full flex gap-2">
-        <div class="flex-1 border">
+      <Splitpanes class="default-theme w-full h-full flex gap-2">
+        <Pane min-size="25">
           <div class="flex p-1">
             <div class="w-32">
               Params
@@ -126,8 +132,8 @@ async function onSave() {
               Body
             </div>
           </div>
-        </div>
-        <div class="flex-1 border">
+        </Pane>
+        <Pane min-size="25">
           <div class="flex p-1">
             <div class="w-32">
               Request
@@ -136,10 +142,9 @@ async function onSave() {
               Response
             </div>
           </div>
-
           <pre>{{ response }}</pre>
-        </div>
-      </div>
+        </Pane>
+      </Splitpanes>
     </div>
   </div>
 </template>
