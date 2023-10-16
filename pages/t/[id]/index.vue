@@ -16,12 +16,17 @@ const { pending: teamPending, error: teamError, data: team } = await $client.pro
 const teamTabs = [{
   label: 'Projects',
   icon: 'i-heroicons-computer-desktop',
-  key: 'ProjectList',
+  key: resolveComponent('ProjectList'),
 }, {
   label: 'Members',
   icon: 'i-heroicons-user',
-  key: 'TeamMembers',
+  key: resolveComponent('TeamMembers'),
 }]
+
+const selectedTabIndex = ref(0)
+const renderComponent = computed(() => {
+  return teamTabs[selectedTabIndex.value].key
+})
 </script>
 
 <template>
@@ -42,22 +47,15 @@ const teamTabs = [{
       {{ team?.name }}
     </h1>
 
-    <UTabs v-model="selectedTabIndex" :items="teamTabs" class="w-full mt-4">
+    <UTabs v-model="selectedTabIndex" :items="teamTabs" class="w-80 mt-4">
       <template #default="{ item }">
         <div class="flex items-center relative truncate">
           <UIcon :name="item.icon" class="w-4 h-4 flex-shrink-0" />
           <span class="ml-2 truncate">{{ item.label }}</span>
-          <span v-if="selected" class="absolute -right-4 w-2 h-2 rounded-full bg-primary-500 dark:bg-primary-400" />
-        </div>
-      </template>
-      <template #item="{ item }">
-        <project-list v-if="item.key === 'ProjectList'" :team-id="id" />
-        <div v-else>
-          members
+          <span v-if="selectedTabIndex" class="absolute -right-4 w-2 h-2 rounded-full bg-primary-500 dark:bg-primary-400" />
         </div>
       </template>
     </UTabs>
-
-    {{ selectedTabIndex }}
+    <component :is="renderComponent" :team-id="id" />
   </div>
 </template>

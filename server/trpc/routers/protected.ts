@@ -188,6 +188,37 @@ export const protectedRouter = router({
         throw new Error('Project not found')
       return { ...team }
     }),
+  teamMembers: protectedProcedure
+    .input(
+      z.object({
+        teamId: z.string(),
+      }),
+    )
+    .query(async (event) => {
+      const { input, ctx } = event
+      const res = await ctx.prisma.teamMember.findMany({
+        where: {
+          teamId: input.teamId,
+        },
+        select: {
+          user: {
+            select: {
+              id: true,
+              username: true,
+              email: true,
+              avatar: true,
+            },
+          },
+          role: true,
+        },
+      }) || []
+      return res.map((item) => {
+        return {
+          ...item.user,
+          role: item.role,
+        }
+      })
+    }),
   // API, TODO: permission
   apiList: protectedProcedure
     .input(
