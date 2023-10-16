@@ -1,5 +1,8 @@
 {
   "extends": "../.nuxt/tsconfig.server.json",
+  "include": [
+    "env.d.ts"
+  ],
   "exclude": [
     "../eslint.config.js"
   ]

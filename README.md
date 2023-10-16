@@ -31,6 +31,7 @@
 - [tRPC](https://trpc.io/), [tRPC Nuxt](https://trpc-nuxt.vercel.app/)
 - [Prisma](https://prisma.io/)
 - [Zod](https://zod.dev/)
+- [Histoire](https://histoire.dev/)
 
 ## Quick Start
 

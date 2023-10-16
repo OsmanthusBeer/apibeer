@@ -16,7 +16,10 @@
     "lint:fix": "eslint . --fix",
     "prisma:setup": "prisma generate && prisma migrate deploy && prisma db seed",
     "prisma:dev": "prisma migrate dev",
-    "prisma:studio": "prisma studio"
+    "prisma:studio": "prisma studio",
+    "story:dev": "histoire dev",
+    "story:build": "histoire build",
+    "story:preview": "histoire preview"
   },
   "dependencies": {
     "@iconify-json/mdi": "^1.1.54",
@@ -39,12 +42,15 @@
     "@antfu/eslint-config": "1.0.0-beta.21",
     "@commitlint/cli": "^17.7.2",
     "@commitlint/config-conventional": "^17.7.0",
+    "@histoire/plugin-nuxt": "^0.17.3",
+    "@histoire/plugin-vue": "^0.17.1",
     "@nuxt/devtools": "latest",
     "@nuxtjs/color-mode": "^3.3.0",
-    "@nuxtjs/i18n": "8.0.0-rc.4",
+    "@nuxtjs/i18n": "8.0.0-rc.5",
     "@total-typescript/ts-reset": "^0.5.1",
     "@types/bcryptjs": "^2.4.4",
     "@types/nodemailer": "^6.4.11",
+    "histoire": "^0.17.2",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
     "prisma": "^5.4.1",
