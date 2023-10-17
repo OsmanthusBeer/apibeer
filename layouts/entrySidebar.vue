@@ -45,7 +45,7 @@ async function fetchTeamList() {
 </script>
 
 <template>
-  <create-team-modal ref="createTeamModalRef" @submit="fetchTeamList" />
+  <modal-team-create ref="createTeamModalRef" @submit="fetchTeamList" />
   <div class="flex w-screen h-screen overflow-hidden">
     <div class="relative w-[280px] h-screen px-4 py-8 border-r border-gray-200 dark:border-gray-800">
       <!-- logo -->
