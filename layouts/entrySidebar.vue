@@ -67,8 +67,8 @@ async function onTeamDelete(id: string) {
 </script>
 
 <template>
+  <ModalTeamCreate v-model="modalTeamCreate" @success="naviteToTeam" />
   <div class="flex w-screen h-screen overflow-hidden">
-    <ModalTeamCreate v-model="modalTeamCreate" @success="naviteToTeam" />
     <div class="relative w-[280px] h-screen px-4 py-8 border-r border-gray-200 dark:border-gray-800">
       <!-- logo -->
       <div class="flex items-center">

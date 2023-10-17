@@ -1,8 +1,7 @@
 <script setup lang="ts">
-interface ProjectListProp {
+const props = withDefaults(defineProps<{
   teamId: string
-}
-const props = withDefaults(defineProps<ProjectListProp>(), {
+}>(), {
   teamId: '',
 })
 const { $client } = useNuxtApp()
@@ -10,12 +9,19 @@ const { $client } = useNuxtApp()
 const { pending, error, data: members } = $client.protected.teamMembers.useQuery({
   teamId: props.teamId,
 })
+
+const modalInvite = ref(false)
+
+function inviteMembers() {
+  modalInvite.value = true
+}
 </script>
 
 <template>
+  <ModalInvite v-model="modalInvite" :team-id="props.teamId" />
   <div class="flex items-center my-8">
     <UInput class="w-44 mr-4" icon="i-heroicons-magnifying-glass-20-solid" size="sm" color="white" :trailing="false" />
-    <UButton @click="() => {}">
+    <UButton @click="inviteMembers">
       Invite Members
     </UButton>
   </div>

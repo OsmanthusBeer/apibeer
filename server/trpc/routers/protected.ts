@@ -12,6 +12,46 @@ export const protectedRouter = router({
     .mutation(async (event) => {
       await event.ctx.session.clear()
     }),
+  userList: protectedProcedure
+    .input(
+      z.object({
+        teamId: z.string(),
+        keyword: z.string(),
+      }),
+    )
+    .query(async (event) => {
+      const { ctx, input } = event
+      const users = await ctx.prisma.user.findMany({
+        where: {
+          AND: [
+            {
+              OR: [
+                {
+                  username: {
+                    contains: input.keyword,
+                  },
+                },
+                {
+                  email: {
+                    contains: input.keyword,
+                  },
+                },
+              ],
+            },
+            {
+              NOT: {
+                TeamMember: {
+                  some: {
+                    teamId: input.teamId,
+                  },
+                },
+              },
+            },
+          ],
+        },
+      })
+      return users
+    }),
   // TODO: pagination
   projectList: protectedProcedure
     .input(
