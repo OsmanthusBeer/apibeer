@@ -188,6 +188,21 @@ export const protectedRouter = router({
         throw new Error('Project not found')
       return { ...team }
     }),
+  teamDelete: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      }),
+    )
+    .mutation(async (event) => {
+      const { input, ctx } = event
+      const team = await ctx.prisma.team.delete({
+        where: {
+          id: input.id,
+        },
+      })
+      return team
+    }),
   teamMembers: protectedProcedure
     .input(
       z.object({

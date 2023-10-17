@@ -5,7 +5,6 @@ const toast = useToast()
 
 const { $client } = useNuxtApp()
 
-const createTeamModalRef = ref()
 const menus = ref([
   { icon: 'i-heroicons-home', label: 'Dashboard', to: '/dashboard' },
   { icon: 'i-heroicons-star', label: 'Collection list', to: '/collection' },
@@ -20,8 +19,15 @@ onMounted(() => {
   fetchTeamList()
 })
 
+const modalTeamCreate = ref(false)
+
 function createTeam() {
-  createTeamModalRef.value.show()
+  modalTeamCreate.value = true
+}
+
+function naviteToTeam(teamId: string) {
+  fetchTeamList()
+  navigateTo(`/t/${teamId}`)
 }
 
 async function fetchTeamList() {
@@ -42,11 +48,27 @@ async function fetchTeamList() {
     loading.value = false
   }
 }
+
+async function onTeamDelete(id: string) {
+  try {
+    await $client.protected.teamDelete.mutate({ id })
+  }
+  catch (error) {
+    if (error instanceof Error) {
+      toast.add({ title: error.message, color: 'red' })
+      return
+    }
+    toast.add({ title: 'Unknown error', color: 'red' })
+  }
+  finally {
+    fetchTeamList()
+  }
+}
 </script>
 
 <template>
-  <modal-team-create ref="createTeamModalRef" @submit="fetchTeamList" />
   <div class="flex w-screen h-screen overflow-hidden">
+    <ModalTeamCreate v-model="modalTeamCreate" @success="naviteToTeam" />
     <div class="relative w-[280px] h-screen px-4 py-8 border-r border-gray-200 dark:border-gray-800">
       <!-- logo -->
       <div class="flex items-center">
@@ -73,7 +95,7 @@ async function fetchTeamList() {
           <UButton icon="i-heroicons-folder-plus" size="sm" variant="ghost" @click="createTeam" />
         </div>
         <ul v-if="loading" class="h-3/5 overflow-auto mt-2">
-          <li v-for="(team, index) in 4" :key="index" class="group p-2 my-2 flex items-center rounded cursor-pointer text-gray-700 hover:bg-gray-100 hover:text-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white" @click="navigate">
+          <li v-for="(team, index) in 4" :key="index" class="group p-2 my-2 flex items-center rounded cursor-pointer text-gray-700 hover:bg-gray-100 hover:text-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white">
             <USkeleton class="h-[20px] w-[20px]" />
             <USkeleton class="ml-4 h-4 w-[120px]" />
           </li>
@@ -87,7 +109,7 @@ async function fetchTeamList() {
             <li class="group p-2 my-2 flex items-center rounded cursor-pointer text-gray-700 hover:bg-gray-100 hover:text-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white" @click="navigate">
               <UKbd>{{ team.name?.[0] }}</UKbd>
               <span class="ml-4 font-semibold">{{ team.name }}</span>
-              <UButton class="hidden ml-auto group-hover:flex" icon="i-heroicons-x-circle" size="2xs" variant="ghost" @click.stop="deleteTeam(team)" />
+              <UButton class="hidden ml-auto group-hover:flex" icon="i-heroicons-x-circle" size="2xs" variant="ghost" @click.stop="onTeamDelete(team.id)" />
             </li>
           </NuxtLink>
         </ul>

@@ -2,14 +2,11 @@
 import type { Form, FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
 import { z } from 'zod'
 
-const emits = defineEmits(['submit'])
+const emit = defineEmits(['success'])
 const { $client } = useNuxtApp()
 const toast = useToast()
 
-defineExpose({
-  show,
-})
-const isOpen = ref(false)
+const modelValue = defineModel<boolean>({ default: false })
 
 const schema = z.object({
   name: z.string(),
@@ -21,14 +18,6 @@ const state = ref({
   name: '',
   description: '',
 })
-
-function show() {
-  isOpen.value = true
-}
-
-function close() {
-  isOpen.value = false
-}
 
 function validate(state: Schema): FormError[] {
   const errors = []
@@ -42,14 +31,14 @@ async function submit(event: FormSubmitEvent<any>) {
   const { name, description } = event.data
   submiting.value = true
   try {
-    await $client.protected.teamCreate.mutate({
+    const { id } = await $client.protected.teamCreate.mutate({
       name,
       description,
     })
     toast.add({ title: 'create team success.', color: 'green' })
-    emits('submit')
+    emit('success', id)
     form.value?.clear()
-    close()
+    modelValue.value = false
   }
   catch (error) {
     const zodError = getZodError<Schema>(error)
@@ -74,14 +63,14 @@ async function submit(event: FormSubmitEvent<any>) {
 
 <template>
   <div class="w-28">
-    <UModal v-model="isOpen" class="text-red" prevent-close>
+    <UModal v-model="modelValue" class="text-red" prevent-close>
       <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
         <template #header>
           <div class="flex items-center justify-between">
             <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
               Create Team
             </h3>
-            <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="close" />
+            <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="modelValue = false" />
           </div>
         </template>
         <UForm
