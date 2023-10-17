@@ -30,6 +30,7 @@ const url = ref('https://echo.hoppscotch.io')
 const response = ref()
 
 const { error: apisError, pending: apisPending, data: apis, refresh: apisRefresh } = $client.protected.apiList.useQuery({ projectId })
+const { error: collectioinsError, pending: collectionsPending, data: collections, refresh: collecitonsRefresh } = $client.protected.collectionList.useQuery({ projectId })
 
 const sending = ref(false)
 async function onSend() {
@@ -85,22 +86,62 @@ async function onSave() {
     saving.value = false
   }
 }
+
+const modalCollectioinCreate = ref(false)
+function openModalCollectionCreate() {
+  modalCollectioinCreate.value = true
+}
+async function onCollectionDelete(id: string) {
+  try {
+    await $client.protected.cololectionDelete.mutate({ id })
+  }
+  catch (error) {
+    if (error instanceof Error) {
+      toast.add({ title: error.message, color: 'red' })
+      return
+    }
+    toast.add({ title: 'Unknown error', color: 'red' })
+  }
+  finally {
+    collecitonsRefresh()
+  }
+}
 </script>
 
 <template>
   <div class="w-screen h-screen flex gap-2">
-    <div class="w-1/4 border flex gap-2">
+    <div class="w-1/4 px-4 py-2 space-y-2 border">
+      <UButton @click="openModalCollectionCreate">
+        Create Collection
+      </UButton>
+      <ModalCollectioinCreate v-model="modalCollectioinCreate" :project-id="projectId" @success="collecitonsRefresh" />
+
+      <div v-if="collectioinsError">
+        {{ collectioinsError }}
+      </div>
+      <div v-else-if="collectionsPending">
+        Loading..
+      </div>
+      <div v-else class="space-y-2">
+        <UCard v-for="collection in collections" :key="collection.id" class="relative">
+          <p>{{ collection.name }}</p>
+          <UIcon
+            name="i-heroicons-trash" class="w-4 h-4 absolute top-4 right-4 cursor-pointer"
+            @click="onCollectionDelete(collection.id)"
+          />
+        </UCard>
+      </div>
+
       <div v-if="apisError">
         {{ apisError }}
       </div>
       <div v-else-if="apisPending">
         Loading...
       </div>
-      <div v-else class="px-4 py-2">
+      <div v-else class="space-y-2">
         <UCard v-for="api in apis" :key="api.id" class="w-full text-xs">
-          <p>Id: {{ api.id }}</p>
-          <p>Endpoint: {{ api.endpoint }}</p>
-          <p>Name: {{ api.name }}</p>
+          <p>Method: {{ api.method }}</p>
+          <p>Endpoint: {{ api.name || api.endpoint }}</p>
         </UCard>
       </div>
     </div>

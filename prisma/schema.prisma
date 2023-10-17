@@ -61,6 +61,7 @@ model Project {
   apis        Api[]
   teamId      String
   Team        Team              @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  collections Collection[]
 }
 
 enum ProjectVisibility {
@@ -86,27 +87,42 @@ enum Role {
   Viewer
 }
 
+model Collection {
+  id        String       @id @default(cuid())
+  pid       String?
+  name      String
+  order     Int
+  createdAt DateTime     @default(now()) @db.Timestamp(3)
+  updatedAt DateTime     @updatedAt @db.Timestamp(3)
+  parent    Collection?  @relation("CollectionChildParent", fields: [pid], references: [id])
+  children  Collection[] @relation("CollectionChildParent")
+  projectId String
+  project   Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  apis      Api[]
+}
+
 model Api {
-  id                 String    @id @default(cuid())
-  name               String    @default("") @db.VarChar(100)
-  description        String    @default("") @db.VarChar(255)
-  endpoint           String    @db.VarChar(255)
+  id                 String      @id @default(cuid())
+  name               String      @default("") @db.VarChar(100)
+  description        String      @default("") @db.VarChar(255)
+  endpoint           String      @db.VarChar(255)
   method             ApiMethod
   params             Json
   body               Json
   headers            Json
   authorization      Json
-  preRequestScript   String    @default("")
-  postResponseScript String    @default("")
+  preRequestScript   String      @default("")
+  postResponseScript String      @default("")
   tags               Json
   versions           Json
   order              Int
-  status             ApiStatus @default(DRAFT)
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
+  status             ApiStatus   @default(DRAFT)
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
   projectId          String
-  project            Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  // TODO: Add Collection
+  project            Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  collectionId       String?
+  collection         Collection? @relation(fields: [collectionId], references: [id])
 }
 
 // refs: https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
