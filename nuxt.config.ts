@@ -58,6 +58,13 @@ export default defineNuxtConfig({
       },
     },
   },
+  vite: {
+    vue: {
+      script: {
+        defineModel: true,
+      },
+    },
+  },
   build: {
     transpile: ['trpc-nuxt'],
   },

@@ -90,7 +90,7 @@ enum Role {
 model Collection {
   id        String       @id @default(cuid())
   pid       String?
-  title     String
+  name      String
   order     Int
   createdAt DateTime     @default(now()) @db.Timestamp(3)
   updatedAt DateTime     @updatedAt @db.Timestamp(3)
