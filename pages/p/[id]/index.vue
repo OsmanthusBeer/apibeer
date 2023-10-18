@@ -109,8 +109,8 @@ async function onCollectionDelete(id: string) {
 </script>
 
 <template>
-  <div class="w-screen h-screen flex gap-2">
-    <div class="w-1/4 px-4 py-2 space-y-2 border">
+  <Splitpanes class="w-screen h-screen flex gap-2">
+    <Pane max-size="20" class="w-1/4 px-4 py-2 space-y-2 border">
       <UButton @click="openModalCollectionCreate">
         Create Collection
       </UButton>
@@ -144,12 +144,12 @@ async function onCollectionDelete(id: string) {
           <p>Endpoint: {{ api.name || api.endpoint }}</p>
         </UCard>
       </div>
-    </div>
+    </Pane>
 
-    <div class="w-3/4 p-1 border flex flex-col gap-2">
+    <Pane class="w-3/4 p-1 border flex flex-col gap-2">
       <div class="w-full flex gap-1">
         <USelectMenu v-model="method" :options="options" />
-        <UInput v-model="url" class="w-80" placeholder="https://echo.hoppscotch.io" />
+        <UInput v-model="url" class="w-full" placeholder="https://echo.hoppscotch.io" />
         <UButton :loading="sending" @click="onSend">
           Send
         </UButton>
@@ -157,11 +157,11 @@ async function onCollectionDelete(id: string) {
           Save
         </UButton>
       </div>
-      <Splitpanes class="w-full h-full flex gap-2">
-        <Pane min-size="25">
+      <Splitpanes class="w-full h-full flex gap-2" horizontal>
+        <Pane>
           <TabsApiRequest />
         </Pane>
-        <Pane min-size="25">
+        <Pane>
           <div class="flex p-1">
             <div class="w-32">
               Request
@@ -173,14 +173,6 @@ async function onCollectionDelete(id: string) {
           <pre>{{ response }}</pre>
         </Pane>
       </Splitpanes>
-    </div>
-  </div>
+    </Pane>
+  </Splitpanes>
 </template>
-
-<style>
-.splitpanes__splitter {
-  @apply bg-gray-200;
-  @apply transition-all;
-  @apply hover:opacity-100 hover:w-1;
-}
-</style>
