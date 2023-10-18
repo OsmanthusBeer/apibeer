@@ -35,6 +35,9 @@ dependencies:
   bcryptjs:
     specifier: ^2.4.3
     version: 2.4.3
+  lowdb:
+    specifier: ^6.1.0
+    version: 6.1.0
   nodemailer:
     specifier: ^6.9.5
     version: 6.9.5
@@ -6436,6 +6439,13 @@ packages:
       get-func-name: 2.0.2
     dev: true
 
+  /lowdb@6.1.0:
+    resolution: {integrity: sha512-jED4i1iWNf3OL1IcUMS7tD3n1L+vlKMTdXhFFj6rCQBdhkITt4j5i9us0wjoHkHhS2l2Od1QChT1e8XEZ0V+7w==}
+    engines: {node: '>=16'}
+    dependencies:
+      steno: 3.1.0
+    dev: false
+
   /lru-cache@10.0.1:
     resolution: {integrity: sha512-IJ4uwUTi2qCccrioU6g9g/5rvvVl13bsdczUUcqbciD9iLr095yj8DQKdObriEvuNSx325N1rV1O0sJFszx75g==}
     engines: {node: 14 || >=16.14}
@@ -8679,6 +8689,11 @@ packages:
 
   /std-env@3.4.3:
     resolution: {integrity: sha512-f9aPhy8fYBuMN+sNfakZV18U39PbalgjXG3lLB9WkaYTxijru61wb57V9wxxNthXM5Sd88ETBWi29qLAsHO52Q==}
+
+  /steno@3.1.0:
+    resolution: {integrity: sha512-U9mIkOthSBoLxa+4QAXv0aDDHeLn6merFMkjSblSz+WgezKQ0EkS1znRY6hNBZz3kGDm/0ZaP+E+/1X1ho37IQ==}
+    engines: {node: '>=16'}
+    dev: false
 
   /streamsearch@1.1.0:
     resolution: {integrity: sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg==}
