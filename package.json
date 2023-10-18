@@ -16,7 +16,9 @@
     "lint:fix": "eslint . --fix",
     "prisma:setup": "prisma generate && prisma migrate deploy && prisma db seed",
     "prisma:dev": "prisma migrate dev",
-    "prisma:studio": "prisma studio"
+    "prisma:studio": "prisma studio",
+    "env:download": "gh dl OsmanthusBeer/private .env",
+    "env:upload": "gh up OsmanthusBeer/private .env"
   },
   "dependencies": {
     "@iconify-json/mdi": "^1.1.54",
