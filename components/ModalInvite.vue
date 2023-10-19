@@ -6,7 +6,6 @@ const props = withDefaults(defineProps<{
 }>(), {
   teamId: '',
 })
-const emit = defineEmits(['success'])
 const { $client } = useNuxtApp()
 const toast = useToast()
 
@@ -51,8 +50,12 @@ async function fetchUserList(keyword: string) {
 function onInvite() {
   // TODO: send email
   modelValue.value = false
-  users.value = []
-  emit('success')
+  navigateTo(`/t/${props.teamId}/invitations?users=${JSON.stringify(selected.value.map((u: User) => {
+    return {
+      id: u.id,
+      username: u.username,
+    }
+  }))}`)
 }
 </script>
 
