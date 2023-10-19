@@ -1,3 +1,13 @@
+<!--
+## Tech Stack
+- [Nuxt](https://nuxt.com/)
+- [NuxtUI](https://ui.nuxt.com/)
+- [VueUse](https://vueuse.org/)
+- [tRPC](https://trpc.io/), [tRPC Nuxt](https://trpc-nuxt.vercel.app/)
+- [Prisma](https://prisma.io/)
+- [Zod](https://zod.dev/)
+-->
+
 <script lang="ts" setup>
 
 </script>

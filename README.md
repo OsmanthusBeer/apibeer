@@ -23,15 +23,6 @@
 
 > <https://demo.apibeer.com/>
 
-## Tech Stack
-
-- [Nuxt](https://nuxt.com/)
-- [NuxtUI](https://ui.nuxt.com/)
-- [VueUse](https://vueuse.org/)
-- [tRPC](https://trpc.io/), [tRPC Nuxt](https://trpc-nuxt.vercel.app/)
-- [Prisma](https://prisma.io/)
-- [Zod](https://zod.dev/)
-
 ## Quick Start
 
 ```bash
@@ -40,22 +31,6 @@ corepack enable # Use `package.json#packageManager` for same package manager, re
 pnpm i
 cp .env.example .env # config `.env`
 pnpm dev
-```
-
-### Datebase
-
-- We use MySQL, you can use docker to start a mysql server
-
-```bash
-docker run --name mysql -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql:8
-```
-
-## Docker Deploy
-
-```bash
-docker build . -t apibeer
-docker run -d --name apibeer --env-file .env --network=host -p 3000:3000 -it apibeer
-docker exec -it apibeer sh
 ```
 
 ## Related
