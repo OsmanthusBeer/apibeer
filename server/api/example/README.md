@@ -6,7 +6,3 @@
 - PATCH: `/example/posts/:id`
 - PUT: `/example/posts/:id`
 - DELETE: `/example/posts/:id`
-
-## Related
-
-- <https://jsonplaceholder.typicode.com/guide/>

@@ -9,7 +9,9 @@ export default defineNuxtConfig({
       }],
     },
   },
-
+  ui: {
+    icons: ['mdi', 'simple-icons'],
+  },
   // Maping `.env` variables
   // refs: https://nuxt.com/docs/guide/going-further/runtime-config#environment-variables
   runtimeConfig: {
@@ -20,20 +22,12 @@ export default defineNuxtConfig({
     },
   },
   modules: [
-    '@vueuse/nuxt',
-    '@nuxt/content',
     '@nuxt/ui',
     '@nuxtjs/color-mode',
     '@nuxtjs/i18n',
+    '@vueuse/nuxt',
     'vue-email/nuxt',
   ],
-  // refs: https://content.nuxt.com/get-started/configuration
-  content: {
-
-  },
-  ui: {
-    icons: ['mdi', 'simple-icons'],
-  },
   colorMode: {
     preference: 'dark', // default value of $colorMode.preference
     fallback: 'dark', // fallback value if not system preference found
