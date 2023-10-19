@@ -1,3 +1,5 @@
+<!-- TODO: integrate `nuxt/content` ? -->
+
 # Host simple restful apis for example
 
 - GET: `/example/posts`

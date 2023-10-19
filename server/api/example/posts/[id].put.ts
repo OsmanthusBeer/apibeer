@@ -9,19 +9,18 @@ const schemaBody = z.object({
 type SchemaBody = z.output<typeof schemaBody>
 
 export default defineEventHandler(async (event) => {
-  const params = getRouterParams(event) as any as SchemaParams
+  let params = getRouterParams(event) as any as SchemaParams
   const body = await readBody<SchemaBody>(event)
   try {
-    schemaParams.parse(params)
+    params = schemaParams.parse(params)
     schemaBody.parse(body)
   }
   catch (error) {
     throwError(error)
   }
-
   const { id } = params
   const { title, content } = body
-
+  // DB
   const db = getLowDB()
   let post = db.data.posts.find(post => post.id === id)
   if (!post) {

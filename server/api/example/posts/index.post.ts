@@ -14,12 +14,10 @@ export default defineEventHandler(async (event) => {
   catch (error) {
     throwError(error)
   }
-
   const { title, content } = body
-
+  // DB
   const db = getLowDB()
   const id = db.data.posts.length + 1
-
   if (id > 100) {
     throw createError({
       statusCode: 422,

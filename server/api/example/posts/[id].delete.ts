@@ -4,15 +4,15 @@ const schema = z.object({ id: z.coerce.number() })
 type Schema = z.output<typeof schema>
 
 export default defineEventHandler(async (event) => {
-  const params = getRouterParams(event) as any as Schema
+  let params = getRouterParams(event) as any as Schema
   try {
-    schema.parse(params)
+    params = schema.parse(params)
   }
   catch (error) {
     throwError(error)
   }
   const { id } = params
-
+  // DB
   const db = getLowDB()
   const index = db.data.posts.findIndex(post => post.id !== id)
   if (index === -1) {
