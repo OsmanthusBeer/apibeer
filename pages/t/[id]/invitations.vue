@@ -1,11 +1,11 @@
 <script setup>
-import { Role } from '@prisma/client'
+import { $Enums } from '@prisma/client'
 
 definePageMeta({
   layout: 'default',
 })
 
-const roles = ref(Object.keys(Role))
+const roles = ref(Object.keys($Enums.Role))
 const sending = ref(false)
 const selectedRole = ref('')
 
