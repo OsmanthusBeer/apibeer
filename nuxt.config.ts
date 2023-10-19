@@ -1,5 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  experimental: {
+    typedPages: true,
+  },
   app: {
     head: {
       link: [{
@@ -8,6 +11,8 @@ export default defineNuxtConfig({
         href: 'logo_148x148.png',
       }],
     },
+    layoutTransition: { name: 'layout', mode: 'out-in' },
+    pageTransition: { name: 'page', mode: 'out-in' },
   },
   // Maping `.env` variables
   // refs: https://nuxt.com/docs/guide/going-further/runtime-config#environment-variables
