@@ -5,7 +5,13 @@ type Schema = z.output<typeof schema>
 
 export default defineEventHandler(async (event) => {
   const params = getRouterParams(event) as any as Schema
-  schema.parse(params)
+  try {
+    schema.parse(params)
+  }
+  catch (error) {
+    throwError(error)
+  }
+
   const { id } = params
 
   const db = getLowDB()

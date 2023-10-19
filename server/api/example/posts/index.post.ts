@@ -8,7 +8,13 @@ type Schema = z.output<typeof schema>
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<Schema>(event)
-  schema.parse(body)
+  try {
+    schema.parse(body)
+  }
+  catch (error) {
+    throwError(error)
+  }
+
   const { title, content } = body
 
   const db = getLowDB()
