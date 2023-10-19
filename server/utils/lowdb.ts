@@ -1,8 +1,7 @@
-import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { JSONFileSync } from 'lowdb/node'
 import { LowSync } from 'lowdb'
+import { JSONFileSync } from 'lowdb/node'
 
 interface Post {
   id: number
@@ -18,7 +17,13 @@ interface Data {
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const filename = path.join(__dirname, '../lowdb.json')
 
-const defaultData = JSON.parse(fs.readFileSync(filename, 'utf-8')) as Data
+const defaultData = {
+  posts: [
+    { id: 1, title: 'hi', content: 'Hello World!' },
+    { id: 2, title: '嗨', content: '你好' },
+    { id: 3, title: 'こんにちは', content: '世界よ、こんにちは！' },
+  ],
+}
 export function getLowDB() {
   return new LowSync(new JSONFileSync<Data>(filename), defaultData)
 }
