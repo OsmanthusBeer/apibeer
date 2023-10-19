@@ -8,3 +8,58 @@
 .link-text {
     @apply mt-2 text-slate-400 text-sm;
 }
+
+/* Global `splitpanes` styles */
+/* TODO: Move to wrap component */
+.splitpanes__splitter {
+    @apply relative;
+    @apply before:absolute;
+    @apply before:inset-0;
+    @apply before:bg-slate-300;
+    @apply before:opacity-0;
+    @apply before:z-20;
+    @apply before:transition;
+    @apply before:content-[''];
+    @apply hover:before:opacity-100;
+}
+
+
+.no-splitter .splitpanes__splitter {
+    @apply relative;
+}
+
+.splitpanes--vertical > .splitpanes__splitter {
+    @apply w-0;
+    @apply before:-left-0.5;
+    @apply before:-right-0.5;
+    @apply before:h-full;
+    @apply bg-slate-200;
+}
+
+.splitpanes--horizontal > .splitpanes__splitter {
+    @apply h-0;
+    @apply before:-top-0.5;
+    @apply before:-bottom-0.5;
+    @apply before:w-full;
+    @apply bg-slate-200;
+}
+
+.no-splitter.splitpanes--vertical > .splitpanes__splitter {
+    @apply w-0;
+    @apply pointer-events-none;
+    @apply bg-slate-300;
+}
+
+.no-splitter.splitpanes--horizontal > .splitpanes__splitter {
+    @apply h-0;
+    @apply pointer-events-none;
+    @apply bg-slate-300;
+}
+
+.splitpanes--horizontal .splitpanes__pane {
+    @apply transition-none;
+}
+
+.splitpanes--vertical .splitpanes__pane {
+    @apply transition-none;
+}
