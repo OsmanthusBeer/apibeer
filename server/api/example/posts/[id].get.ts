@@ -11,12 +11,16 @@ export default defineEventHandler(async (event) => {
   catch (error) {
     throwError(error)
   }
-
   const { id } = params
 
   const db = getLowDB()
   const post = db.data.posts.find(post => post.id === id)
-  db.write()
+  if (!post) {
+    throw createError({
+      statusCode: 404,
+      statusMessage: 'Not Found',
+    })
+  }
 
   return {
     post,

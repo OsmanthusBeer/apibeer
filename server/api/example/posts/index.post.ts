@@ -19,6 +19,14 @@ export default defineEventHandler(async (event) => {
 
   const db = getLowDB()
   const id = db.data.posts.length + 1
+
+  if (id > 100) {
+    throw createError({
+      statusCode: 422,
+      statusMessage: 'Unprocessable Entity',
+      message: 'Maximum number of posts reached',
+    })
+  }
   const post = {
     id,
     title,

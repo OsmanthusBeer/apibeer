@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-const schema = z.object({ id: z.number() })
+const schema = z.object({ id: z.coerce.number() })
 type Schema = z.output<typeof schema>
 
 export default defineEventHandler(async (event) => {
@@ -11,11 +11,18 @@ export default defineEventHandler(async (event) => {
   catch (error) {
     throwError(error)
   }
-
   const { id } = params
 
   const db = getLowDB()
-  db.data.posts = db.data.posts.filter(post => post.id !== id)
+  const index = db.data.posts.findIndex(post => post.id !== id)
+  if (index === -1) {
+    throw createError({
+      statusCode: 404,
+      statusMessage: 'Not Found',
+    })
+  }
+
+  db.data.posts.splice(index, 1)
   db.write()
 
   return {

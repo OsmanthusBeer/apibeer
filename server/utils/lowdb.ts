@@ -17,13 +17,21 @@ interface Data {
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const filename = path.join(__dirname, '../lowdb.json')
 
-const defaultData = {
-  posts: [
-    { id: 1, title: 'hi', content: 'Hello World!' },
-    { id: 2, title: '嗨', content: '你好' },
-    { id: 3, title: 'こんにちは', content: '世界よ、こんにちは！' },
-  ],
-}
+const postSeeds = [
+  { title: 'hi', content: 'Hello World!' },
+  { title: '嗨', content: '你好' },
+  { title: 'こんにちは', content: '世界よ、こんにちは！' },
+]
+const posts = Array.from({ length: 100 }, (_v, k) => {
+  const id = k + 1
+  const index = Math.floor(Math.random() * 100)
+  const seedPost = postSeeds[index % postSeeds.length]
+  return {
+    id,
+    ...seedPost,
+  }
+})
+
 export function getLowDB() {
-  return new LowSync(new JSONFileSync<Data>(filename), defaultData)
+  return new LowSync(new JSONFileSync<Data>(filename), { posts })
 }

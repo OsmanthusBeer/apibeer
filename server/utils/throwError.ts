@@ -12,7 +12,7 @@ export function throwError(error: unknown) {
     })
   }
   if (error instanceof Error) {
-    throw createError ({
+    throw createError({
       status: 500,
       statusMessage: 'Internal Server Error',
       message: error.message,
