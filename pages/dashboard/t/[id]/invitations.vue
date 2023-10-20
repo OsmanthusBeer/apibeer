@@ -1,5 +1,5 @@
 <script setup>
-import { $Enums } from '@prisma/client';
+import { $Enums } from '@prisma/client'
 
 definePageMeta({
   layout: 'dashboard',
