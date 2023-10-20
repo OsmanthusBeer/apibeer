@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import type { ApiMethod } from '@prisma/client';
+import type { ApiMethod } from '@prisma/client'
 
 // TODO: Wrap `splitpanes` component
 // eslint-disable-next-line ts/ban-ts-comment
 // @ts-expect-error TODO: `@types/splitpanes` dep vue2.7.x, but we use vue3
-import { Pane, Splitpanes } from 'splitpanes';
-import 'splitpanes/dist/splitpanes.css';
+import { Pane, Splitpanes } from 'splitpanes'
+import 'splitpanes/dist/splitpanes.css'
 
 const route = useRoute()
 const projectId = route.params.id as string
