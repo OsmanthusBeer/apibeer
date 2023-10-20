@@ -7,7 +7,11 @@ definePageMeta({
 
 <template>
   <div class="container mx-auto">
-    <h1>pages/index.vue</h1>
+    <BasicSplitPane>
+      <div>1</div>
+      <div>2</div>
+    </BasicSplitPane>
+    <!-- <h1>pages/index.vue</h1>
 
     <h2>Envs</h2>
     <div>
@@ -18,6 +22,6 @@ definePageMeta({
     </div>
 
     <h2>NuxtUI</h2>
-    <UButton>Button</UButton>
+    <UButton>Button</UButton> -->
   </div>
 </template>
