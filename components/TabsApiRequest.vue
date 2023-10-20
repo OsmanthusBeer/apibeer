@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { TabItem } from '@nuxt/ui/dist/runtime/types';
+import type { TabItem } from '@nuxt/ui/dist/runtime/types'
 
 const tabItems: TabItem[] = [
   { label: 'Params', slot: 'params' },
@@ -17,7 +17,7 @@ const paramsRows = [
 
 <template>
   <UTabs :items="tabItems" class="w-full">
-    <template #params="{ item }">
+    <template #params>
       <p>Query Parameters</p>
       <UTable :rows="paramsRows" :ui="{ td: { padding: 'px-1' } }">
         <template #key-data="{ row }">

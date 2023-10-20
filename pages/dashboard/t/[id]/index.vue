@@ -1,6 +1,6 @@
 <script setup>
 definePageMeta({
-  layout: 'entry-sidebar',
+  layout: 'dashboard',
 })
 
 const route = useRoute()

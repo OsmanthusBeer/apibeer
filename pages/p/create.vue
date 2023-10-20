@@ -33,7 +33,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       // TODO: type
       visibility: visibility.toUpperCase() as any,
     })
-    navigateTo(`/t/${teamId}`)
+    navigateTo(`/dashboard/t/${teamId}`)
   }
   catch (error) {
     const zodError = getZodError<Schema>(error)

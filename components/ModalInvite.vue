@@ -50,7 +50,7 @@ async function fetchUserList(keyword: string) {
 function onInvite() {
   // TODO: send email
   modelValue.value = false
-  navigateTo(`/t/${props.teamId}/invitations?users=${JSON.stringify(selected.value.map((u: User) => {
+  navigateTo(`/dashboard/t/${props.teamId}/invitations?users=${JSON.stringify(selected.value.map((u: User) => {
     return {
       id: u.id,
       username: u.username,

@@ -1,4 +1,9 @@
 <script lang="ts" setup>
+definePageMeta({
+  title: 'Home',
+  requiredAuth: false,
+})
+
 const { locale } = useI18n()
 const languages = ref([
   {
