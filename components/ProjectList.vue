@@ -15,7 +15,7 @@ const { pending, error, data: projects } = $client.protected.projectList.useQuer
 <template>
   <div class="flex items-center my-8">
     <UInput class="w-44 mr-4" icon="i-heroicons-magnifying-glass-20-solid" size="sm" color="white" :trailing="false" />
-    <UButton @click="navigateTo(`/p/create?tid=${teamId}`)">
+    <UButton :to="`/dashboard/p/create?tid=${teamId}`">
       Create Project
     </UButton>
   </div>
@@ -41,20 +41,20 @@ const { pending, error, data: projects } = $client.protected.projectList.useQuer
     v-else
     class="grid grid-cols-4 gap-4"
   >
-    <NuxtLink
-      v-for="project in projects" :key="project.id"
-      v-slot="{ navigate }" :to="{ path: `/p/${project.id}` }"
-      custom
-    >
-      <UCard
-        class="space-y-2 cursor-pointer"
-        @click="navigate"
-      >
-        <p>{{ project.name }}</p>
-        <p class="text-xs text-slate-400">
-          {{ project.description }}
-        </p>
-      </UCard>
-    </NuxtLink>
+    <div v-for="project in projects" :key="project.id" class="relative">
+      <NuxtLink :to="`/p/${project.id}`">
+        <UCard>
+          <p class="text-lg">
+            {{ project.name }}
+          </p>
+          <p class="mt-4 h-8 text-xs text-slate-400">
+            {{ project.description }}
+          </p>
+        </UCard>
+      </NuxtLink>
+      <NuxtLink :to="`/dashboard/p/${project.id}/edit`">
+        <UIcon class="absolute top-4 right-4" name="i-mdi-cog" />
+      </NuxtLink>
+    </div>
   </div>
 </template>

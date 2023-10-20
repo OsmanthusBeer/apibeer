@@ -73,7 +73,7 @@ async function onTeamDelete(id: string) {
 <template>
   <div>
     <ModalTeamCreate v-model="modalTeamCreate" @success="naviteToTeam" />
-    <div class="flex w-screen h-screen overflow-hidden">
+    <div class="flex w-full h-screen overflow-hidden">
       <div class="relative w-[280px] h-screen px-4 py-8 border-r border-gray-200 dark:border-gray-800">
         <!-- logo -->
         <div class="flex items-center">
@@ -125,7 +125,7 @@ async function onTeamDelete(id: string) {
           <span class="ml-4 font-bold">Settings</span>
         </div>
       </div>
-      <div class="overflow-auto w-full h-full">
+      <div class="flex-1 h-full">
         <NuxtPage />
       </div>
     </div>

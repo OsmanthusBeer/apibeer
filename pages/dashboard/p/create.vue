@@ -2,18 +2,18 @@
 import type { Form, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
 import { z } from 'zod'
 
-const route = useRoute()
-const id = route.params.id as string
-
+const { $client } = useNuxtApp()
 const toast = useToast()
 
-// Fetch project
-const { $client } = useNuxtApp()
-const { pending, error, data: project } = $client.protected.projectShow.useQuery({
-  id,
-})
+const route = useRoute()
+const teamId = route.query.tid as string
 
 const form = ref<Form<Schema>>()
+const state = ref({
+  name: '',
+  description: '',
+  visibility: 'private' as 'private' | 'public',
+})
 const schema = z.object({
   name: z.string(),
   description: z.string(),
@@ -26,15 +26,14 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   const { name, description, visibility } = event.data
   submiting.value = true
   try {
-    await $client.protected.projectUpdate.mutate({
-      id,
+    await $client.protected.projectCreate.mutate({
       name,
       description,
+      teamId,
       // TODO: type
       visibility: visibility.toUpperCase() as any,
     })
-    toast.add({ title: 'Project updated', color: 'green' })
-    navigateTo(`/p/${id}`)
+    navigateTo(`/dashboard/t/${teamId}`)
   }
   catch (error) {
     const zodError = getZodError<Schema>(error)
@@ -57,33 +56,23 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 </script>
 
 <template>
-  <div v-if="pending">
-    <USkeleton class="h-4 w-[250px]" />
-  </div>
-  <UAlert
-    v-else-if="error"
-    title="Fetch project error" icon="i-heroicons-x-circle-solid"
-    color="red" variant="outline"
-  >
-    <template #description>
-      {{ JSON.stringify(error) }}
-    </template>
-  </UAlert>
-  <template v-else-if="project">
+  <div class="p-8">
+    <h1>Project Create</h1>
+
     <UForm
       ref="form" class="mt-4 space-y-4"
-      :state="project" :schema="schema"
+      :state="state" :schema="schema"
       @submit="onSubmit"
     >
       <UFormGroup label="Name" name="name">
-        <UInput v-model="project.name" placeholder="Name" />
+        <UInput v-model="state.name" placeholder="Name" />
       </UFormGroup>
       <UFormGroup label="Description" name="description">
-        <UTextarea v-model="project.description" placeholder="Description" />
+        <UTextarea v-model="state.description" placeholder="Description" />
       </UFormGroup>
       <UFormGroup label="Visibility" name="visibility">
-        <URadio v-model="project.visibility" label="Private" value="private" help="You choose who can see and edit to this project" />
-        <URadio v-model="project.visibility" label="Public" value="public" help="Anyone on the internet can see this project" />
+        <URadio v-model="state.visibility" label="Private" value="private" help="You choose who can see and edit to this project" />
+        <URadio v-model="state.visibility" label="Public" value="public" help="Anyone on the internet can see this project" />
       </UFormGroup>
       <div class="flex justify-end">
         <UButton type="submit" :loading="submiting">
@@ -91,5 +80,5 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         </UButton>
       </div>
     </UForm>
-  </template>
+  </div>
 </template>
