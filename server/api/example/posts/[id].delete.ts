@@ -14,6 +14,7 @@ export default defineEventHandler(async (event) => {
   const { id } = params
   // DB
   const db = getLowDB()
+  db.read()
   const index = db.data.posts.findIndex(post => post.id !== id)
   if (index === -1) {
     throw createError({

@@ -22,6 +22,7 @@ export default defineEventHandler(async (event) => {
   const { title, content } = body
   // DB
   const db = getLowDB()
+  db.read()
   let post = db.data.posts.find(post => post.id === id)
   if (!post) {
     throw createError({

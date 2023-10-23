@@ -1,7 +1,8 @@
+import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { LowSync } from 'lowdb'
 import { JSONFileSync } from 'lowdb/node'
+import { LowSync } from 'lowdb'
 
 interface Post {
   id: number
@@ -31,7 +32,9 @@ const posts = Array.from({ length: 100 }, (_v, k) => {
     ...seedPost,
   }
 })
+// Write `lowdb.json`
+fs.writeFileSync(filename, JSON.stringify({ posts }, null, 2))
 
 export function getLowDB() {
-  return new LowSync(new JSONFileSync<Data>(filename), { posts })
+  return new LowSync(new JSONFileSync<Data>(filename), { posts: [] })
 }

@@ -17,6 +17,7 @@ export default defineEventHandler(async (event) => {
   const { title, content } = body
   // DB
   const db = getLowDB()
+  db.read()
   const id = db.data.posts.length + 1
   if (id > 100) {
     throw createError({
