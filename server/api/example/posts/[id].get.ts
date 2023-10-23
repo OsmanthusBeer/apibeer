@@ -14,8 +14,8 @@ export default defineEventHandler(async (event) => {
   const { id } = params
   // DB
   const db = getLowDB()
-  const post = db.data.posts.find(post => post.id === id)
   db.read()
+  const post = db.data.posts.find(post => post.id === id)
   if (!post) {
     throw createError({
       statusCode: 404,

@@ -18,10 +18,10 @@ export default defineEventHandler(async (event) => {
   const { page = 1, limit = 20 } = query
   // DB
   const db = getLowDB()
+  db.read()
   const offset = (page - 1) * limit
   const posts = db.data.posts.slice(offset, offset + limit)
-  db.read()
-
+  db.write()
   return {
     posts,
   }
