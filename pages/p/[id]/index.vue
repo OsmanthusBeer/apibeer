@@ -7,6 +7,10 @@ import type { ApiMethod } from '@prisma/client'
 import { Pane, Splitpanes } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
 
+definePageMeta({
+  layout: 'project',
+})
+
 const route = useRoute()
 const projectId = route.params.id as string
 
@@ -30,7 +34,7 @@ const url = ref('https://echo.hoppscotch.io')
 const response = ref()
 
 const { error: apisError, pending: apisPending, data: apis, refresh: apisRefresh } = $client.protected.apiList.useQuery({ projectId })
-const { error: collectioinsError, pending: collectionsPending, data: collections, refresh: collecitonsRefresh } = $client.protected.collectionList.useQuery({ projectId })
+const { error: collectioinsError, pending: collectionsPending, data: collections, refresh: collectionsRefresh } = $client.protected.collectionList.useQuery({ projectId })
 
 const sending = ref(false)
 async function onSend() {
@@ -103,18 +107,34 @@ async function onCollectionDelete(id: string) {
     toast.add({ title: 'Unknown error', color: 'red' })
   }
   finally {
-    collecitonsRefresh()
+    collectionsRefresh()
+  }
+}
+
+async function onDeleteApi(id: string) {
+  try {
+    await $client.protected.apiDelete.mutate({ id })
+  }
+  catch (error) {
+    if (error instanceof Error) {
+      toast.add({ title: error.message, color: 'red' })
+      return
+    }
+    toast.add({ title: 'Unknown error', color: 'red' })
+  }
+  finally {
+    apisRefresh()
   }
 }
 </script>
 
 <template>
   <Splitpanes class="w-screen h-screen flex gap-2">
-    <Pane max-size="20" class="w-1/4 px-4 py-2 space-y-2 border">
+    <Pane class="px-4 py-2 space-y-2 border">
       <UButton @click="openModalCollectionCreate">
         Create Collection
       </UButton>
-      <ModalCollectioinCreate v-model="modalCollectioinCreate" :project-id="projectId" @success="collecitonsRefresh" />
+      <ModalCollectioinCreate v-model="modalCollectioinCreate" :project-id="projectId" @success="collectionsRefresh" />
 
       <div v-if="collectioinsError">
         {{ collectioinsError }}
@@ -139,9 +159,14 @@ async function onCollectionDelete(id: string) {
         Loading...
       </div>
       <div v-else class="space-y-2">
-        <UCard v-for="api in apis" :key="api.id" class="w-full text-xs">
-          <p>Method: {{ api.method }}</p>
-          <p>Endpoint: {{ api.name || api.endpoint }}</p>
+        <UCard v-for="api in apis" :key="api.id" class="w-full">
+          <div class="flex justify-between">
+            <div class="flex gap-2">
+              <LabelApiMethod class="w-16" :method="api.method" />
+              <span>{{ api.name || api.endpoint }}</span>
+            </div>
+            <UIcon name="i-heroicons-trash" class="cursor-pointer" @click="onDeleteApi(api.id)" />
+          </div>
         </UCard>
       </div>
     </Pane>

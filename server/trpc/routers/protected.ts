@@ -339,6 +339,22 @@ export const protectedRouter = router({
       })
       return api
     }),
+  apiDelete: protectedProcedure
+    .input(
+      z.object({
+        id: z.string().min(1),
+      }),
+    ).mutation(async (event) => {
+      const { input, ctx } = event
+
+      // TODO: Validate permission
+      await ctx.prisma.api.delete({
+        where: {
+          id: input.id,
+        },
+      })
+      return true
+    }),
   // Collection
   // TODO: permission
   collectionCreate: protectedProcedure
