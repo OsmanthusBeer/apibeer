@@ -1,5 +1,9 @@
+<script setup lang="ts">
+import '~/styles/main.css'
+</script>
+
 <template>
-  <div class="min-h-screen">
+  <div class="w-full h-full">
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
@@ -8,6 +12,10 @@
 </template>
 
 <style>
+html, body, #__nuxt {
+  height: 100%;
+}
+
 .layout-enter-active,
 .layout-leave-active {
   transition: all 0.4s;
