@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ApiMethod } from '~/types'
+import type { ApiMethod } from '~/types'
 
 const props = defineProps<{
   projectId: string
@@ -38,7 +38,7 @@ async function onDeleteApi() {
     :to="`/project/${projectId}/api/${props.id}`"
   >
     <div class="flex gap-2">
-      <ApiMethod :method="method" />
+      <ApiMethodLabel :method="method" />
       <p>{{ endpoint }}</p>
     </div>
     <UIcon name="i-heroicons-trash" class="cursor-pointer" @click.stop="onDeleteApi" />
