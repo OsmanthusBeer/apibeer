@@ -3,7 +3,7 @@ import '~/styles/main.css'
 </script>
 
 <template>
-  <div class="w-full h-full">
+  <div data-theme="cupcake">
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>

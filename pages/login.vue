@@ -1,7 +1,4 @@
 <script lang="ts" setup>
-import type { Form, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types'
-import { z } from 'zod'
-
 definePageMeta({
   title: 'Home',
   requiredAuth: false,
@@ -23,19 +20,13 @@ onMounted(() => {
 })
 
 // Form
-const schema = z.object({
-  email: z.string(),
-  password: z.string(),
-})
-type Schema = z.output<typeof schema>
 const state = ref({
   email: 'hi@apibeer.com',
   password: '123456',
 })
-const form = ref<Form<Schema>>()
 const submiting = ref(false)
-async function onSubmit(event: FormSubmitEvent<Schema>) {
-  const { email, password } = event.data
+async function onSubmit() {
+  const { email, password } = state.value
   submiting.value = true
   try {
     await $client.public.login.mutate({
@@ -47,13 +38,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     navigateTo({ path: decodeURIComponent(r || '/dashboard') })
   }
   catch (error) {
-    // TODO: Wrap a utils function for handle zod error
-    const zodError = getZodError<Schema>(error)
-    if (zodError) {
-      const errors = Object.entries(zodError.fieldErrors).map(([path, messages]) => ({ path, message: messages.join('\n') }))
-      form.value?.setErrors(errors)
-      return
-    }
     if (error instanceof Error) {
       toast.add({ title: error.message, color: 'red' })
       return
@@ -68,7 +52,43 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 </script>
 
 <template>
-  <div class="h-screen flex flex-col items-center justify-center">
+  <div class="hero bg-base-200 lg:h-[calc(100vh-284px)]">
+    <div class="hero-content flex-col lg:flex-row-reverse">
+      <div class="text-center lg:text-left">
+        <h1 class="text-5xl font-bold">
+          Login now!
+        </h1>
+        <p class="py-6">
+          Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.
+        </p>
+      </div>
+      <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+        <form class="card-body">
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">Email</span>
+            </label>
+            <input v-model="state.email" type="email" placeholder="email" class="input input-bordered" required>
+          </div>
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">Password</span>
+            </label>
+            <input v-model="state.password" type="password" placeholder="password" class="input input-bordered" required>
+            <label class="label">
+              <a href="#" class="label-text-alt link link-hover">Forgot password?</a>
+            </label>
+          </div>
+          <div class="form-control mt-6">
+            <button class="btn btn-primary" @click="onSubmit">
+              Login
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="h-screen flex flex-col items-center justify-center">
     <p>Login</p>
     <div class="mt-8 w-96 px-8 py-4 border rounded">
       <UForm
@@ -89,5 +109,5 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         </div>
       </UForm>
     </div>
-  </div>
+  </div> -->
 </template>
