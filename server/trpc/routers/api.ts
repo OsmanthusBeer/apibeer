@@ -76,6 +76,60 @@ export const apiRouter = router({
       })
       return api
     }),
+  apiUpdate: protectedProcedure.input(
+    z.object({
+      id: z.string(),
+      name: z.string().min(3).max(50).optional(),
+      description: z.string().min(3).max(255).optional(),
+      endpoint: z.string(),
+      method: z.nativeEnum($Enums.ApiMethod),
+      params: z.array(z.object({
+        key: z.string(),
+        type: z.enum(['string', 'number']),
+        required: z.boolean(),
+        description: z.string().optional(),
+        example: z.string().optional(),
+        scope: z.enum(['query', 'path']),
+      }) satisfies z.ZodType<ApiParams>),
+      body: z.object({}),
+      headers: z.object({}),
+      authorization: z.object({}),
+      preRequestScript: z.string(),
+      postResponseScript: z.string(),
+      tags: z.array(z.string()),
+      versions: z.array(z.string()),
+      order: z.number(),
+      status: z.nativeEnum($Enums.ApiStatus).optional(),
+      projectId: z.string(),
+    }),
+  ).mutation(async (event) => {
+    const { input, ctx } = event
+    const { user } = ctx.session.data
+
+    // Validate permission
+    const projectMember = await ctx.prisma.projectMember.findFirst({
+      where: {
+        userId: user.id,
+      },
+    })
+    if (!projectMember)
+      throw new Error('Project not found')
+    if (![
+      $Enums.Role.Owner,
+      $Enums.Role.Maintainer,
+    ].includes(projectMember.role))
+      throw new Error('Permission denied')
+
+    const api = await ctx.prisma.api.update({
+      data: {
+        ...input,
+      },
+      where: {
+        id: input.id,
+      },
+    })
+    return api
+  }),
   apiGet: protectedProcedure
     .input(
       z.object({ id: z.string().min(1) }),

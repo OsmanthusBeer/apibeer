@@ -9,8 +9,8 @@
   // Auto fix
   "vue.codeActions.enabled": false,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
-    "source.organizeImports": true
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "never"
   },
 
   // Silent the stylistic rules in you IDE, but still auto fix them

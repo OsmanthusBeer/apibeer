@@ -55,20 +55,39 @@ const saving = ref(false)
 async function onSave() {
   try {
     saving.value = true
-    await $client.protected.apiCreate.mutate({
-      endpoint: endpoint.value,
-      method: method.value,
-      params: params.value,
-      body: {},
-      headers: {},
-      authorization: {},
-      preRequestScript: '',
-      postResponseScript: '',
-      tags: [],
-      versions: [],
-      order: 1,
-      projectId,
-    })
+    if (apiId) {
+      await $client.protected.apiCreate.mutate({
+        endpoint: endpoint.value,
+        method: method.value,
+        params: params.value,
+        body: {},
+        headers: {},
+        authorization: {},
+        preRequestScript: '',
+        postResponseScript: '',
+        tags: [],
+        versions: [],
+        order: 1,
+        projectId,
+      })
+    }
+    else {
+      await $client.protected.apiUpdate.mutate({
+        id: apiId,
+        endpoint: endpoint.value,
+        method: method.value,
+        params: params.value,
+        body: {},
+        headers: {},
+        authorization: {},
+        preRequestScript: '',
+        postResponseScript: '',
+        tags: [],
+        versions: [],
+        order: 1,
+        projectId,
+      })
+    }
     apisRefresh()
     toast.add({ title: 'Saved', color: 'green' })
   }
