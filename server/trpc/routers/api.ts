@@ -1,6 +1,7 @@
 import { $Enums } from '@prisma/client'
 import { z } from 'zod'
 import { protectedProcedure, router } from '../trpc'
+import type { ApiParams } from '@/types'
 
 export const apiRouter = router({
   // API, TODO: permission
@@ -31,7 +32,14 @@ export const apiRouter = router({
         description: z.string().min(3).max(255).optional(),
         endpoint: z.string(),
         method: z.nativeEnum($Enums.ApiMethod),
-        params: z.object({}),
+        params: z.array(z.object({
+          key: z.string(),
+          type: z.enum(['string', 'number']),
+          required: z.boolean(),
+          description: z.string().optional(),
+          example: z.string().optional(),
+          scope: z.enum(['query', 'path']),
+        }) satisfies z.ZodType<ApiParams>),
         body: z.object({}),
         headers: z.object({}),
         authorization: z.object({}),
@@ -66,6 +74,22 @@ export const apiRouter = router({
           ...input,
         },
       })
+      return api
+    }),
+  apiGet: protectedProcedure
+    .input(
+      z.object({ id: z.string().min(1) }),
+    )
+    .query(async (event) => {
+      const { input, ctx } = event
+      const api = await ctx.prisma.api.findUnique({
+        where: {
+          id: input.id,
+        },
+      })
+      if (!api)
+        throw new Error('Api not found')
+
       return api
     }),
   apiDelete: protectedProcedure

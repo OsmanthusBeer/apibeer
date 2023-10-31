@@ -17,3 +17,12 @@ export type SessionUser = Pick<User, 'id' | 'email' | 'username' | 'avatar'>
 export interface Session {
   user: SessionUser
 }
+
+export interface ApiParams {
+  key: string
+  type: 'string' | 'number'
+  example?: string
+  description?: string
+  required: boolean
+  scope: 'query' | 'path'
+}
