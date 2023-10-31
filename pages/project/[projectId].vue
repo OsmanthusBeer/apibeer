@@ -26,7 +26,7 @@ function openModalCollectionCreate() {
 }
 async function onCollectionDelete(id: string) {
   try {
-    await $client.protected.cololectionDelete.mutate({ id })
+    await $client.protected.collectionDelete.mutate({ id })
   }
   catch (error) {
     if (error instanceof Error) {
