@@ -6,7 +6,7 @@ import { noop } from '@vueuse/core'
 // @ts-expect-error TODO: `@types/splitpanes` dep vue2.7.x, but we use vue3
 import { Pane, Splitpanes } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
-import type { ApiMethod } from '~/types'
+import type { ApiMethod, ApiParams } from '~/types'
 
 const { projectId } = useRoute().params as Record<string, string>
 const { $client } = useNuxtApp()
@@ -15,8 +15,32 @@ const toast = useToast()
 const apisRefresh = inject('apisRefresh', noop)
 
 const method = ref<ApiMethod>('GET')
-const endpoint = ref('https://echo.hoppscotch.io')
+const endpoint = ref('')
+const params = ref<ApiParams[]>([])
 const response = ref()
+
+watchDebounced(
+  () => endpoint.value,
+  () => {
+    const keys = params.value.map(param => param.key)
+    // query
+    const url = new URL(endpoint.value)
+    const queryParams = Array.from(url.searchParams.entries()).map(([key, value]) => ({ key, value }))
+    for (const { key, value } of queryParams) {
+      if (keys.includes(key))
+        continue
+      params.value.push({ key, type: 'string', example: value, description: '', required: false, scope: 'query' })
+    }
+    // path
+    const pathParams = endpoint.value.match(/(?<=\{)[^}]+(?=\})/g) ?? []
+    for (const key of pathParams) {
+      if (keys.includes(key))
+        continue
+      params.value.push({ key, type: 'string', example: '', description: '', required: true, scope: 'path' })
+    }
+  },
+  { debounce: 500, maxWait: 1000 },
+)
 
 const saving = ref(false)
 async function onSave() {
@@ -25,7 +49,7 @@ async function onSave() {
     await $client.protected.apiCreate.mutate({
       endpoint: endpoint.value,
       method: method.value,
-      params: {},
+      params: params.value,
       body: {},
       headers: {},
       authorization: {},
@@ -37,7 +61,7 @@ async function onSave() {
       projectId,
     })
     apisRefresh()
-    toast.add({ title: 'Saved', color: 'green' })
+    toast.add({ title: 'Created', color: 'green' })
   }
   catch (error) {
     if (error instanceof Error) {
@@ -79,14 +103,14 @@ async function onSend() {
 
 <template>
   <div class="h-full">
-    <ApiInput
+    <UIApiInput
       v-model:method="method" v-model:endpoint="endpoint"
       v-model:saving="saving" v-model:sending="sending"
       @save="onSave" @send="onSend"
     />
     <Splitpanes class="w-full h-full flex gap-2" horizontal>
       <Pane>
-        <ApiRequestTabs />
+        <UIApiRequestTabs v-model:params="params" />
       </Pane>
       <Pane>
         <div class="flex p-1">

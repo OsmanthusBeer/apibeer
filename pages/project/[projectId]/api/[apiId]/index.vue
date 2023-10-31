@@ -55,41 +55,25 @@ const saving = ref(false)
 async function onSave() {
   try {
     saving.value = true
-    if (apiId) {
-      await $client.protected.apiCreate.mutate({
-        endpoint: endpoint.value,
-        method: method.value,
-        params: params.value,
-        body: {},
-        headers: {},
-        authorization: {},
-        preRequestScript: '',
-        postResponseScript: '',
-        tags: [],
-        versions: [],
-        order: 1,
-        projectId,
-      })
-    }
-    else {
-      await $client.protected.apiUpdate.mutate({
-        id: apiId,
-        endpoint: endpoint.value,
-        method: method.value,
-        params: params.value,
-        body: {},
-        headers: {},
-        authorization: {},
-        preRequestScript: '',
-        postResponseScript: '',
-        tags: [],
-        versions: [],
-        order: 1,
-        projectId,
-      })
-    }
+
+    await $client.protected.apiUpdate.mutate({
+      id: apiId,
+      endpoint: endpoint.value,
+      method: method.value,
+      params: params.value,
+      body: {},
+      headers: {},
+      authorization: {},
+      preRequestScript: '',
+      postResponseScript: '',
+      tags: [],
+      versions: [],
+      order: 1,
+      projectId,
+    })
+
     apisRefresh()
-    toast.add({ title: 'Saved', color: 'green' })
+    toast.add({ title: 'Updated', color: 'green' })
   }
   catch (error) {
     if (error instanceof Error) {
@@ -131,6 +115,9 @@ async function onSend() {
 
 <template>
   <div class="h-full">
+    <NuxtLink class="btn btn-neutral" :to="`/project/${projectId}`">
+      Create
+    </NuxtLink>
     <UIApiInput
       v-model:method="method" v-model:endpoint="endpoint"
       v-model:saving="saving" v-model:sending="sending"

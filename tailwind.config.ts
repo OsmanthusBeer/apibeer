@@ -7,10 +7,7 @@ export default <Partial<Config>> {
   // https://daisyui.com/docs
   daisyui: {
     themes: [
-      // daisyUI themes: https://daisyui.com/docs/themes/
-      // 'winter',
-      // 'retro',
-      'cupcake',
+      'light',
       'dark',
     ],
   },

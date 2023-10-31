@@ -43,7 +43,7 @@ async function onCollectionDelete(id: string) {
 
 <template>
   <Splitpanes class="w-full h-full flex gap-2">
-    <Pane class="px-4 py-2 space-y-2 border">
+    <Pane class="px-4 py-2 space-y-2 border" size="30">
       <UButton @click="openModalCollectionCreate">
         Create Collection
       </UButton>
@@ -80,8 +80,7 @@ async function onCollectionDelete(id: string) {
         />
       </div>
     </Pane>
-
-    <Pane class="p-1 border flex flex-col gap-2">
+    <Pane class="p-1 border flex flex-col gap-2" size="70">
       <NuxtPage />
     </Pane>
   </Splitpanes>

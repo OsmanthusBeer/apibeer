@@ -38,7 +38,7 @@ async function onDeleteApi() {
     :to="`/project/${projectId}/api/${props.id}`"
   >
     <div class="flex gap-2">
-      <ApiMethodLabel :method="method" />
+      <UIApiMethod :method="method" />
       <p>{{ endpoint }}</p>
     </div>
     <UIcon name="i-heroicons-trash" class="cursor-pointer" @click.stop="onDeleteApi" />
