@@ -32,6 +32,7 @@
     "@trpc/server": "^10.40.0",
     "@vueuse/core": "^10.5.0",
     "@vueuse/nuxt": "^10.5.0",
+    "@vueuse/router": "^10.5.0",
     "bcryptjs": "^2.4.3",
     "lowdb": "^6.1.0",
     "nodemailer": "^6.9.5",

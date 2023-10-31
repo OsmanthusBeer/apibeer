@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { useRouteQuery } from '@vueuse/router'
+
 definePageMeta({
   title: 'Home',
   requiredAuth: false,
@@ -6,17 +8,16 @@ definePageMeta({
 
 const { $client } = useNuxtApp()
 const { init } = useSessionUser()
-const route = useRoute()
 const toast = useToast()
+
+// redirect
+const r = useRouteQuery<string>('r')
 
 // Check if user is logged in
 onMounted(() => {
   const { user } = useSessionUser()
-  if (user.value) {
-    // TODO: Wrap a utils function
-    const r = route.query.r as string
-    navigateTo(decodeURIComponent(r || '/dashboard'))
-  }
+  if (user.value)
+    navigateTo(decodeURIComponent(r.value || '/dashboard'))
 })
 
 // Form
@@ -24,18 +25,17 @@ const state = ref({
   email: 'hi@apibeer.com',
   password: '123456',
 })
-const submiting = ref(false)
+const submitting = ref(false)
 async function onSubmit() {
   const { email, password } = state.value
-  submiting.value = true
+  submitting.value = true
   try {
     await $client.public.login.mutate({
       email,
       password,
     })
-    const r = route.query.r as string
     await init({ force: true })
-    navigateTo({ path: decodeURIComponent(r || '/dashboard') })
+    navigateTo({ path: decodeURIComponent(r.value || '/dashboard') })
   }
   catch (error) {
     if (error instanceof Error) {
@@ -46,7 +46,7 @@ async function onSubmit() {
     toast.add({ title: 'Unknown error', color: 'red' })
   }
   finally {
-    submiting.value = false
+    submitting.value = false
   }
 }
 </script>
@@ -63,7 +63,7 @@ async function onSubmit() {
         </p>
       </div>
       <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-        <form class="card-body">
+        <form class="card-body" @submit.prevent="onSubmit">
           <div class="form-control">
             <label class="label">
               <span class="label-text">Email</span>
@@ -80,7 +80,8 @@ async function onSubmit() {
             </label>
           </div>
           <div class="form-control mt-6">
-            <button class="btn btn-primary" @click="onSubmit">
+            <button class="btn btn-primary">
+              <span v-if="submitting" class="loading loading-spinner" />
               Login
             </button>
           </div>
@@ -88,26 +89,4 @@ async function onSubmit() {
       </div>
     </div>
   </div>
-  <!-- <div class="h-screen flex flex-col items-center justify-center">
-    <p>Login</p>
-    <div class="mt-8 w-96 px-8 py-4 border rounded">
-      <UForm
-        ref="form" class="space-y-4"
-        :schema="schema" :state="state"
-        @submit="onSubmit"
-      >
-        <UFormGroup label="Email" name="email">
-          <UInput v-model="state.email" placeholder="you@example.com" icon="i-heroicons-envelope" />
-        </UFormGroup>
-        <UFormGroup label="Password" name="password">
-          <UInput v-model="state.password" type="password" placeholder="Your Password" icon="i-heroicons-lock-closed" />
-        </UFormGroup>
-        <div class="flex justify-end">
-          <UButton type="submit" :loading="submiting">
-            Submit
-          </UButton>
-        </div>
-      </UForm>
-    </div>
-  </div> -->
 </template>
