@@ -10,9 +10,9 @@ const toast = useToast()
 const { $client } = useNuxtApp()
 
 const menus = ref([
-  { icon: 'i-heroicons-home', label: 'Dashboard', to: '/dashboard' },
-  { icon: 'i-heroicons-star', label: 'Collection list', to: '/dashboard/collection' },
-  { icon: 'i-heroicons-clock', label: 'Visted list', to: '/dashboard/visited' },
+  { icon: 'mdi:view-dashboard', label: 'Dashboard', to: '/dashboard' },
+  { icon: 'mdi:bookmark-box-multiple', label: 'Collection list', to: '/dashboard/collection' },
+  { icon: 'mdi:clipboard-text-clock', label: 'Visted list', to: '/dashboard/visited' },
 ])
 
 const loading = ref(false)
@@ -53,88 +53,72 @@ async function fetchTeamList() {
   }
 }
 
-async function onTeamDelete(id: string) {
-  try {
-    await $client.protected.teamDelete.mutate({ id })
-  }
-  catch (error) {
-    if (error instanceof Error) {
-      toast.add({ title: error.message, color: 'red' })
-      return
-    }
-    toast.add({ title: 'Unknown error', color: 'red' })
-  }
-  finally {
-    fetchTeamList()
-  }
-}
+// async function onTeamDelete(id: string) {
+//   try {
+//     await $client.protected.teamDelete.mutate({ id })
+//   }
+//   catch (error) {
+//     if (error instanceof Error) {
+//       toast.add({ title: error.message, color: 'red' })
+//       return
+//     }
+//     toast.add({ title: 'Unknown error', color: 'red' })
+//   }
+//   finally {
+//     fetchTeamList()
+//   }
+// }
 </script>
 
 <template>
   <div>
     <ModalTeamCreate v-model="modalTeamCreate" @success="naviteToTeam" />
-    <div class="flex w-full h-screen overflow-hidden">
-      <!-- todo drawer -->
-      <div class="drawer">
-        <input id="my-drawer" type="checkbox" class="drawer-toggle">
-        <div class="drawer-content">
-          <!-- Page content here -->
-          <label for="my-drawer" class="btn btn-primary drawer-button">Open drawer</label>
-          <div class="flex-1 h-full">
-            <NuxtPage />
-          </div>
-        </div>
-        <div class="drawer-side">
-          <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay" />
-          <div class="relative menu p-4 w-80 min-h-full bg-base-200 text-base-content">
-            <div class="flex items-center">
-              <img class="w-[42px] mr-2" src="/logo_148x148.png" alt="">
-              <span class="text-2xl font-extrabold">API Beer</span>
-            </div>
-            <ul class="mt-8">
+    <div class="flex w-full h-[calc(100vh-64px)] overflow-hidden">
+      <div class="relative menu h-full text-base-content">
+        <ul class="menu bg-base w-56 rounded-box">
+          <NuxtLink
+            v-for="(menu, index) in menus" :key="index" v-slot="{ navigate }"
+            :to="{ path: menu.to }"
+            custom
+          >
+            <li @click="navigate">
+              <a :href="menu.to">
+                <Icon :icon="menu.icon" />
+                <span>{{ menu.label }}</span>
+              </a>
+            </li>
+          </NuxtLink>
+        </ul>
+        <div class="divider" />
+        <ul class="menu bg-base w-56 rounded-box">
+          <li>
+            <h2 class="menu-title">
+              <span>Your teams</span>
+              <Icon icon="mdi:account-multiple-plus" class="ml-2 text-lg inline-block cursor-pointer hover:text-gray-900" @click="createTeam" />
+            </h2>
+            <ul>
               <NuxtLink
-                v-for="(menu, index) in menus" :key="index" v-slot="{ navigate }"
-                :to="{ path: menu.to }"
+                v-for="team in teamList" :key="team.id" v-slot="{ navigate }"
+                :to="{ path: `/dashboard/t/${team.id}` }"
                 custom
               >
-                <li class="py-2 my-2 rounded cursor-pointer text-gray-700  " @click="navigate">
-                  <UIcon :name="menu.icon" />
-                  <span class="ml-2 font-semibold">{{ menu.label }}</span>
+                <li @click="navigate">
+                  <a>
+                    <kbd class="kbd kbd-sm">{{ team.name?.[0] }}</kbd>
+                    <span>{{ team.name }}</span>
+                  </a>
                 </li>
               </NuxtLink>
             </ul>
-            <div class="mt-4">
-              <div class="flex items-center text-xs font-semibold">
-                <span class="mr-2">Your teams</span>
-                <UButton icon="i-heroicons-folder-plus" size="sm" variant="ghost" @click="createTeam" />
-              </div>
-              <ul v-if="loading" class="h-3/5 overflow-auto mt-2">
-                <li v-for="(team, index) in 4" :key="index" class="group p-2 my-2 flex items-center rounded cursor-pointer text-gray-700 ">
-                  <USkeleton class="h-[20px] w-[20px]" />
-                  <USkeleton class="ml-4 h-4 w-[120px]" />
-                </li>
-              </ul>
-              <ul v-else-if="teamList?.length" class="h-3/5 overflow-auto mt-2">
-                <NuxtLink
-                  v-for="team in teamList" :key="team.id" v-slot="{ navigate }"
-                  :to="{ path: `/dashboard/t/${team.id}` }"
-                  custom
-                >
-                  <li class="group p-2 my-2 flex items-center rounded cursor-pointer text-gray-700 " @click="navigate">
-                    <UKbd>{{ team.name?.[0] }}</UKbd>
-                    <span class="ml-4 font-semibold">{{ team.name }}</span>
-                    <UButton class="hidden ml-auto group-hover:flex" icon="i-heroicons-x-circle" size="2xs" variant="ghost" @click.stop="onTeamDelete(team.id)" />
-                  </li>
-                </NuxtLink>
-              </ul>
-            </div>
-            <div class="absolute p-2 pl-6 left-0 bottom-8 w-full h-[40px] flex items-center">
-              <UIcon name="i-mdi-cog" />
-              <span class="ml-4 font-bold">Settings</span>
-            </div>
-          </div>
+          </li>
+        </ul>
+        <div class="absolute p-2 pl-6 left-0 bottom-8 w-full h-[40px] flex items-center">
+          <Icon icon="mdi:cog" />
+          <span class="ml-2 font-bold">Settings</span>
         </div>
       </div>
+      <div class="divider divider-horizontal" />
+      <NuxtPage />
     </div>
   </div>
 </template>

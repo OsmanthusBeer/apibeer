@@ -1,8 +1,6 @@
 <template>
   <div>
     <Header />
-    <UContainer>
-      <slot />
-    </UContainer>
+    <slot />
   </div>
 </template>

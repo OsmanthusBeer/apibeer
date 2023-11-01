@@ -30,9 +30,6 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     'vue-email/nuxt',
   ],
-  ui: {
-    icons: ['mdi', 'simple-icons'],
-  },
   colorMode: {
     preference: 'dark', // default value of $colorMode.preference
     fallback: 'dark', // fallback value if not system preference found
