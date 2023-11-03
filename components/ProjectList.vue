@@ -15,7 +15,7 @@ const { pending, error, data: projects } = $client.protected.projectList.useQuer
 <template>
   <div class="flex items-center my-8">
     <UInput class="w-44 mr-4" icon="i-heroicons-magnifying-glass-20-solid" size="sm" color="white" :trailing="false" />
-    <UButton :to="`/dashboard/project/create?tid=${teamId}`">
+    <UButton :to="`/dashboard/p/create?tid=${teamId}`">
       Create Project
     </UButton>
   </div>
