@@ -15,9 +15,9 @@ const { pending, error, data: projects } = $client.protected.projectList.useQuer
 <template>
   <div class="flex items-center my-8">
     <UInput class="w-44 mr-4" icon="i-heroicons-magnifying-glass-20-solid" size="sm" color="white" :trailing="false" />
-    <UButton :to="`/dashboard/p/create?tid=${teamId}`">
+    <NuxtLink class="btn btn-sm btn-neutral" :to="`/dashboard/p/create?tid=${teamId}`">
       Create Project
-    </UButton>
+    </NuxtLink>
   </div>
   <div v-if="pending" class="grid grid-cols-4 gap-4">
     <UCard v-for="n in 4" :key="n">
@@ -53,7 +53,7 @@ const { pending, error, data: projects } = $client.protected.projectList.useQuer
         </UCard>
       </NuxtLink>
       <NuxtLink :to="`/dashboard/project/${project.id}/edit`">
-        <UIcon class="absolute top-4 right-4" name="i-mdi-cog" />
+        <Icon icon="mdi:cog" class="absolute top-4 right-4" />
       </NuxtLink>
     </div>
   </div>

@@ -70,7 +70,9 @@ async function submit(event: FormSubmitEvent<any>) {
             <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
               Create Team
             </h3>
-            <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="modelValue = false" />
+            <button class="btn btn-ghost" @click="modelValue = false">
+              <Icon icon="heroicons:x-mark-20-solid" />
+            </button>
           </div>
         </template>
         <UForm
@@ -88,9 +90,9 @@ async function submit(event: FormSubmitEvent<any>) {
           </UFormGroup>
 
           <div class="mt-4 text-right">
-            <UButton type="submit" class="">
+            <button type="submit" class="btn btn-neutral">
               Submit
-            </UButton>
+            </button>
           </div>
         </UForm>
       </UCard>

@@ -111,12 +111,12 @@ async function onDelete() {
           <URadio v-model="project.visibility" label="Public" value="public" help="Anyone on the internet can see this project" />
         </UFormGroup>
         <div class="flex justify-end gap-4">
-          <UButton color="red" :loading="deleting" @click="onDelete">
+          <button class="btn btn-sm btn-error" :loading="deleting" @click="onDelete">
             Delete
-          </UButton>
-          <UButton type="submit" :loading="submiting">
+          </button>
+          <button class="btn btn-sm btn-neutral" type="submit" :loading="submiting">
             Submit
-          </UButton>
+          </button>
         </div>
       </UForm>
     </template>

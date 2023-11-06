@@ -41,6 +41,6 @@ async function onDeleteApi() {
       <UIApiMethod :method="method" />
       <p>{{ endpoint }}</p>
     </div>
-    <UIcon name="i-heroicons-trash" class="cursor-pointer" @click.stop="onDeleteApi" />
+    <Icon icon="heroicons:trash" class="cursor-pointer" @click.stop="onDeleteApi" />
   </NuxtLink>
 </template>

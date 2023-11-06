@@ -23,10 +23,10 @@ const schema = z.object({
 })
 type Schema = z.output<typeof schema>
 
-const submiting = ref(false)
+const submitting = ref(false)
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   try {
-    submiting.value = true
+    submitting.value = true
     await $client.protected.collectionCreate.mutate({
       projectId: props.projectId,
       name: event.data.name,
@@ -39,7 +39,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     toast.add({ title: error.message, color: 'red' })
   }
   finally {
-    submiting.value = false
+    submitting.value = false
   }
 }
 </script>
@@ -60,10 +60,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
             Create Collection
           </h3>
-          <UButton
-            color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1"
-            @click="modelValue = false"
-          />
+          <button class="btn btn-xs -my-1" @click="modelValue = false">
+            <Icon icon="heroicons:x-mark-20-solid" />
+          </button>
         </div>
       </template>
       <UForm
@@ -75,12 +74,12 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           <UInput v-model="state.name" placeholder="Input collection name" autofocus />
         </UFormGroup>
         <div class="flex justify-end gap-4">
-          <UButton color="gray" variant="solid" @click="modelValue = false">
+          <button class="btn btn-sm btn-neutral" @click="modelValue = false">
             Cancel
-          </UButton>
-          <UButton type="submit" :loading="submiting">
-            Confrim
-          </UButton>
+          </button>
+          <button :loading="submitting" class="btn btn-sm btn-neutral" type="submit">
+            Confirm
+          </button>
         </div>
       </UForm>
     </UCard>

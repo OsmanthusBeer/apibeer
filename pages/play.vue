@@ -16,8 +16,5 @@ definePageMeta({
       <h3>## Client</h3>
       <p>NUXT_PUBLIC_GREETING: {{ $config.public.greeting }}</p>
     </div>
-
-    <h2>NuxtUI</h2>
-    <UButton>Button</UButton>
   </div>
 </template>

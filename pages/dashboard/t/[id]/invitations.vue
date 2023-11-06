@@ -45,8 +45,8 @@ function sendInvitation() {
 
     <div class="w-full h-[1px] bg-gray-200 mt-2 mb-4" />
 
-    <UButton type="primary" :loading="sending" class="mx-auto" :disabled="!selectedRole" @click="sendInvitation">
+    <button class="btn btn-sm btn-neutral mx-auto" type="primary" :loading="sending" :disabled="!selectedRole" @click="sendInvitation">
       Send invitation
-    </UButton>
+    </button>
   </div>
 </template>

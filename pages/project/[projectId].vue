@@ -44,9 +44,9 @@ async function onCollectionDelete(id: string) {
 <template>
   <Splitpanes class="w-full h-full flex gap-2">
     <Pane class="px-4 py-2 space-y-2 border" size="30">
-      <UButton @click="openModalCollectionCreate">
+      <button class="btn btn-neutral" @click="openModalCollectionCreate">
         Create Collection
-      </UButton>
+      </button>
       <CollectionCreateModal v-model="modalCollectionCreate" :project-id="projectId" @success="collectionsRefresh" />
 
       <div v-if="collectionsError">
@@ -58,8 +58,8 @@ async function onCollectionDelete(id: string) {
       <div v-else class="space-y-2">
         <UCard v-for="collection in collections" :key="collection.id" class="relative">
           <p>{{ collection.name }}</p>
-          <UIcon
-            name="i-heroicons-trash" class="w-4 h-4 absolute top-4 right-4 cursor-pointer"
+          <Icon
+            name="heroicons:trash" class="w-4 h-4 absolute top-4 right-4 cursor-pointer"
             @click="onCollectionDelete(collection.id)"
           />
         </UCard>

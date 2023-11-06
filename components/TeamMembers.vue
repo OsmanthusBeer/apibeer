@@ -21,9 +21,9 @@ function inviteMembers() {
   <ModalInvite v-model="modalInvite" :team-id="props.teamId" />
   <div class="flex items-center my-8">
     <UInput class="w-44 mr-4" icon="i-heroicons-magnifying-glass-20-solid" size="sm" color="white" :trailing="false" />
-    <UButton @click="inviteMembers">
+    <button class="btn btn-sm btn-neutral" @click="inviteMembers">
       Invite Members
-    </UButton>
+    </button>
   </div>
   <div v-if="pending" class="grid grid-cols-4 gap-4">
     <UCard v-for="n in 4" :key="n">

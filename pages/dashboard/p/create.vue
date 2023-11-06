@@ -21,10 +21,10 @@ const schema = z.object({
 })
 type Schema = z.output<typeof schema>
 
-const submiting = ref(false)
+const submitting = ref(false)
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const { name, description, visibility } = event.data
-  submiting.value = true
+  submitting.value = true
   try {
     await $client.protected.projectCreate.mutate({
       name,
@@ -50,7 +50,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     toast.add({ title: 'Unknown error', color: 'red' })
   }
   finally {
-    submiting.value = false
+    submitting.value = false
   }
 }
 </script>
@@ -75,9 +75,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         <URadio v-model="state.visibility" label="Public" value="public" help="Anyone on the internet can see this project" />
       </UFormGroup>
       <div class="flex justify-end">
-        <UButton type="submit" :loading="submiting">
+        <button class="btn btn-sm btn-neutral" type="submit" :loading="submitting">
           Submit
-        </UButton>
+        </button>
       </div>
     </UForm>
   </div>

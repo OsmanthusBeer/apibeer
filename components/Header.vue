@@ -74,9 +74,11 @@ const dropdownItems = computed(() => ([
       </NuxtLink>
     </ul>
 
-    <ColorModeButton />
+    <UIThemeButton />
 
-    <UButton to="https://github.com/OsmanthusBeer/apibeer" icon="i-mdi-github" variant="ghost" aria-label="Github" />
+    <NuxtLink class="btn btn-ghost" to="https://github.com/OsmanthusBeer/apibeer">
+      <Icon icon="mdi:github" />
+    </NuxtLink>
 
     <div class="flex ml-6 pl-6 border-l">
       <UDropdown
@@ -96,9 +98,9 @@ const dropdownItems = computed(() => ([
           </div>
         </template>
       </UDropdown>
-      <UButton v-else to="/login">
+      <button v-else class="btn btn-neutral" to="/login">
         Login
-      </UButton>
+      </button>
     </div>
   </div>
 </template>

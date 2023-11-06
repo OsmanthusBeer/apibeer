@@ -68,7 +68,9 @@ function onInvite() {
             <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
               Invite member
             </h3>
-            <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="modelValue = false" />
+            <button class="btn btn-ghost" @click="modelValue = false">
+              <Icon icon="heroicons:x-mark-20-solid" />
+            </button>
           </div>
         </template>
         <UCommandPalette
@@ -84,13 +86,13 @@ function onInvite() {
           :fuse="{ resultLimit: 6, fuseOptions: { threshold: 0.1 } }"
           @input="onInput"
         />
-        <div class="mt-4 text-right">
-          <UButton class="" :disabled="!selected.length" @click="onInvite">
-            Invite
-          </UButton>
-          <UButton variant="outline" class="ml-4" @click="modelValue = false">
+        <div class="mt-4 flex gap-4 justify-end">
+          <button class="btn btn-neutral" @click="modelValue = false">
             Cancel
-          </UButton>
+          </button>
+          <button class="btn btn-ghost" :disabled="!selected.length" @click="onInvite">
+            Invite
+          </button>
         </div>
       </UCard>
     </UModal>
