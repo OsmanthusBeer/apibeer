@@ -60,7 +60,7 @@ const dropdownItems = computed(() => ([
 <template>
   <div class="w-full h-16 px-20 flex items-center justify-between border-b border-gray-200 dark:border-gray-800">
     <NuxtLink to="/" class="flex items-end font-bold text-xl" aria-label="Nuxt UI">
-      <Logo />
+      <UILogo />
     </NuxtLink>
 
     <ul class="flex justify-end flex-1">
@@ -74,7 +74,7 @@ const dropdownItems = computed(() => ([
       </NuxtLink>
     </ul>
 
-    <UIThemeButton />
+    <UIButtonToggleTheme />
 
     <NuxtLink class="btn btn-ghost" to="https://github.com/OsmanthusBeer/apibeer">
       <Icon icon="mdi:github" />

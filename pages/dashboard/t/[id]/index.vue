@@ -16,11 +16,11 @@ const { pending: teamPending, error: teamError, data: team } = await $client.pro
 const teamTabs = [{
   label: 'Projects',
   icon: 'i-heroicons-computer-desktop',
-  key: resolveComponent('ProjectList'),
+  key: resolveComponent('UIProjectList'),
 }, {
   label: 'Members',
   icon: 'i-heroicons-user',
-  key: resolveComponent('TeamMembers'),
+  key: resolveComponent('UITeamMembers'),
 }]
 
 const selectedTabIndex = ref(0)

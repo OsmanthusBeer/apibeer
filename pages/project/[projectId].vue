@@ -47,7 +47,7 @@ async function onCollectionDelete(id: string) {
       <button class="btn btn-neutral" @click="openModalCollectionCreate">
         Create Collection
       </button>
-      <CollectionCreateModal v-model="modalCollectionCreate" :project-id="projectId" @success="collectionsRefresh" />
+      <UIModalCollectionCreate v-model="modalCollectionCreate" :project-id="projectId" @success="collectionsRefresh" />
 
       <div v-if="collectionsError">
         {{ collectionsError }}
@@ -72,7 +72,7 @@ async function onCollectionDelete(id: string) {
         Loading...
       </div>
       <div v-else class="space-y-2">
-        <ApiCard
+        <UICardApi
           v-for="api in apis"
           :id="api.id" :key="api.id" class="w-full"
           :project-id="projectId" :method="api.method" :endpoint="api.endpoint"

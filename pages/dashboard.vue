@@ -72,7 +72,7 @@ async function fetchTeamList() {
 
 <template>
   <div>
-    <ModalTeamCreate v-model="modalTeamCreate" @success="naviteToTeam" />
+    <UIModalTeamCreate v-model="modalTeamCreate" @success="naviteToTeam" />
     <div class="flex w-full h-[calc(100vh-64px)] overflow-hidden">
       <div class="relative menu h-full text-base-content">
         <ul class="menu bg-base w-56 rounded-box">

@@ -18,7 +18,7 @@ function inviteMembers() {
 </script>
 
 <template>
-  <ModalInvite v-model="modalInvite" :team-id="props.teamId" />
+  <UIModalInvite v-model="modalInvite" :team-id="props.teamId" />
   <div class="flex items-center gap-4 my-8">
     <div class="join">
       <input class="join-item input input-sm input-bordered w-full">

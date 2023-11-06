@@ -118,14 +118,14 @@ async function onSend() {
     <NuxtLink class="btn btn-neutral" :to="`/project/${projectId}`">
       Create
     </NuxtLink>
-    <UIApiInput
+    <UIInputApi
       v-model:method="method" v-model:endpoint="endpoint"
       v-model:saving="saving" v-model:sending="sending"
       @save="onSave" @send="onSend"
     />
     <Splitpanes class="w-full h-full flex gap-2" horizontal>
       <Pane>
-        <UIApiRequestTabs v-model:params="params" />
+        <UITabsApiRequest v-model:params="params" />
       </Pane>
       <Pane>
         <div class="flex p-1">

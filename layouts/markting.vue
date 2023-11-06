@@ -3,6 +3,6 @@
     <UContainer>
       <slot />
     </UContainer>
-    <Footer />
+    <UIFooter />
   </div>
 </template>
