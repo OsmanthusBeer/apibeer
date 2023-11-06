@@ -26,13 +26,13 @@ const { pending, error, data: projects } = $client.protected.projectList.useQuer
     </NuxtLink>
   </div>
   <div v-if="pending" class="grid grid-cols-4 gap-4">
-    <UCard v-for="n in 4" :key="n">
+    <div v-for="n in 4" :key="n" class="card card-bordered px-8 py-4">
       <USkeleton class="h-12 w-12" :ui="{ rounded: 'rounded-full' }" />
       <div class="mt-2 space-y-2">
         <USkeleton class="h-4 w-[250px]" />
         <USkeleton class="h-4 w-[100px]" />
       </div>
-    </UCard>
+    </div>
   </div>
   <UAlert
     v-else-if="error"
@@ -49,14 +49,14 @@ const { pending, error, data: projects } = $client.protected.projectList.useQuer
   >
     <div v-for="project in projects" :key="project.id" class="relative">
       <NuxtLink :to="`/project/${project.id}`">
-        <UCard>
+        <div class="card card-bordered px-8 py-4">
           <p class="text-lg">
             {{ project.name }}
           </p>
           <p class="mt-4 h-8 text-xs text-slate-400">
             {{ project.description }}
           </p>
-        </UCard>
+        </div>
       </NuxtLink>
       <NuxtLink :to="`/dashboard/project/${project.id}/edit`">
         <Icon icon="mdi:cog" class="absolute top-4 right-4" />

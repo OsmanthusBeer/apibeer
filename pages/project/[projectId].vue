@@ -56,13 +56,13 @@ async function onCollectionDelete(id: string) {
         Loading..
       </div>
       <div v-else class="space-y-2">
-        <UCard v-for="collection in collections" :key="collection.id" class="relative">
+        <div v-for="collection in collections" :key="collection.id" class="card card-bordered px-8 py-4 relative">
           <p>{{ collection.name }}</p>
           <Icon
             name="heroicons:trash" class="w-4 h-4 absolute top-4 right-4 cursor-pointer"
             @click="onCollectionDelete(collection.id)"
           />
-        </UCard>
+        </div>
       </div>
 
       <div v-if="apisError">

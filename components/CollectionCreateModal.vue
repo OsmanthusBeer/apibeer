@@ -46,25 +46,15 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
 <template>
   <UModal v-model="modelValue">
-    <UCard
-      :ui="{
-        base: 'h-full flex flex-col',
-        divide: 'divide-y divide-gray-100 dark:divide-gray-800',
-        body: {
-          base: 'grow',
-        },
-      }"
-    >
-      <template #header>
-        <div class="flex items-center justify-between">
-          <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
-            Create Collection
-          </h3>
-          <button class="btn btn-xs -my-1" @click="modelValue = false">
-            <Icon icon="heroicons:x-mark-20-solid" />
-          </button>
-        </div>
-      </template>
+    <div class="card px-8 py-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
+          Create Collection
+        </h3>
+        <button class="btn btn-xs -my-1" @click="modelValue = false">
+          <Icon icon="heroicons:x-mark-20-solid" />
+        </button>
+      </div>
       <UForm
         ref="form" class="mt-4 space-y-4"
         :state="state" :schema="schema"
@@ -82,6 +72,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           </button>
         </div>
       </UForm>
-    </UCard>
+    </div>
   </UModal>
 </template>

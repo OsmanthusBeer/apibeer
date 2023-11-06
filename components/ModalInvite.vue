@@ -62,17 +62,15 @@ function onInvite() {
 <template>
   <div class="w-28">
     <UModal v-model="modelValue" class="text-red" prevent-close>
-      <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-        <template #header>
-          <div class="flex items-center justify-between">
-            <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
-              Invite member
-            </h3>
-            <button class="btn btn-ghost" @click="modelValue = false">
-              <Icon icon="heroicons:x-mark-20-solid" />
-            </button>
-          </div>
-        </template>
+      <div class="card px-8 py-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
+            Invite member
+          </h3>
+          <button class="btn btn-sm btn-ghost" @click="modelValue = false">
+            <Icon icon="heroicons:x-mark-20-solid" />
+          </button>
+        </div>
         <UCommandPalette
           v-model="selected"
           placeholder="Search by username or email address"
@@ -94,7 +92,7 @@ function onInvite() {
             Invite
           </button>
         </div>
-      </UCard>
+      </div>
     </UModal>
   </div>
 </template>

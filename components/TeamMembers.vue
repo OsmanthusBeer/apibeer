@@ -32,13 +32,13 @@ function inviteMembers() {
     </button>
   </div>
   <div v-if="pending" class="grid grid-cols-4 gap-4">
-    <UCard v-for="n in 4" :key="n">
+    <div v-for="n in 4" :key="n" class="card card-bordered px-8 py-4">
       <USkeleton class="h-12 w-12" :ui="{ rounded: 'rounded-full' }" />
       <div class="mt-2 space-y-2">
         <USkeleton class="h-4 w-[250px]" />
         <USkeleton class="h-4 w-[100px]" />
       </div>
-    </UCard>
+    </div>
   </div>
   <UAlert
     v-else-if="error"

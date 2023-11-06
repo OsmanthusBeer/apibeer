@@ -64,17 +64,16 @@ async function submit(event: FormSubmitEvent<any>) {
 <template>
   <div class="w-28">
     <UModal v-model="modelValue" class="text-red" prevent-close>
-      <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-        <template #header>
-          <div class="flex items-center justify-between">
-            <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
-              Create Team
-            </h3>
-            <button class="btn btn-ghost" @click="modelValue = false">
-              <Icon icon="heroicons:x-mark-20-solid" />
-            </button>
-          </div>
-        </template>
+      <div class="card px-8 py-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
+            Create Team
+          </h3>
+          <button class="btn btn-ghost" @click="modelValue = false">
+            <Icon icon="heroicons:x-mark-20-solid" />
+          </button>
+        </div>
+
         <UForm
           ref="form"
           :validate="validate"
@@ -95,7 +94,7 @@ async function submit(event: FormSubmitEvent<any>) {
             </button>
           </div>
         </UForm>
-      </UCard>
+      </div>
     </UModal>
   </div>
 </template>
