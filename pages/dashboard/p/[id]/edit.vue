@@ -21,10 +21,10 @@ const schema = z.object({
 })
 type Schema = z.output<typeof schema>
 
-const submiting = ref(false)
+const submitting = ref(false)
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const { name, description, visibility } = event.data
-  submiting.value = true
+  submitting.value = true
   try {
     await $client.protected.projectUpdate.mutate({
       id,
@@ -52,7 +52,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     toast.add({ title: 'Unknown error', color: 'red' })
   }
   finally {
-    submiting.value = false
+    submitting.value = false
   }
 }
 
@@ -101,7 +101,7 @@ async function onDelete() {
         @submit="onSubmit"
       >
         <UFormGroup label="Name" name="name">
-          <UInput v-model="project.name" placeholder="Name" />
+          <input v-model="project.name" class="input input-sm input-bordered" placeholder="Name">
         </UFormGroup>
         <UFormGroup label="Description" name="description">
           <UTextarea v-model="project.description" placeholder="Description" />
@@ -114,7 +114,7 @@ async function onDelete() {
           <button class="btn btn-sm btn-error" :loading="deleting" @click="onDelete">
             Delete
           </button>
-          <button class="btn btn-sm btn-neutral" type="submit" :loading="submiting">
+          <button class="btn btn-sm btn-neutral" type="submit" :loading="submitting">
             Submit
           </button>
         </div>

@@ -71,7 +71,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         @submit="onSubmit"
       >
         <UFormGroup label="Collection Name" name="name">
-          <UInput v-model="state.name" placeholder="Input collection name" autofocus />
+          <input v-model="state.name" class="input input-sm input-bordered w-full" placeholder="Input collection name" autofocus>
         </UFormGroup>
         <div class="flex justify-end gap-4">
           <button class="btn btn-sm btn-neutral" @click="modelValue = false">

@@ -28,19 +28,19 @@ const tabItems: TabItem[] = [
         <p>Query Parameters</p>
         <UTable :rows="queryParams" :ui="{ td: { padding: 'px-1' } }">
           <template #key-data="{ row }">
-            <UInput v-model="row.key" placeholder="Key" />
+            <input v-model="row.key" class="input input-sm input-bordered" placeholder="Key">
           </template>
           <template #value-data="{ row }">
-            <UInput v-model="row.value" placeholder="Value" />
+            <input v-model="row.value" class="input input-sm input-bordered" placeholder="Value">
           </template>
           <template #type-data="{ row }">
-            <UInput v-model="row.type" placeholder="Type" />
+            <input v-model="row.type" class="input input-sm input-bordered" placeholder="Type">
           </template>
           <template #example-data="{ row }">
-            <UInput v-model="row.example" placeholder="Example" />
+            <input v-model="row.example" class="input input-sm input-bordered" placeholder="Example">
           </template>
           <template #description-data="{ row }">
-            <UInput v-model="row.description" placeholder="Description" />
+            <input v-model="row.description" class="input input-sm input-bordered" placeholder="Description">
           </template>
         </UTable>
       </template>
@@ -48,19 +48,19 @@ const tabItems: TabItem[] = [
         <p>Path Parameters</p>
         <UTable :rows="pathParams" :ui="{ td: { padding: 'px-1' } }">
           <template #key-data="{ row }">
-            <UInput v-model="row.key" placeholder="Key" />
+            <input v-model="row.key" class="input input-sm input-bordered" placeholder="Key">
           </template>
           <template #value-data="{ row }">
-            <UInput v-model="row.value" placeholder="Value" />
+            <input v-model="row.value" class="input input-sm input-bordered" placeholder="Value">
           </template>
           <template #type-data="{ row }">
-            <UInput v-model="row.type" placeholder="Type" />
+            <input v-model="row.type" class="input input-sm input-bordered" placeholder="Type">
           </template>
           <template #example-data="{ row }">
-            <UInput v-model="row.example" placeholder="Example" />
+            <input v-model="row.example" class="input input-sm input-bordered" placeholder="Example">
           </template>
           <template #description-data="{ row }">
-            <UInput v-model="row.description" placeholder="Description" />
+            <input v-model="row.description" class="input input-sm input-bordered" placeholder="Description">
           </template>
         </UTable>
       </template>

@@ -65,7 +65,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       @submit="onSubmit"
     >
       <UFormGroup label="Name" name="name">
-        <UInput v-model="state.name" placeholder="Name" />
+        <input v-model="state.name" class="input input-sm input-bordered" placeholder="Name">
       </UFormGroup>
       <UFormGroup label="Description" name="description">
         <UTextarea v-model="state.description" placeholder="Description" />

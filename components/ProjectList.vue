@@ -13,8 +13,14 @@ const { pending, error, data: projects } = $client.protected.projectList.useQuer
 </script>
 
 <template>
-  <div class="flex items-center my-8">
-    <UInput class="w-44 mr-4" icon="i-heroicons-magnifying-glass-20-solid" size="sm" color="white" :trailing="false" />
+  <div class="flex items-center gap-4 my-8">
+    <div class="join">
+      <input class="join-item input input-sm input-bordered w-full">
+      <button class="join-item btn btn-sm border-r">
+        <Icon icon="heroicons:magnifying-glass-20-solid" />
+        Search
+      </button>
+    </div>
     <NuxtLink class="btn btn-sm btn-neutral" :to="`/dashboard/p/create?tid=${teamId}`">
       Create Project
     </NuxtLink>

@@ -26,10 +26,10 @@ function validate(state: Schema): FormError[] {
   return errors
 }
 
-const submiting = ref(false)
+const submitting = ref(false)
 async function submit(event: FormSubmitEvent<any>) {
   const { name, description } = event.data
-  submiting.value = true
+  submitting.value = true
   try {
     const { id } = await $client.protected.teamCreate.mutate({
       name,
@@ -56,7 +56,7 @@ async function submit(event: FormSubmitEvent<any>) {
     toast.add({ title: 'Unknown error', color: 'red' })
   }
   finally {
-    submiting.value = false
+    submitting.value = false
   }
 }
 </script>
@@ -82,15 +82,15 @@ async function submit(event: FormSubmitEvent<any>) {
           @submit="submit"
         >
           <UFormGroup label="Team name" name="name">
-            <UInput v-model="state.name" class="mt-4" />
+            <input v-model="state.name" class="input input-sm input-bordered w-full mt-4">
           </UFormGroup>
 
           <UFormGroup class="mt-4" label="Team description" name="description">
-            <UInput v-model="state.description" class="mt-4" />
+            <input v-model="state.description" class="input input-sm input-bordered w-full mt-4">
           </UFormGroup>
 
           <div class="mt-4 text-right">
-            <button type="submit" class="btn btn-neutral">
+            <button type="submit" class="btn btn-neutral btn-sm">
               Submit
             </button>
           </div>
