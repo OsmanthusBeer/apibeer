@@ -98,9 +98,9 @@ const dropdownItems = computed(() => ([
           </div>
         </template>
       </UDropdown>
-      <button v-else class="btn btn-neutral" to="/login">
+      <NuxtLink v-else class="btn btn-neutral" to="/login">
         Login
-      </button>
+      </NuxtLink>
     </div>
   </div>
 </template>
