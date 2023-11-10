@@ -21,7 +21,8 @@
     "private:env:download": "gh dl OsmanthusBeer/private .env",
     "private:env:upload": "gh up OsmanthusBeer/private .env",
     "private:docs:download": "gh dl OsmanthusBeer/private docs/",
-    "private:docs:upload": "gh up OsmanthusBeer/private docs/*.md"
+    "private:docs:upload": "gh up OsmanthusBeer/private docs/*.md",
+    "deploy": "kamal deploy"
   },
   "dependencies": {
     "@iconify-json/mdi": "^1.1.55",

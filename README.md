@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://demo.apibeer.com/">
+  <a href="https://apibeer.com/">
     <picture>
       <img src="./public/logo_180x180.png" height="128">
     </picture>
@@ -21,7 +21,7 @@
 
 ## Demo Online
 
-> <https://demo.apibeer.com/>
+> <https://apibeer.com/>
 
 ## Quick Start
 
@@ -32,6 +32,10 @@ pnpm i
 cp .env.example .env # config `.env`
 pnpm dev
 ```
+
+## Notes
+
+- We use [`kamal`](https://kamal-deploy.org/) manual deploy.
 
 ## Related
 
