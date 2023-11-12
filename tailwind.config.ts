@@ -10,5 +10,6 @@ export default <Partial<Config>> {
       'light',
       'dark',
     ],
+    logs: false,
   },
 }

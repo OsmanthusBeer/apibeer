@@ -8,7 +8,7 @@ image: apibeer/apibeer
 registry:
   username: apibeer
   password:
-    - KAMAL_REGISTRY_PASSWORD
+    - DOCKER_REGISTRY_TOKEN
 
 # Configure custom arguments for Traefik
 traefik:
@@ -57,7 +57,8 @@ env:
 #   user: app
 
 # Configure builder setup.
-# builder:
+builder:
+  multiarch: false
 #   args:
 #     RUBY_VERSION: 3.2.0
 #   secrets:
