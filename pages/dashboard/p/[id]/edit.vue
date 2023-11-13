@@ -83,7 +83,7 @@ async function onDelete() {
 <template>
   <div class="p-8">
     <div v-if="pending">
-      <USkeleton class="h-4 w-[250px]" />
+      <div class="skeleton h-4 w-[250px]" />
     </div>
     <UAlert
       v-else-if="error"

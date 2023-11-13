@@ -27,10 +27,10 @@ const { pending, error, data: projects } = $client.protected.projectList.useQuer
   </div>
   <div v-if="pending" class="grid grid-cols-4 gap-4">
     <div v-for="n in 4" :key="n" class="card card-bordered px-8 py-4">
-      <USkeleton class="h-12 w-12" :ui="{ rounded: 'rounded-full' }" />
+      <div class="skeleton h-12 w-12 rounded-full" />
       <div class="mt-2 space-y-2">
-        <USkeleton class="h-4 w-[250px]" />
-        <USkeleton class="h-4 w-[100px]" />
+        <div class="skeleton h-4 w-[250px]" />
+        <div class="skeleton h-4 w-[100px]" />
       </div>
     </div>
   </div>
