@@ -34,15 +34,10 @@ const { pending, error, data: projects } = $client.protected.projectList.useQuer
       </div>
     </div>
   </div>
-  <UAlert
-    v-else-if="error"
-    title="Fetch project list error" icon="i-heroicons-x-circle-solid"
-    color="red" variant="outline"
-  >
-    <template #description>
-      {{ JSON.stringify(error) }}
-    </template>
-  </UAlert>
+  <div v-else-if="error" class="alert alert-error">
+    <Icon icon="heroicons:x-circle-solid" />
+    <span>{{ JSON.stringify(error) }}</span>
+  </div>
   <div
     v-else
     class="grid grid-cols-4 gap-4"

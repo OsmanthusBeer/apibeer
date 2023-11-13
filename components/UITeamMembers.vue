@@ -40,15 +40,10 @@ function inviteMembers() {
       </div>
     </div>
   </div>
-  <UAlert
-    v-else-if="error"
-    title="Fetch project list error" icon="i-heroicons-x-circle-solid"
-    color="red" variant="outline"
-  >
-    <template #description>
-      {{ JSON.stringify(error) }}
-    </template>
-  </UAlert>
+  <div v-else-if="error" class="alert alert-error">
+    <Icon icon="heroicons:x-circle-solid" />
+    <span>{{ JSON.stringify(error) }}</span>
+  </div>
   <ul v-else role="list" class="grid gap-x-8 gap-y-12 sm:grid-cols-4 sm:gap-y-16 xl:col-span-2">
     <li v-for="user in members" :key="user.id">
       <div class="flex items-center gap-x-6">

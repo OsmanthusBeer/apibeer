@@ -85,15 +85,10 @@ async function onDelete() {
     <div v-if="pending">
       <div class="skeleton h-4 w-[250px]" />
     </div>
-    <UAlert
-      v-else-if="error"
-      title="Fetch project error" icon="i-heroicons-x-circle-solid"
-      color="red" variant="outline"
-    >
-      <template #description>
-        {{ JSON.stringify(error) }}
-      </template>
-    </UAlert>
+    <div v-else-if="error" class="alert alert-error">
+      <Icon icon="heroicons:x-circle-solid" />
+      <span>{{ JSON.stringify(error) }}</span>
+    </div>
     <template v-else-if="project">
       <UForm
         ref="form" class="mt-4 space-y-4"
