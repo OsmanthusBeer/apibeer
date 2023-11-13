@@ -4,6 +4,13 @@ const props = withDefaults(defineProps<{
 }>(), {
   teamId: '',
 })
+
+const STATUS_STYLE: Record<string, Array<string>> = {
+  Pending: ['badge-info'],
+  Reject: ['badge-warning'],
+  Success: ['badge-success'],
+}
+
 const { $client } = useNuxtApp()
 // fetch team members
 const { pending, error, data: members } = $client.protected.teamMembers.useQuery({
@@ -42,16 +49,24 @@ function inviteMembers() {
   </div>
   <div v-else-if="error" class="alert alert-error">
     <Icon icon="heroicons:x-circle-solid" />
+    <span>Fetch project list error</span>
     <span>{{ JSON.stringify(error) }}</span>
   </div>
   <ul v-else role="list" class="grid gap-x-8 gap-y-12 sm:grid-cols-4 sm:gap-y-16 xl:col-span-2">
     <li v-for="user in members" :key="user.id">
       <div class="flex items-center gap-x-6">
-        <img class="h-16 w-16 rounded-full" :src="user.avatar" alt="">
+        <div class="avatar">
+          <div class="w-20 rounded-full">
+            <img :src="user.avatar">
+          </div>
+        </div>
         <div>
           <h3 class="text-base font-semibold leading-7 tracking-tight">
             {{ user.username }} ({{ user.role }})
           </h3>
+          <p v-if="user.status" class="badge" :class="[STATUS_STYLE[user.status]]">
+            {{ user.status }}
+          </p>
           <p class="text-sm font-semibold leading-6 text-gray-500 dark:text-gray-400">
             {{ user.email }}
           </p>

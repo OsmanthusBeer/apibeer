@@ -40,12 +40,13 @@ model Team {
 }
 
 model TeamMember {
-  id     String @id @default(cuid())
+  id     String       @id @default(cuid())
   role   Role
   userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   teamId String
-  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  team   Team         @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  status InviteStatus @default(Success)
 
   @@unique([userId, teamId])
 }
@@ -85,6 +86,12 @@ enum Role {
   Maintainer
   Developer
   Viewer
+}
+
+enum InviteStatus {
+  Pending
+  Success
+  Reject
 }
 
 model Collection {
