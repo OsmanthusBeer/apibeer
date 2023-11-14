@@ -52,7 +52,6 @@
     "@iconify/vue": "^4.1.1",
     "@nuxt/devtools": "latest",
     "@nuxtjs/color-mode": "^3.3.0",
-    "@nuxtjs/i18n": "8.0.0-rc.4",
     "@tailwindcss/typography": "^0.5.10",
     "@total-typescript/ts-reset": "^0.5.1",
     "@types/bcryptjs": "^2.4.6",

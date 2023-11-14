@@ -27,7 +27,6 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxt/ui',
     '@nuxtjs/color-mode',
-    '@nuxtjs/i18n',
     'vue-email/nuxt',
   ],
   colorMode: {
@@ -40,25 +39,8 @@ export default defineNuxtConfig({
     classSuffix: '-mode',
     storageKey: 'nuxt-color-mode',
   },
-  i18n: {
-    vueI18n: './i18n.config.ts',
-    // compilation: {
-    //   jit: false,
-    // },
-  },
   vueEmail: {
     baseUrl: 'https://example.com',
-    i18n: {
-      defaultLocale: 'en',
-      translations: {
-        en: {
-          greetings: 'Welcome {user}',
-        },
-        es: {
-          greetings: 'Bienvenido {user}',
-        },
-      },
-    },
   },
   vite: {
     vue: {
