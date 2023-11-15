@@ -10,6 +10,7 @@ const sending = ref(false)
 const selectedRole = ref('')
 
 const route = useRoute()
+const router = useRouter()
 const id = ref(route.params.id)
 const users = ref(JSON.parse(route.query.users))
 
@@ -79,7 +80,7 @@ async function sendInvitation() {
         <div class="modal-action">
           <form method="dialog">
             <!-- if there is a button in form, it will close the modal -->
-            <button class="btn" @click="router.go(-1)">
+            <button class="btn" @click="router.back();">
               Close
             </button>
           </form>

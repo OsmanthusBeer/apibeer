@@ -4,6 +4,7 @@ definePageMeta({
 })
 
 const route = useRoute()
+const router = useRouter()
 const id = ref(route.query.id)
 
 const { $client } = useNuxtApp()
@@ -15,6 +16,9 @@ async function confirm() {
   // confirm
   await $client.protected.teamInviteConfirm.useQuery({
     id: id.value,
+  })
+  router.push({
+    path: '/dashboard',
   })
 }
 </script>

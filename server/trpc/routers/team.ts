@@ -140,13 +140,6 @@ export const teamRouter = router({
 
       // send email
       data.forEach(async (item) => {
-        const template = await useCompiler('teamInvite.vue', {
-          props: {
-            id: '',
-            confirmUrl: `http://localhost:3000/dashboard/t/confirm?id=${item.id}`,
-          },
-        })
-
         const transporter = nodemailer.createTransport({
           host: 'smtp.exmail.qq.com',
           port: 465,
@@ -157,12 +150,31 @@ export const teamRouter = router({
           },
         })
 
-        await transporter.sendMail({
-          from: '"OsmanthusBeer Labs🌹" <yule@eansoft.net>', // sender address
-          to: '1679591098@qq.com', // list of receivers
-          subject: 'OsmanthusBeer Labs: Team invite', // Subject line
-          html: template, // html body
+        const team = await ctx.prisma.team.findFirst({ where: {
+          id: item.teamId,
+        } })
+
+        const user = await ctx.prisma.user.findFirst({ where: {
+          id: item.userId,
+        } })
+
+        const template = await useCompiler('teamInvite.vue', {
+          props: {
+            teamname: team?.name || '',
+            username: user?.username || '',
+            confirmUrl: `http://apibeer.com/dashboard/t/confirm?id=${item.id}`,
+          },
         })
+
+        if (user) {
+          await transporter.sendMail({
+            from: '"OsmanthusBeer Labs🌹" <yule@eansoft.net>', // sender address
+            // to: '1679591098@qq.com', // list of receivers
+            to: user.email, // list of receivers
+            subject: 'OsmanthusBeer Labs: Team invite', // Subject line
+            html: template, // html body
+          })
+        }
       })
 
       return res
