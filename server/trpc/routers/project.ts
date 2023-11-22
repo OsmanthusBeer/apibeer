@@ -112,12 +112,34 @@ export const projectRouter = router({
       })
       if (!project)
         throw new Error('Project not found')
-      await ctx.prisma.visitedHisotry.create({
-        data: {
+      // add or update visted history
+
+      const visitedRecord = await ctx.prisma.visitedHisotry.findFirst({
+        where: {
           projectId: input.id,
           userId: user.id,
         },
       })
+      if (visitedRecord) {
+        await ctx.prisma.visitedHisotry.update({
+          where: {
+            id: visitedRecord.id,
+          },
+          data: {
+            date: new Date().getTime().toString(),
+          },
+        })
+      }
+      else {
+        await ctx.prisma.visitedHisotry.create({
+          data: {
+            projectId: input.id,
+            userId: user.id,
+            date: new Date().getTime().toString(),
+          },
+        })
+      }
+
       return { ...project, visibility: project.visibility.toLowerCase() }
     }),
   projectUpdate: protectedProcedure
@@ -177,6 +199,9 @@ export const projectRouter = router({
         },
         include: {
           project: true,
+        },
+        orderBy: {
+          date: 'desc',
         },
       })
       return visitedList
