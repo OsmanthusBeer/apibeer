@@ -34,7 +34,7 @@ function selectTab(index: number) {
 </script>
 
 <template>
-  <div class="p-8">
+  <div class="p-8 w-full">
     <h1 v-if="teamPending" class="text-2xl pb-4 font-semibold border-b border-gray-200 dark:border-gray-800">
       <div class="skeleton h-[48px]" />
     </h1>

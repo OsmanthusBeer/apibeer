@@ -38,6 +38,9 @@ const { pending, error, data: projects } = $client.protected.projectList.useQuer
     <Icon icon="heroicons:x-circle-solid" />
     <span>{{ JSON.stringify(error) }}</span>
   </div>
+  <div v-else-if="!projects?.length" class="mt-20">
+    <UIEmpty />
+  </div>
   <div
     v-else
     class="grid grid-cols-4 gap-4"
