@@ -53,7 +53,7 @@ const { pending, error, data: projects } = $client.protected.projectList.useQuer
           </p>
         </div>
       </NuxtLink>
-      <NuxtLink :to="`/dashboard/project/${project.id}/edit`">
+      <NuxtLink :to="`/dashboard/p/${project.id}/edit`">
         <Icon icon="mdi:cog" class="absolute top-4 right-4" />
       </NuxtLink>
     </div>

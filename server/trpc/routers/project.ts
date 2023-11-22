@@ -112,7 +112,12 @@ export const projectRouter = router({
       })
       if (!project)
         throw new Error('Project not found')
-
+      await ctx.prisma.visitedHisotry.create({
+        data: {
+          projectId: input.id,
+          userId: user.id,
+        },
+      })
       return { ...project, visibility: project.visibility.toLowerCase() }
     }),
   projectUpdate: protectedProcedure
@@ -161,5 +166,19 @@ export const projectRouter = router({
         throw new Error('Project not found')
 
       return true
+    }),
+  visitedList: protectedProcedure
+    .query(async (event) => {
+      const { ctx } = event
+      const user = ctx.session.data.user
+      const visitedList = await ctx.prisma.visitedHisotry.findMany({
+        where: {
+          userId: user.id,
+        },
+        include: {
+          project: true,
+        },
+      })
+      return visitedList
     }),
 })

@@ -11,16 +11,17 @@ datasource db {
 }
 
 model User {
-  id            String          @id @default(cuid())
-  username      String          @unique
-  email         String          @unique
-  avatar        String
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  deletedAt     DateTime?
-  password      Password?
-  ProjectMember ProjectMember[]
-  TeamMember    TeamMember[]
+  id             String           @id @default(cuid())
+  username       String           @unique
+  email          String           @unique
+  avatar         String
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  deletedAt      DateTime?
+  password       Password?
+  ProjectMember  ProjectMember[]
+  TeamMember     TeamMember[]
+  VisitedHisotry VisitedHisotry[]
 }
 
 model Password {
@@ -52,17 +53,18 @@ model TeamMember {
 }
 
 model Project {
-  id          String            @id @default(cuid())
-  name        String            @db.VarChar(50)
-  description String            @db.VarChar(255)
-  visibility  ProjectVisibility @default(PRIVATE)
-  createdAt   DateTime          @default(now())
-  updatedAt   DateTime          @updatedAt
-  members     ProjectMember[]
-  apis        Api[]
-  teamId      String
-  Team        Team              @relation(fields: [teamId], references: [id], onDelete: Cascade)
-  collections Collection[]
+  id             String            @id @default(cuid())
+  name           String            @db.VarChar(50)
+  description    String            @db.VarChar(255)
+  visibility     ProjectVisibility @default(PRIVATE)
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  members        ProjectMember[]
+  apis           Api[]
+  teamId         String
+  Team           Team              @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  collections    Collection[]
+  VisitedHisotry VisitedHisotry[]
 }
 
 enum ProjectVisibility {
@@ -149,4 +151,12 @@ enum ApiMethod {
 enum ApiStatus {
   DRAFT
   PUBLISHED
+}
+
+model VisitedHisotry {
+  id        String  @id @default(cuid())
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
