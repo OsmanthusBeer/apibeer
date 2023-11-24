@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const { $client } = useNuxtApp()
 // fetch project list
-const { pending, error, data: projects } = $client.protected.visitedList.useQuery()
+const { pending, error, data: projects } = $client.protected.favoriteProjects.useQuery()
 </script>
 
 <template>

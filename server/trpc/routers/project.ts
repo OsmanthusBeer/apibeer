@@ -210,7 +210,7 @@ export const projectRouter = router({
     .query(async (event) => {
       const { ctx } = event
       const user = ctx.session.data.user
-      const visitedList = await ctx.prisma.visitedHisotry.findMany({
+      const projects = await ctx.prisma.visitedHisotry.findMany({
         where: {
           userId: user.id,
         },
@@ -221,7 +221,21 @@ export const projectRouter = router({
           date: 'desc',
         },
       })
-      return visitedList
+      return projects
+    }),
+  favoriteProjects: protectedProcedure
+    .query(async (event) => {
+      const { ctx } = event
+      const user = ctx.session.data.user
+      const projects = await ctx.prisma.projectCollection.findMany({
+        where: {
+          userId: user.id,
+        },
+        include: {
+          project: true,
+        },
+      })
+      return projects
     }),
   addFavoriteProject: protectedProcedure
     .input(
