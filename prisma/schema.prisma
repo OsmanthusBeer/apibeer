@@ -11,17 +11,18 @@ datasource db {
 }
 
 model User {
-  id             String           @id @default(cuid())
-  username       String           @unique
-  email          String           @unique
-  avatar         String
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  deletedAt      DateTime?
-  password       Password?
-  ProjectMember  ProjectMember[]
-  TeamMember     TeamMember[]
-  VisitedHisotry VisitedHisotry[]
+  id                String              @id @default(cuid())
+  username          String              @unique
+  email             String              @unique
+  avatar            String
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  deletedAt         DateTime?
+  password          Password?
+  ProjectMember     ProjectMember[]
+  TeamMember        TeamMember[]
+  VisitedHisotry    VisitedHisotry[]
+  ProjectCollection ProjectCollection[]
 }
 
 model Password {
@@ -53,23 +54,34 @@ model TeamMember {
 }
 
 model Project {
-  id             String            @id @default(cuid())
-  name           String            @db.VarChar(50)
-  description    String            @db.VarChar(255)
-  visibility     ProjectVisibility @default(PRIVATE)
-  createdAt      DateTime          @default(now())
-  updatedAt      DateTime          @updatedAt
-  members        ProjectMember[]
-  apis           Api[]
-  teamId         String
-  Team           Team              @relation(fields: [teamId], references: [id], onDelete: Cascade)
-  collections    Collection[]
-  VisitedHisotry VisitedHisotry[]
+  id                String              @id @default(cuid())
+  name              String              @db.VarChar(50)
+  description       String              @db.VarChar(255)
+  visibility        ProjectVisibility   @default(PRIVATE)
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  members           ProjectMember[]
+  apis              Api[]
+  teamId            String
+  Team              Team                @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  collections       Collection[]
+  VisitedHisotry    VisitedHisotry[]
+  ProjectCollection ProjectCollection[]
 }
 
 enum ProjectVisibility {
   PUBLIC
   PRIVATE
+}
+
+model ProjectCollection {
+  id        String  @id @default(cuid())
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, projectId])
 }
 
 model ProjectMember {

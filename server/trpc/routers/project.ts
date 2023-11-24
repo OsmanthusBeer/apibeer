@@ -65,7 +65,24 @@ export const projectRouter = router({
           ],
         },
       })
-      return projects
+
+      const list = []
+      for (const project of projects) {
+        const res = await ctx.prisma.projectCollection.findFirst({
+          where: {
+            AND: [
+              { projectId: project.id },
+              { userId: user?.id },
+            ],
+          },
+        })
+        list.push({
+          ...project,
+          isFavorite: !!res,
+        })
+      }
+
+      return list
     }),
   projectCreate: protectedProcedure
     .input(
@@ -205,5 +222,39 @@ export const projectRouter = router({
         },
       })
       return visitedList
+    }),
+  addFavoriteProject: protectedProcedure
+    .input(
+      z.object({
+        projectId: z.string(),
+      }),
+    )
+    .mutation(async (event) => {
+      const { ctx, input } = event
+      const user = ctx.session.data.user
+      const res = await ctx.prisma.projectCollection.create({
+        data: {
+          userId: user.id,
+          projectId: input.projectId,
+        },
+      })
+      return res
+    }),
+  removeFavoriteProject: protectedProcedure
+    .input(
+      z.object({
+        projectId: z.string(),
+      }),
+    )
+    .mutation(async (event) => {
+      const { ctx, input } = event
+      const user = ctx.session.data.user
+      const res = await ctx.prisma.projectCollection.deleteMany({
+        where: {
+          userId: user.id,
+          projectId: input.projectId,
+        },
+      })
+      return res
     }),
 })

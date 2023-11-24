@@ -1,14 +1,84 @@
 <script setup lang="ts">
+import type { Project } from '@prisma/client'
+
 interface ProjectListProp {
   teamId: string
+}
+interface ProjectItem extends Project {
+  isFavorite: boolean
 }
 const props = withDefaults(defineProps<ProjectListProp>(), {
   teamId: '',
 })
-const { $client } = useNuxtApp()
+const { $client, $toast } = useNuxtApp()
 // fetch project list
-const { pending, error, data: projects } = $client.protected.projectList.useQuery({
-  teamId: props.teamId,
+// const { pending, error, data: projects } = $client.protected.projectList.useQuery({
+//   teamId: props.teamId,
+// })
+const pending = ref(false)
+const fetchError = ref<any>(null)
+const projects = ref<ProjectItem[]>([])
+async function fetchProjects() {
+  try {
+    pending.value = true
+    const list = await $client.protected.projectList.query({
+      teamId: props.teamId,
+    })
+    projects.value = list
+  }
+  catch (error) {
+    fetchError.value = error
+  }
+  finally {
+    pending.value = false
+  }
+}
+
+const collecting = ref(false)
+
+async function addFavoriteProject(project: ProjectItem) {
+  try {
+    collecting.value = true
+    const { id } = project || {}
+    await $client.protected.addFavoriteProject.mutate({
+      projectId: id,
+    })
+    fetchProjects()
+  }
+  catch (error) {
+    $toast({
+      message: JSON.stringify(error),
+      type: 'error',
+    })
+  }
+  finally {
+    collecting.value = false
+  }
+}
+
+const deleting = ref(false)
+async function removeFavoriteProject(project: ProjectItem) {
+  try {
+    deleting.value = true
+    const { id } = project || {}
+    await $client.protected.removeFavoriteProject.mutate({
+      projectId: id,
+    })
+    fetchProjects()
+  }
+  catch (error) {
+    $toast({
+      message: JSON.stringify(error),
+      type: 'error',
+    })
+  }
+  finally {
+    deleting.value = false
+  }
+}
+
+onMounted(() => {
+  fetchProjects()
 })
 </script>
 
@@ -34,9 +104,9 @@ const { pending, error, data: projects } = $client.protected.projectList.useQuer
       </div>
     </div>
   </div>
-  <div v-else-if="error" class="alert alert-error">
+  <div v-else-if="fetchError" class="alert alert-error">
     <Icon icon="heroicons:x-circle-solid" />
-    <span>{{ JSON.stringify(error) }}</span>
+    <span>{{ JSON.stringify(fetchError) }}</span>
   </div>
   <div v-else-if="!projects?.length" class="mt-20">
     <UIEmpty />
@@ -59,6 +129,8 @@ const { pending, error, data: projects } = $client.protected.projectList.useQuer
       <NuxtLink :to="`/dashboard/p/${project.id}/edit`">
         <Icon icon="mdi:cog" class="absolute top-4 right-4" />
       </NuxtLink>
+      <Icon v-if="project.isFavorite" icon="mdi:favorite" class="absolute top-4 right-10" @click="removeFavoriteProject(project)" />
+      <Icon v-else icon="mdi:favorite-outline" class="absolute top-4 right-10" @click="addFavoriteProject(project)" />
     </div>
   </div>
 </template>
