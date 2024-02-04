@@ -1,11 +1,10 @@
 import process from 'node:process'
-import type { Role } from '@prisma/client'
-import { $Enums, InviteStatus } from '@prisma/client'
 import { z } from 'zod'
 import nodemailer from 'nodemailer'
 import { protectedProcedure, router } from '../trpc'
 import { useCompiler } from '#vue-email'
 import { generateUUID } from '~/server/utils/uuid'
+import { InviteStatus, Role } from '~/types'
 
 export const teamRouter = router({
 // Team, TODO: permission
@@ -39,8 +38,8 @@ export const teamRouter = router({
           members: {
             create: {
               userId: user.id,
-              role: $Enums.Role.Owner,
-              status: $Enums.InviteStatus.Success,
+              role: Role.Owner,
+              status: InviteStatus.Success,
             },
           },
         },
@@ -130,13 +129,13 @@ export const teamRouter = router({
           userId,
           role: input.role as Role,
           teamId: input.teamId,
-          status: $Enums.InviteStatus.Pending,
+          status: InviteStatus.Pending,
         }
       })
       // insert into team member record
-      const res = await ctx.prisma.teamMember.createMany({
-        data,
-      })
+      // const res = await ctx.prisma.teamMember.createMany({
+      //   data,
+      // })
 
       // send email
       data.forEach(async (item) => {

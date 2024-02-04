@@ -1,7 +1,6 @@
-import { $Enums } from '@prisma/client'
 import { z } from 'zod'
 import { protectedProcedure, router } from '../trpc'
-import type { ApiParams } from '@/types'
+import { ApiMethod, type ApiParams, ApiStatus, Role } from '@/types'
 
 export const apiRouter = router({
   // API, TODO: permission
@@ -31,7 +30,7 @@ export const apiRouter = router({
         name: z.string().min(3).max(50).optional(),
         description: z.string().min(3).max(255).optional(),
         endpoint: z.string(),
-        method: z.nativeEnum($Enums.ApiMethod),
+        method: z.nativeEnum(ApiMethod),
         params: z.array(z.object({
           key: z.string(),
           type: z.enum(['string', 'number']),
@@ -48,7 +47,7 @@ export const apiRouter = router({
         tags: z.array(z.string()),
         versions: z.array(z.string()),
         order: z.number(),
-        status: z.nativeEnum($Enums.ApiStatus).optional(),
+        status: z.nativeEnum(ApiStatus).optional(),
         projectId: z.string(),
       }),
     ).mutation(async (event) => {
@@ -64,8 +63,8 @@ export const apiRouter = router({
       if (!projectMember)
         throw new Error('Project not found')
       if (![
-        $Enums.Role.Owner,
-        $Enums.Role.Maintainer,
+        Role.Owner,
+        Role.Maintainer,
       ].includes(projectMember.role))
         throw new Error('Permission denied')
 
@@ -82,7 +81,7 @@ export const apiRouter = router({
       name: z.string().min(3).max(50).optional(),
       description: z.string().min(3).max(255).optional(),
       endpoint: z.string(),
-      method: z.nativeEnum($Enums.ApiMethod),
+      method: z.nativeEnum(ApiMethod),
       params: z.array(z.object({
         key: z.string(),
         type: z.enum(['string', 'number']),
@@ -99,7 +98,7 @@ export const apiRouter = router({
       tags: z.array(z.string()),
       versions: z.array(z.string()),
       order: z.number(),
-      status: z.nativeEnum($Enums.ApiStatus).optional(),
+      status: z.nativeEnum(ApiStatus).optional(),
       projectId: z.string(),
     }),
   ).mutation(async (event) => {
@@ -115,8 +114,8 @@ export const apiRouter = router({
     if (!projectMember)
       throw new Error('Project not found')
     if (![
-      $Enums.Role.Owner,
-      $Enums.Role.Maintainer,
+      Role.Owner,
+      Role.Maintainer,
     ].includes(projectMember.role))
       throw new Error('Permission denied')
 

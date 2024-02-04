@@ -1,6 +1,6 @@
-import { $Enums } from '@prisma/client'
 import { z } from 'zod'
 import { protectedProcedure, router } from '../trpc'
+import { ProjectVisibility, Role } from '~/types'
 
 export const projectRouter = router({
   userList: protectedProcedure
@@ -90,7 +90,7 @@ export const projectRouter = router({
         name: z.string().min(3).max(50),
         description: z.string().min(3).max(255),
         teamId: z.string(),
-        visibility: z.nativeEnum($Enums.ProjectVisibility),
+        visibility: z.nativeEnum(ProjectVisibility),
       }),
     )
     .mutation(async (event) => {
@@ -105,7 +105,7 @@ export const projectRouter = router({
           members: {
             create: {
               userId: user.id,
-              role: $Enums.Role.Owner,
+              role: Role.Owner,
             },
           },
         },
@@ -131,14 +131,14 @@ export const projectRouter = router({
         throw new Error('Project not found')
       // add or update visted history
 
-      const visitedRecord = await ctx.prisma.visitedHisotry.findFirst({
+      const visitedRecord = await ctx.prisma.visitedHistory.findFirst({
         where: {
           projectId: input.id,
           userId: user.id,
         },
       })
       if (visitedRecord) {
-        await ctx.prisma.visitedHisotry.update({
+        await ctx.prisma.visitedHistory.update({
           where: {
             id: visitedRecord.id,
           },
@@ -148,7 +148,7 @@ export const projectRouter = router({
         })
       }
       else {
-        await ctx.prisma.visitedHisotry.create({
+        await ctx.prisma.visitedHistory.create({
           data: {
             projectId: input.id,
             userId: user.id,
@@ -165,7 +165,7 @@ export const projectRouter = router({
         id: z.string(),
         name: z.string().min(3).max(50),
         description: z.string().min(3).max(255),
-        visibility: z.nativeEnum($Enums.ProjectVisibility),
+        visibility: z.nativeEnum(ProjectVisibility),
       }),
     )
     .mutation(async (event) => {
@@ -174,7 +174,7 @@ export const projectRouter = router({
       const existed = await ctx.prisma.project.update({
         where: {
           id: input.id,
-          members: { some: { userId: user.id, role: $Enums.Role.Owner } },
+          members: { some: { userId: user.id, role: Role.Owner } },
         },
         data: {
           name: input.name,
@@ -198,7 +198,7 @@ export const projectRouter = router({
       const existed = await ctx.prisma.project.delete({
         where: {
           id: input.id,
-          members: { some: { userId: user.id, role: $Enums.Role.Owner } },
+          members: { some: { userId: user.id, role: Role.Owner } },
         },
       })
       if (!existed)
@@ -210,7 +210,7 @@ export const projectRouter = router({
     .query(async (event) => {
       const { ctx } = event
       const user = ctx.session.data.user
-      const projects = await ctx.prisma.visitedHisotry.findMany({
+      const visitedList = await ctx.prisma.visitedHistory.findMany({
         where: {
           userId: user.id,
         },

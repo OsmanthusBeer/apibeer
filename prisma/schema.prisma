@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -21,7 +21,7 @@ model User {
   password          Password?
   ProjectMember     ProjectMember[]
   TeamMember        TeamMember[]
-  VisitedHisotry    VisitedHisotry[]
+  VisitedHistory    VisitedHistory[]
   ProjectCollection ProjectCollection[]
 }
 
@@ -33,8 +33,8 @@ model Password {
 
 model Team {
   id          String       @id @default(cuid())
-  name        String       @default("") @db.VarChar(100)
-  description String       @default("") @db.VarChar(255)
+  name        String       @default("")
+  description String       @default("")
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   members     TeamMember[]
@@ -42,22 +42,22 @@ model Team {
 }
 
 model TeamMember {
-  id     String       @id @default(cuid())
-  role   Role
+  id     String @id @default(cuid())
+  role   String @default("MEMBER")
   userId String
-  user   User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   teamId String
-  team   Team         @relation(fields: [teamId], references: [id], onDelete: Cascade)
-  status InviteStatus @default(Success)
+  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  status String @default("Success")
 
   @@unique([userId, teamId])
 }
 
 model Project {
   id                String              @id @default(cuid())
-  name              String              @db.VarChar(50)
-  description       String              @db.VarChar(255)
-  visibility        ProjectVisibility   @default(PRIVATE)
+  name              String
+  description       String
+  visibility        String              @default("PRIVATE")
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
   members           ProjectMember[]
@@ -65,13 +65,8 @@ model Project {
   teamId            String
   Team              Team                @relation(fields: [teamId], references: [id], onDelete: Cascade)
   collections       Collection[]
-  VisitedHisotry    VisitedHisotry[]
+  VisitedHistory    VisitedHistory[]
   ProjectCollection ProjectCollection[]
-}
-
-enum ProjectVisibility {
-  PUBLIC
-  PRIVATE
 }
 
 model ProjectCollection {
@@ -86,7 +81,7 @@ model ProjectCollection {
 
 model ProjectMember {
   id        String  @id @default(cuid())
-  role      Role
+  role      String
   userId    String
   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   projectId String
@@ -95,26 +90,13 @@ model ProjectMember {
   @@unique([userId, projectId])
 }
 
-enum Role {
-  Owner
-  Maintainer
-  Developer
-  Viewer
-}
-
-enum InviteStatus {
-  Pending
-  Success
-  Reject
-}
-
 model Collection {
   id        String       @id @default(cuid())
   pid       String?
   name      String
   order     Int
-  createdAt DateTime     @default(now()) @db.Timestamp(3)
-  updatedAt DateTime     @updatedAt @db.Timestamp(3)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
   parent    Collection?  @relation("CollectionChildParent", fields: [pid], references: [id])
   children  Collection[] @relation("CollectionChildParent")
   projectId String
@@ -124,20 +106,20 @@ model Collection {
 
 model Api {
   id                 String      @id @default(cuid())
-  name               String      @default("") @db.VarChar(100)
-  description        String      @default("") @db.VarChar(255)
-  endpoint           String      @db.VarChar(255)
-  method             ApiMethod
-  params             Json
-  body               Json
-  headers            Json
-  authorization      Json
+  name               String      @default("")
+  description        String      @default("")
+  endpoint           String
+  method             String
+  params             String
+  body               String
+  headers            String
+  authorization      String
   preRequestScript   String      @default("")
   postResponseScript String      @default("")
-  tags               Json
-  versions           Json
+  tags               String
+  versions           String
   order              Int
-  status             ApiStatus   @default(DRAFT)
+  status             String      @default("DRAFT")
   createdAt          DateTime    @default(now())
   updatedAt          DateTime    @updatedAt
   projectId          String
@@ -146,26 +128,7 @@ model Api {
   collection         Collection? @relation(fields: [collectionId], references: [id])
 }
 
-// refs: https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
-enum ApiMethod {
-  GET
-  PUT
-  DELETE
-  POST
-  HEAD
-  CONNECT
-  OPTIONS
-  TRACE
-  PATCH
-  CUSTOM
-}
-
-enum ApiStatus {
-  DRAFT
-  PUBLISHED
-}
-
-model VisitedHisotry {
+model VisitedHistory {
   id        String  @id @default(cuid())
   projectId String
   project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
