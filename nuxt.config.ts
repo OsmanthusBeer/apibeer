@@ -27,7 +27,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxt/ui',
     '@nuxtjs/color-mode',
-    'vue-email/nuxt',
+    '@vue-email/nuxt',
   ],
   colorMode: {
     preference: 'dark', // default value of $colorMode.preference
